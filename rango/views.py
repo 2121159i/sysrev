@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from datetime import datetime
 
+
 def index(request):
     category_list = Category.objects.order_by('-likes')[:5]
     page_list = Page.objects.order_by('-views')[:5]
@@ -39,16 +40,15 @@ def index(request):
     if reset_last_visit_time:
         request.session['last_visit'] = str(datetime.now())
         request.session['visits'] = visits
-    
-	context_dict['visits'] = visits
 
+        context_dict['visits'] = visits
 
-    response = render(request,'rango/index.html', context_dict)
+    response = render(request, 'rango/index.html', context_dict)
 
     return response
-	
-def category(request, category_name_slug):
 
+
+def category(request, category_name_slug):
     # Create a context dictionary which we can pass to the template rendering engine.
     context_dict = {}
 
@@ -77,7 +77,6 @@ def category(request, category_name_slug):
     # Go render the response and return it to the client.
     return render(request, 'rango/category.html', context_dict)
 
-	
 
 def add_category(request):
     # A HTTP POST?
@@ -101,14 +100,14 @@ def add_category(request):
 
     # Bad form (or form details), no form supplied...
     # Render the form with error messages (if any).
-    return render(request, 'rango/add_category.html', {'form': form})	
+    return render(request, 'rango/add_category.html', {'form': form})
+
 
 def add_page(request, category_name_slug):
-
     try:
         cat = Category.objects.get(slug=category_name_slug)
     except Category.DoesNotExist:
-                cat = None
+        cat = None
 
     if request.method == 'POST':
         form = PageForm(request.POST)
@@ -125,11 +124,10 @@ def add_page(request, category_name_slug):
     else:
         form = PageForm()
 
-    context_dict = {'form':form, 'category': cat}
+    context_dict = {'form': form, 'category': cat}
 
     return render(request, 'rango/add_page.html', context_dict)
 
-	
 
 def register(request):
     # A boolean value for telling the template whether the registration was successful.
@@ -184,19 +182,18 @@ def register(request):
 
     # Render the template depending on the context.
     return render(request,
-            'rango/register.html',
-            {'user_form': user_form, 'profile_form': profile_form, 'registered': registered} )
+                  'rango/register.html',
+                  {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
 
 
 def user_login(request):
-
     # If the request is a HTTP POST, try to pull out the relevant information.
     if request.method == 'POST':
         # Gather the username and password provided by the user.
         # This information is obtained from the login form.
-                # We use request.POST.get('<variable>') as opposed to request.POST['<variable>'],
-                # because the request.POST.get('<variable>') returns None, if the value does not exist,
-                # while the request.POST['<variable>'] will raise key error exception
+        # We use request.POST.get('<variable>') as opposed to request.POST['<variable>'],
+        # because the request.POST.get('<variable>') returns None, if the value does not exist,
+        # while the request.POST['<variable>'] will raise key error exception
         username = request.POST.get('username')
         password = request.POST.get('password')
 
@@ -232,9 +229,8 @@ def user_login(request):
 
 @login_required
 def restricted(request):
-    return HttpResponse("Since you're logged in, you can see this text!")	
-	
-	
+    return HttpResponse("Since you're logged in, you can see this text!")
+
 
 # Use the login_required() decorator to ensure only those logged in can access the view.
 @login_required
@@ -243,28 +239,28 @@ def user_logout(request):
     logout(request)
 
     # Take the user back to the homepage.
-    return HttpResponseRedirect('/rango/')	
-	
+    return HttpResponseRedirect('/rango/')
+
 
 def track_url(request):
     if request.method == 'GET':
-		if 'page_id' in request.GET:
-			page_id = request.GET['page_id']
-		
-			form = CategoryForm(page_id)
-			
-			# Have we been provided with a valid form?
-			if form.is_valid():
-				# Save the new category to the database.
-				form.save(commit=True)
+        if 'page_id' in request.GET:
+            page_id = request.GET['page_id']
 
-				# Now call the index() view.
-				# The user will be shown the homepage.
-				return index(request)
-			else:
-				# The supplied form contained errors - just print them to the terminal.
-				print form.errors
-		
+            form = CategoryForm(page_id)
+
+            # Have we been provided with a valid form?
+            if form.is_valid():
+                # Save the new category to the database.
+                form.save(commit=True)
+
+                # Now call the index() view.
+                # The user will be shown the homepage.
+                return index(request)
+            else:
+                # The supplied form contained errors - just print them to the terminal.
+                print form.errors
+
     return HttpResponseRedirect('/rango/')	
 	
 	
