@@ -20,8 +20,6 @@ urlpatterns = patterns('',
     url(r'^restricted/', views.restricted, name='restricted'),
     url(r'^logout/$', views.user_logout, name='logout'),
 	url(r'^admin/', include(admin.site.urls)),
-	#url(r'^rango/', include('rango.urls')),
     #url(r'^accounts/register/$', MyRegistrationView.as_view(), name='registration_register'),
-	url(r'^accounts/', include('registration.backends.simple.urls')),
 )
 

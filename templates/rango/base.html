@@ -36,16 +36,26 @@
             <img class="navbar-brand" src="" alt="logo"/>
             <a class="navbar-brand" href="/rango/">Systematic Reviews</a>
         </div>
+        {% if user.is_authenticated %}
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
                 <li><a href="{% url 'index' %}">Home</a></li>
-                <li><a href="{% url 'auth_logout' %}">LogOut</a></li>
+                <li><a href="{% url 'auth_logout' %}?next={% url 'auth_login'%}">LogOut</a></li>
           </ul>
         </div>
+        {% endif %}
       </div>
     </div>
 
-    <div>{% block body_block %}{% endblock %}</div>
+    {% block body_public %}{% endblock %}
+
+    {% if user.is_authenticated %}
+      {% block body_block %}{% endblock %}
+    {% else %}
+      <h4 class="text-center">Please <a href="{% url 'login' %}">log in</a> to use the app.</h4>
+    {% endif %}
+
+
     <div class="navbar-fixed-bottom text-center"><a href="#">About</a></div>
 
     <!-- Bootstrap core JavaScript
