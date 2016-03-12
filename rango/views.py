@@ -261,28 +261,4 @@ def track_url(request):
                 # The supplied form contained errors - just print them to the terminal.
                 print form.errors
 
-    return HttpResponseRedirect('/rango/')	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+    return HttpResponseRedirect('/rango/')
