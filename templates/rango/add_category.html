@@ -1,26 +1,31 @@
 {% extends 'rango/base.html' %}
 
-{% load staticfiles %}
+{% block body_public %}
 
-{% block title %}{{ category_name }}{% endblock %}
+    <link href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet">
 
-{% block body_block %}
-         <h1>Add a Category</h1>
+    <h1 class="panel-heading text-center">New Review</h1>
 
-        <form id="category_form" method="post" action="/rango/add_category/">
 
-            {% csrf_token %}
-            {% for hidden in form.hidden_fields %}
-                {{ hidden }}
-            {% endfor %}
+    <form class="form-signin" role="form" method="post" action="{% url 'index'%}">
+        {% csrf_token %}
 
-            {% for field in form.visible_fields %}
-                {{ field.errors }}
-                {{ field.help_text }}
-                {{ field }}
-            {% endfor %}
+        <div class="form-group">
+            <input class="form-control" id="id_title" name="title" type="text" placeholder="Enter Review Title" required/></p>
+        </div>
 
-            <input type="submit" name="submit" value="Create Category" />
-        </form>
+        <div class="form-group">
+            <input class="form-control" id="id_add_user" name="add_user" type="text" placeholder="Add User/Remove User" required/></p>
+        </div>
+
+        <div class="form-group">
+            <input class="form-control" id="id_query" name="query" type="text" placeholder="Enter Query" required/></p>
+        </div>
+
+        <div class="form-group">
+            <a href="#" class="btn btn-lg btn-success" >Create</a>
+            <a href="{% url 'index' %}" class="btn btn-lg btn-danger" >Discard</a>
+        </div>
+    </form>
 
 {% endblock %}
