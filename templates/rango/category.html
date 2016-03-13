@@ -5,12 +5,26 @@
 {% block title %}{{ category_name }}{% endblock %}
 
 {% block body_block %}
-    <h1>{{ category_name }}</h1>
+    <div class="page-header text-center">
+        <h1>Screening</h1>
+    </div>
+
+    <div>
+        <h3 class="text-center">{{ category_name }}</h3>
+        <label>... Documents Left</label><br/>
+        <a href="#" class="btn btn-lg btn-primary" >Viewed Documents</a><br/><br/>
+    </div>
+
+
     {% if category %}
         {% if pages %}
         <ul>
                 {% for page in pages %}
-                <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+                <div>
+                    <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                    <button type="submit" class="btn btn-danger">Submit</button>
+                </div>
                 {% endfor %}
                 </ul>
         {% else %}
