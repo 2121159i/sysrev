@@ -6,15 +6,23 @@
 
 {% block body_block %}
     <div class="page-header text-center">
-        <h1>Screening</h1>
+        <h1 class="text-center">TITLE</h1>   <!-- ***************** USE OF JAVASCRIPT WITH RADIO BUTTONS TO DISPLAY THE TITLE?? -->
     </div>
 
     <div>
-        <h3 class="text-center">{{ category_name }}</h3>
-        <label>... Documents Left</label><br/>
-        <a href="#" class="btn btn-lg btn-primary" >Viewed Documents</a><br/><br/>
+        <input type="radio" name="all_docs" value="all_docs"> All Documents <br/>
+        <input type="radio" name="kept_docs" value="kept_docs"> Kept Documents <br/>
+        <input type="radio" name="discarded_docs" value="discarded_docs"> Discarded Documents <br/> <br/>
     </div>
 
+    <!-- CHECK THE RADIO BUTTON AND DEPNDING ON THE VALUE DISPLAY THE RELEVANT DOCUMENTS????
+
+        IF ALL DOCUMENTS SELECTED SHOW THEM WITH TWO BUTTONS
+        IF KEPT DOCUMENTS SELECTED SHOW THEM WITH A DISCARD BUTTON
+        IF DISCARDED DOCUMENTS SELECTED SHOW THEM WITH A KEEP BUTTON
+
+
+        -->
 
     {% if category %}
         {% if pages %}
@@ -30,12 +38,6 @@
         {% else %}
                 <strong>No pages currently in category.</strong>
                 {% endif %}
-
-        {% if user.is_authenticated %}
-                <a href="/rango/category/{{category.slug}}/add_page/">Add a Page</a>
-                {% endif %}
-        {% else %}
-                 The specified category {{ category_name }} does not exist!
     {% endif %}
 
 {% endblock %}
