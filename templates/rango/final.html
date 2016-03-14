@@ -1,0 +1,41 @@
+{% extends 'rango/base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}{{ category_name }}{% endblock %}
+
+{% block body_block %}
+    <div class="page-header text-center">
+        <h1 class="text-center">Final</h1>
+    </div>
+
+    <!--PAGINATATION -->
+    <div>
+        <nav>
+            <ul class="pagination">
+                <li>
+                    <a href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li>
+                    <a href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div>
+        <button type="submit" class="btn btn-success">Keep</button>
+        <button type="submit" class="btn btn-danger">Discard</button>
+    </div>
+
+
+    <h2>Document Details& Title or link??</h2>
+
+{% endblock %}
