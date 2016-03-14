@@ -16,20 +16,35 @@
 
     <div class="row placeholders">
         <div class="col-xs-12 col-sm-6 placeholder">
-		    <div class="panel panel-primary">
-			    <div class="panel-heading">
-				    <h3 class="panel-title">Categories</h3>
-				</div>
-			</div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Categories</h3>
+                </div>
+            </div>
 
             {% if categories %}
                 <ul class="list-group">
                     {% for category in categories %}
+                        <!-- PROCESS BAR -->
+                        <div>
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-success" style="width: 35%">
+                                    <span class="sr-only">35% Complete (success)</span>
+                                </div>
+                                <div class="progress-bar progress-bar-warning" style="width: 20%">
+                                    <span class="sr-only">20% Complete (warning)</span>
+                                </div>
+                                <div class="progress-bar progress-bar-danger" style="width: 10%">
+                                    <span class="sr-only">10% Complete (danger)</span>
+                                </div>
+                            </div>
+                        </div>
+
                         <li class="list-group-item"><a href="{% url 'category'  category.slug %}">{{ category.name }}</a></li>
                     {% endfor %}
-                    </ul>
+                </ul>
             {% else %}
-                    <strong>There are no categories present.</strong>
+                <strong>There are no categories present.</strong>
             {% endif %}
         </div>
     </div>
