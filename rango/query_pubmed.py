@@ -1,37 +1,16 @@
-import json
-import urllib, urllib2
-import unirest
-import xmltodict, json      # For transforming XML responses to dictionaries
-
-# Query PubMEd with the given search terms
-def query_pubmed_unirest(search_terms):
-
-    search_terms = 'science[journal]+AND+breast+cancer+AND+2009[pdat]'
-
-    url = 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term='+search_terms
-    results_per_page = 10
-    offset = 0
-
-    try:
-        print "Making request"
-        response = unirest.get(url
-            # , headers = { "Accept": "application/json" }
-        )
-
-        # print response.code # The HTTP status code
-        # print response.headers # The HTTP headers
-        # print response.body # The parsed response
-        # print response.raw_body # The unparsed response
-
-        return response.body
-
-    except:
-        print "Uh oh - could not make request"
-
+import sys              # For command-line arguments
+import urllib
+import urllib2          # For querying pubmed
+import xmltodict        # For transforming XML responses to dictionaries
 
 def query_pubmed_urllib2(search_terms):
 
-    url = 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term='+search_terms
+    # PubMed wants all spaces to be replaced with pluses
+    url_term = search_terms.replace(" ", "+")
+    print url_term
+
+    # API docs: http://www.ncbi.nlm.nih.gov/home/api.shtml
+    url = 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term='+url_term
     results_per_page = 10
     offset = 0
 
@@ -88,10 +67,12 @@ def query_pubmed_urllib2(search_terms):
 
 def main():
 
-    # query = raw_input('Enter query: ')
+    if len(sys.argv) != 2:
+        print "Error: I need ONE string as a query parameter"
+        return
 
-    # results = query_pubmed_unirest("cancer")
-    results = query_pubmed_urllib2("cancer")
+    search_terms = sys.argv[1]
+    results = query_pubmed_urllib2(search_terms)
     print results
 
 
