@@ -52,12 +52,14 @@
 {% if user.is_authenticated %}
 {% block body_block %}{% endblock %}
 {% else %}
+{% block login_block %}
 <h4 class="text-center">Please <a href="{% url 'auth_login' %}">log in</a> to use the app.</h4>
+{% endblock %}
 {% endif %}
 
-
+{% block about_block %}
 <div class="navbar-fixed-bottom text-center"><a href="{% url 'about' %}">About</a></div>
-
+{% endblock %}
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
