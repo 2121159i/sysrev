@@ -34,7 +34,6 @@ def index(request):
             # ...and update the last visit cookie, too.
             reset_last_visit_time = True
     else:
-        # Cookie last_visit doesn't exist, so create it to the current date/time.
         reset_last_visit_time = True
 
     if reset_last_visit_time:
@@ -77,6 +76,7 @@ def category(request, category_name_slug):
     # Go render the response and return it to the client.
     return render(request, 'rango/category.html', context_dict)
 
+
 def viewed_documents(request, category_name_slug):
     try:
         cat = Category.objects.get(slug=category_name_slug)
@@ -102,6 +102,7 @@ def viewed_documents(request, category_name_slug):
 
     return render(request, 'rango/viewed_documents.html', context_dict)
 
+
 def final(request, category_name_slug):
     try:
         cat = Category.objects.get(slug=category_name_slug)
@@ -126,6 +127,7 @@ def final(request, category_name_slug):
     context_dict = {'form': form, 'category': cat}
 
     return render(request, 'rango/final.html', context_dict)
+
 
 def done(request, category_name_slug):
     try:
