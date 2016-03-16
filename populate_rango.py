@@ -4,7 +4,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'newProject.settings')
 import django
 django.setup()
 
-from rango.models import Category, Page
+from sysrev.models import Category, Page
 
 
 def populate():

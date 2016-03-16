@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('rango', '0003_userprofile'),
+        ('sysrev', '0003_userprofile'),
     ]
 
     operations = [

@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
                 ('title', models.CharField(max_length=128)),
                 ('url', models.URLField()),
                 ('views', models.IntegerField(default=0)),
-                ('category', models.ForeignKey(to='rango.Category')),
+                ('category', models.ForeignKey(to='sysrev.Category')),
             ],
             options={
             },

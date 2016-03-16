@@ -1,6 +1,6 @@
 from django.contrib import admin
-from rango.models import Category, Page
-from rango.models import UserProfile
+from sysrev.models import Category, Page
+from sysrev.models import UserProfile
 
 
 # Add in this class to customized the Admin Interface

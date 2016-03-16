@@ -7,7 +7,7 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('rango', '0001_initial'),
+        ('sysrev', '0001_initial'),
     ]
 
     operations = [

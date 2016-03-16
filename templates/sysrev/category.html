@@ -1,4 +1,4 @@
-{% extends 'rango/base.html' %}
+{% extends 'sysrev/base.html' %}
 
 {% load staticfiles %}
 
@@ -12,7 +12,7 @@
     <div>
         <h3 class="text-center">{{ category_name }}</h3>
         <label>... Documents Left</label><br/>
-        <a href="/rango/category/{{category.slug}}/viewed_documents/" class="btn btn-lg btn-primary" >Viewed Documents</a><br/><br/>
+        <a href="/sysrev/category/{{category.slug}}/viewed_documents/" class="btn btn-lg btn-primary" >Viewed Documents</a><br/><br/>
     </div>
 
 
@@ -34,7 +34,7 @@
 
     <!-- TEMPORARY -->
     <br/><br/><br/><br/> (Temporary) <br/><br/>
-    <a href="/rango/category/{{category.slug}}/final/" class="btn btn-lg btn-primary" >Final</a><br/><br/>
-    <a href="/rango/category/{{category.slug}}/done/" class="btn btn-lg btn-primary" >Done</a><br/><br/>
+    <a href="/sysrev/category/{{category.slug}}/final/" class="btn btn-lg btn-primary" >Final</a><br/><br/>
+    <a href="/sysrev/category/{{category.slug}}/done/" class="btn btn-lg btn-primary" >Done</a><br/><br/>
 
 {% endblock %}

@@ -1,7 +1,7 @@
 <!-- TO BE REMOVED ------------  USED FROM REGISTRATION FOLDER -->
 
 <!--
-{% extends 'rango/base.html' %}
+{% extends 'sysrev/base.html' %}
 
 {% load staticfiles %}
 
@@ -12,11 +12,11 @@
 
         {% if registered %}
 			Rango says: <strong>thank you for registering!</strong>
-			<a href="/rango/">Return to the homepage.</a><br />
+			<a href="/sysrev/">Return to the homepage.</a><br />
 		{% else %}
 			Rango says: <strong>register here!</strong><br />
 
-			<form id="user_form" method="post" action="/rango/register/" enctype="multipart/form-data">
+			<form id="user_form" method="post" action="/sysrev/register/" enctype="multipart/form-data">
 
 				{% csrf_token %}
 
