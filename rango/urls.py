@@ -19,5 +19,7 @@ urlpatterns = patterns('',
     # url(r'^logout/$', views.user_logout, name='logout'),
 	url(r'^admin/', include(admin.site.urls)),
     #url(r'^accounts/register/$', MyRegistrationView.as_view(), name='registration_register'),
+
+    # For getting the number of
 )
 

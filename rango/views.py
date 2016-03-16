@@ -12,6 +12,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from datetime import datetime
 
+from query_pubmed import *
+
 
 def index(request):
     category_list = Category.objects.order_by('-likes')[:5]
@@ -47,6 +49,7 @@ def index(request):
     return response
 
 
+# Deprecated: get rid when not needed
 def category(request, category_name_slug):
     # Create a context dictionary which we can pass to the template rendering engine.
     context_dict = {}
@@ -263,7 +266,8 @@ def register(request):
                   {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
 
 
-'''def user_login(request):
+def user_login(request):
+    '''
     # If the request is a HTTP POST, try to pull out the relevant information.
     if request.method == 'POST':
         # Gather the username and password provided by the user.
@@ -301,7 +305,7 @@ def register(request):
     else:
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
-        return render(request, 'rango/login.html', {}) '''
+        return render(request, 'rango/login.html', {})'''
 
 
 @login_required
@@ -339,3 +343,14 @@ def track_url(request):
                 print form.errors
 
     return HttpResponseRedirect('/rango/')
+
+
+# Endpoint for getting the number of documents for a query (Finish this)
+def get_doc_count(request):
+
+    if request.method != 'POST':
+        return "Must be a POST"
+
+    search_terms = request.POST.get('query')
+    count = get_document_count(search_terms)
+    return count

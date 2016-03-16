@@ -28,7 +28,7 @@ Models to implement:
 	- password
 	- email
 - Review
-	- user
+	- user 
 	- title
 	- description
 	- date_started
