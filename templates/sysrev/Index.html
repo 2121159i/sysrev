@@ -9,9 +9,9 @@
     <h1>Welcome {{ user.username }}!</h1>
 </div>
 
-<button type="button" class="btn btn-success ">
+<a href="{% url 'add_category' %}" class="btn btn-success ">
     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add New Review
-</button>
+</a>
 
 <div class="row placeholders">
     <div class="col-xs-12 col-sm-6 placeholder">
