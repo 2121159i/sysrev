@@ -3,29 +3,21 @@ import urllib
 import urllib2          # For querying pubmed
 import xmltodict        # For transforming XML responses to dictionaries
 
-def query_pubmed_urllib2(search_terms):
+# Function that queries PubMed with the given query string
+# and returns the entire result as a dictionary
+def query_pubmed(search_terms):
 
-    # PubMed wants all spaces to be replaced with pluses
-    url_term = search_terms.replace(" ", "+")
-    print url_term
+    # Format the terms to be included in the URL
+    url_term = urllib.quote(search_terms)
 
     # API docs: http://www.ncbi.nlm.nih.gov/home/api.shtml
     url = 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term='+url_term
-    results_per_page = 10
-    offset = 0
-
-    # Create a 'password manager' which handles authentication for us.
-    # password_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
-    # password_mgr.add_password(None, search_url, username, BING_API_KEY)
+    # results_per_page = 10
+    # offset = 0
 
     results = []
 
     try:
-        # Prepare for connecting to Bing's servers.
-        # handler = urllib2.HTTPBasicAuthHandler(password_mgr)
-        # opener = urllib2.build_opener(handler)
-        # urllib2.install_opener(opener)
-
         # Connect to the server and read the response
         response_xml = urllib2.urlopen(url).read()
 
@@ -35,35 +27,23 @@ def query_pubmed_urllib2(search_terms):
         # Keys: "Count", "RetMax", "RetStart", "IdList"
         #       "TranslationSet", "TranslationStack"
         #       "QueryTranslation"
-        print response_dict["eSearchResult"].keys()
-        print response_dict["eSearchResult"]["Count"]
+        # print response_dict["eSearchResult"].keys()
+        # print response_dict["eSearchResult"]["Count"]
 
-        '''stringIO = xml.dom.minidom.parseString(response)
-        resultset = stringIO.getElementByTagName('http://www.inktomi.com/', 'resultset_web')
-        rs = resultset[0]
-        response.total_results = rs.getAttributes('totalhits')'''
+        # Return the entire dictionary
+        return response_dict
 
-
-        # Convert the string response to a Python dictionary object.
-        # json_response = json.loads(response)
-
-        # Loop through each page returned, populating out results list.
-        '''
-        for result in json_response['d']['results']:
-            results.append({
-                'title': result['Title'],
-                'link': result['Url'],
-                'summary': result['Description']
-            })
-        '''
-
-    # Catch a URLError exception - something went wrong when connecting!
+    # If connection fails
     except urllib2.URLError as e:
-        print "Error using urllib2", e
+        print "Error making request: ", e
 
-    # Return the list of results to the calling function.
-    return results
 
+# Function for getting the number of documents
+# a particular query string would retreive
+def get_document_count(search_terms):
+
+    res = query_pubmed(search_terms)
+    return res["eSearchResult"]["Count"]
 
 def main():
 
@@ -72,8 +52,8 @@ def main():
         return
 
     search_terms = sys.argv[1]
-    results = query_pubmed_urllib2(search_terms)
-    print results
+    print get_document_count(search_terms)
+
 
 
 

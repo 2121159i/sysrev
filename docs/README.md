@@ -22,7 +22,7 @@ http://www.ncbi.nlm.nih.gov/home/api.shtml
 
 
 
-Models to implements:
+Models to implement:
 - Researcher
 	- username
 	- password
