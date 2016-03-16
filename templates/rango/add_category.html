@@ -2,30 +2,27 @@
 
 {% block body_public %}
 
-    <link href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet">
+<link href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet">
 
-    <h1 class="panel-heading text-center">New Review</h1>
+<h1 class="panel-heading text-center">New Review</h1>
 
 
-    <form class="form-signin" role="form" method="post" action="{% url 'index'%}">
-        {% csrf_token %}
+<form role="form" method="post" action=".">
+    {% csrf_token %}
 
-        <div class="form-group">
-            <input class="form-control" id="id_title" name="title" type="text" placeholder="Enter Review Title" required/></p>
-        </div>
 
-        <div class="form-group">
-            <input class="form-control" id="id_add_user" name="add_user" type="text" placeholder="Add User/Remove User" required/></p>
-        </div>
+    <input class="form-control" id="id_title" name="title" type="text" placeholder="Enter Review Title" required/>
 
-        <div class="form-group">
-            <input class="form-control" id="id_query" name="query" type="text" placeholder="Enter Query" required/></p>
-        </div>
+    <input class="form-control" id="id_add_user" name="add_user" type="text" placeholder="Add User/Remove User" required/>
 
-        <div class="form-group">
-            <a href="#" class="btn btn-lg btn-success" >Create</a>
-            <a href="{% url 'index' %}" class="btn btn-lg btn-danger" >Discard</a>
-        </div>
-    </form>
+    <input class="form-control" id="id_query" name="query" type="text" placeholder="Enter Query" required/>
+    <span>(.... documents)</span>
+
+
+    <div class="form-group">
+        <a href="#" class="btn btn-lg btn-success" >Create</a>
+        <a href="{% url 'index' %}" class="btn btn-lg btn-danger" >Discard</a>
+    </div>
+</form>
 
 {% endblock %}
