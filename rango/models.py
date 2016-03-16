@@ -1,7 +1,7 @@
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
-
+import datetime
 
 class Category(models.Model):
         name = models.CharField(max_length=128, unique=True)
@@ -30,6 +30,7 @@ class Page(models.Model):
 		
 class UserProfile(models.Model):
     # This line is required. Links UserProfile to a User model instance.
+	eyw_transactionref=models.CharField(max_length=100, null=True, blank=True, unique=True)
     user = models.OneToOneField(User)
 
     # The additional attributes we wish to include.
@@ -39,3 +40,78 @@ class UserProfile(models.Model):
     # Override the __unicode__() method to return out something meaningful!
     def __unicode__(self):
         return self.user.username
+
+
+#SysRev
+
+		
+class Review(models.Model):
+        user = models.ForeignKey(UserProfile)
+        title = models.CharField(max_length=128)
+        description = models.CharField(max_length=128)
+        #date = models.DateTimeField(default=datetime.now, blank=True)
+        query_string = models.CharField(max_length=128)
+		slug = models.SlugField()
+
+	    def save(self, *args, **kwargs):
+                self.slug = slugify(self.title)
+                super(Category, self).save(*args, **kwargs)
+
+        def __unicode__(self):
+                return self.title		
+				
+class Paper(models.Model):
+        review = models.ForeignKey(Review)
+        title = models.CharField(max_length=128)
+        authors = models.CharField(max_length=128)
+        abstract = models.CharField(max_length=128)
+        #date = models.DateTimeField(default=datetime.now, blank=True)
+        query_string = models.CharField(max_length=128)
+        paper_url = models.URLField()
+        abstract_rev = models.BooleanField(initial=False)
+        document_rev = models.BooleanField(initial=False)
+        
+        def __unicode__(self):
+                return self.title		
+				
+class Query(models.Model):
+        review = models.ForeignKey(Review)
+        string = models.CharField(max_length=128)
+
+        def __unicode__(self):
+                return self.review
+								
+class Researcher(models.Model):
+        user = models.ForeignKey(UserProfile)
+
+        def __unicode__(self):
+                return self.user
+
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
