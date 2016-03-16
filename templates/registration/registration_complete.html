@@ -1,6 +1,9 @@
 {% extends 'sysrev/base.html' %}
-
+{% load staticfiles %}
 {% block body_block %}
 <h1 clas>Registration Complete</h1>
         <p>You are now registered. Click <a href="{% url 'index' %}">here</a> to proceed to Systematic Reviews. </p>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="{% static "js/sys-rev.js" %}"></script>
 {% endblock %}
