@@ -261,7 +261,7 @@ def register(request):
                   {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
 
 
-def user_login(request):
+'''def user_login(request):
     # If the request is a HTTP POST, try to pull out the relevant information.
     if request.method == 'POST':
         # Gather the username and password provided by the user.
@@ -299,7 +299,7 @@ def user_login(request):
     else:
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
-        return render(request, 'rango/login.html', {})
+        return render(request, 'rango/login.html', {}) '''
 
 
 @login_required
