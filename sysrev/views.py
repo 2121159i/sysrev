@@ -46,6 +46,33 @@ def index(request):
 
     return response
 
+def about(request):
+    context_dict = {'boldmessage': "Hello from about bold"}
+
+
+    if request.session.get('visits'):
+        count = request.session.get('visits')
+    else:
+        count = 0
+
+    reset_last_visit_time = False
+
+    last_visit = request.session.get('last_visit')
+    if last_visit:
+        last_visit_time = datetime.strptime(last_visit[:-7],"%Y-%m-%d %H:%M:%S")
+        if (datetime.now() - last_visit_time).seconds >5:
+            count +=1
+            reset_last_visit_time = True
+    else:
+        reset_last_visit_time = True
+
+    if reset_last_visit_time:
+        request.session['last_visit']=str(datetime.now())
+        request.session['visits'] = count
+
+    context_dict['visits']=count
+
+    return render(request,'sysrev/about.html',context_dict)
 
 def category(request, category_name_slug):
     # Create a context dictionary which we can pass to the template rendering engine.

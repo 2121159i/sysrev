@@ -1,0 +1,273 @@
+[33mcommit bb4a5833cbad15d3b0da2e85590abd501cdebf63[m
+Author: Panagiotis916 <panayiotisscorps@hotmail.com>
+Date:   Wed Mar 16 19:09:21 2016 +0000
+
+    RENAMED EVERYTHING FROM RANGO TO SYSREV(YOU MIGHT NEED TO MIGRATE TO WORK)
+
+[33mcommit 6b0f9cddafb571d35ad0378a7d57120ccaecf463[m
+Merge: 0af3ab3 4881d0a
+Author: domantasjurkus <domantas.jurkus@gmail.com>
+Date:   Wed Mar 16 18:59:11 2016 +0000
+
+    Merge branch 'master' of github.com:domantasjurkus/sysrev
+
+[33mcommit 0af3ab3d4d311d91da56065656fae5d340bef590[m
+Author: domantasjurkus <domantas.jurkus@gmail.com>
+Date:   Wed Mar 16 18:59:02 2016 +0000
+
+    Made route for getting doc count
+
+[33mcommit 4881d0aeac9fc4607b78a232842ea7f12b9e3baa[m
+Author: Panagiotis916 <panayiotisscorps@hotmail.com>
+Date:   Wed Mar 16 18:48:56 2016 +0000
+
+    Changed add review need to fix design
+
+[33mcommit 7d07d3c2b4dc406605ea01d81b21a7e99539812b[m
+Author: domantasjurkus <domantas.jurkus@gmail.com>
+Date:   Wed Mar 16 18:36:14 2016 +0000
+
+    Made function for getting the number of docs for a query
+
+[33mcommit d907db4ef143448b1547ee374924ff746f0841a3[m
+Merge: 5a761e4 33c3e78
+Author: domantasjurkus <domantas.jurkus@gmail.com>
+Date:   Wed Mar 16 17:26:41 2016 +0000
+
+    Merge branch 'master' of github.com:domantasjurkus/sysrev
+
+[33mcommit 5a761e447ccbc9ca3543b4adb26895b9d196bdcb[m
+Author: domantasjurkus <domantas.jurkus@gmail.com>
+Date:   Wed Mar 16 17:26:31 2016 +0000
+
+    Fixed model fields
+
+[33mcommit 33c3e7878c94ec4da2c72429cc782494831ece1b[m
+Author: Alex Irikov <Alex Irikov>
+Date:   Wed Mar 16 17:21:15 2016 +0000
+
+    Removed unnecessary folder /static/css since We get bootstrap from the internet
+
+[33mcommit d673699b236d5ba5be0470c83b660c1134ed734c[m
+Author: Borislav Hristov <Borislav Hristov>
+Date:   Wed Mar 16 17:14:51 2016 +0000
+
+    Added models
+
+[33mcommit 29cb41a770970cef143e7e274611c42c542d9a59[m
+Author: Panagiotis916 <panayiotisscorps@hotmail.com>
+Date:   Wed Mar 16 17:01:55 2016 +0000
+
+    Updated radiobuttons Viewed Docs
+
+[33mcommit bf3dddab3a8303a9abd4f88a53fddef10dc8e66b[m
+Author: Alex Irikov <Alex Irikov>
+Date:   Wed Mar 16 16:56:31 2016 +0000
+
+    Removed unnecessary things from /static
+
+[33mcommit c736f920f5dd919f13a2c4f749698a10d7e8f9ac[m
+Author: Alex Irikov <Alex Irikov>
+Date:   Wed Mar 16 16:51:39 2016 +0000
+
+    Changed Boostrap
+
+[33mcommit ebe219ea34d3bcad96157d7cee836ec7977cef3c[m
+Merge: 313dc93 7c8d5c1
+Author: domantasjurkus <domantas.jurkus@gmail.com>
+Date:   Wed Mar 16 16:37:45 2016 +0000
+
+    Merge branch 'master' of github.com:domantasjurkus/sysrev
+
+[33mcommit 313dc934bf55b35d0e8aa2cb1baadc5c08839d5c[m
+Author: domantasjurkus <domantas.jurkus@gmail.com>
+Date:   Wed Mar 16 16:37:35 2016 +0000
+
+    Removed db from git
+
+[33mcommit 7c8d5c1188a2c52d7c8662f184f5a19d75c696d6[m
+Merge: 5d360b2 cfc34d8
+Author: Panagiotis916 <panayiotisscorps@hotmail.com>
+Date:   Wed Mar 16 16:32:44 2016 +0000
+
+    Added Bootstrap to project
+
+[33mcommit 5d360b21e956347a86801078955f10ff4bbd6c10[m
+Author: Panagiotis916 <panayiotisscorps@hotmail.com>
+Date:   Wed Mar 16 16:30:17 2016 +0000
+
+    Added bootstrap in project
+
+[33mcommit cfc34d8e82be32f321b97e7743ddae3cd61b253b[m
+Author: Alex Irikov <Alex Irikov>
+Date:   Wed Mar 16 16:26:58 2016 +0000
+
+    Updated the Bootstrap of the base.html, added the logo
+
+[33mcommit b2edce48b90711d211f75e59472615fd4ed86134[m
+Author: Alex Irikov <Alex Irikov>
+Date:   Wed Mar 16 16:23:46 2016 +0000
+
+    Added the logo.jpg to /static/images
+
+[33mcommit 04cff02ff109ef57d6ee9cec3c8b34c88e54d981[m
+Author: domantasjurkus <domantas.jurkus@gmail.com>
+Date:   Wed Mar 16 15:59:36 2016 +0000
+
+    Made query file
+
+[33mcommit 214695b46e987de9f87dedf044affb1191e5670c[m
+Author: Panagiotis916 <panayiotisscorps@hotmail.com>
+Date:   Wed Mar 16 15:50:42 2016 +0000
+
+    deleted login.html from rango
+
+[33mcommit 30ebbf5dca7213c048070406c12c89ceb3c1aceb[m
+Author: Panagiotis916 <panayiotisscorps@hotmail.com>
+Date:   Wed Mar 16 15:45:25 2016 +0000
+
+    added required sign up-CHECK already exist user and different passwords
+
+[33mcommit 3e59aea3f4b1eed7f11f3a495773ac20b8794b69[m
+Author: Panagiotis916 <panayiotisscorps@hotmail.com>
+Date:   Wed Mar 16 15:42:17 2016 +0000
+
+    Fixed SIGN UP form
+
+[33mcommit 9979c0a2d1f3c85fb89492817f73f81c30fe6898[m
+Author: Panagiotis916 <panayiotisscorps@hotmail.com>
+Date:   Wed Mar 16 15:36:59 2016 +0000
+
+    Log in button fixed
+
+[33mcommit da4b20fc78faa71d1a90ddf82b5e1ca04b9dfb64[m
+Author: Panagiotis916 <panayiotisscorps@hotmail.com>
+Date:   Mon Mar 14 15:58:05 2016 +0000
+
+    added process bar in index.html
+
+[33mcommit ec74be500d5d47c20839bbf2fe9d3d8ad95edb65[m
+Author: Panagiotis916 <panayiotisscorps@hotmail.com>
+Date:   Mon Mar 14 15:52:58 2016 +0000
+
+    Created Done and Final Pages **added urls and views (temp)
+
+[33mcommit 05316a794e2bd0965e07bf7d77613ff72a596c5a[m
+Author: Panagiotis916 <panayiotisscorps@hotmail.com>
+Date:   Mon Mar 14 15:22:35 2016 +0000
+
+    Fixed Viewed Documents Button and Updated the viewed_documents.html
+
+[33mcommit 7e1cebee0d9b2fabbe6fa6afe3a5edc7d8fedab7[m
+Author: Panagiotis916 <panayiotisscorps@hotmail.com>
+Date:   Sun Mar 13 16:04:25 2016 +0000
+
+    Created viewed_documents.html button in Screening NOT working
+
+[33mcommit e77501587e4b3196f77b5a335b2fda60cd90bcd7[m
+Author: Panagiotis916 <panayiotisscorps@hotmail.com>
+Date:   Sun Mar 13 15:42:32 2016 +0000
+
+    Updated NEW_CATEGORY.HTML as NEW_REVIEW
+
+[33mcommit d76aaec8f144a48747a480e6418633e2c6ccd11c[m
+Author: Panagiotis916 <panayiotisscorps@hotmail.com>
+Date:   Sun Mar 13 15:34:53 2016 +0000
+
+    Updated CATEGORY.HTML as SCREENING
+
+[33mcommit 9e9eaea4d5e28877dc98c4e76c7f6ce77247df3a[m
+Author: Panagiotis916 <panayiotisscorps@hotmail.com>
+Date:   Sun Mar 13 11:40:47 2016 +0000
+
+    added required in login fields LOGIN NOT WORKING
+
+[33mcommit 1d76e97cb99d8eaab84303cdb1cdc49305fa9f17[m
+Author: Panagiotis916 <panayiotisscorps@hotmail.com>
+Date:   Sun Mar 13 11:35:14 2016 +0000
+
+    Fixed SignUp option
+
+[33mcommit 5a45e892b96cc2d738e75876c1be27928d8adcd9[m
+Author: Panagiotis916 <panayiotisscorps@hotmail.com>
+Date:   Sat Mar 12 21:12:28 2016 +0000
+
+    Updated authentication to see rest sites, login-submit buttons not working
+
+[33mcommit c6a3f52b81ac806e42dadcb17a3a103272957f2f[m
+Author: Panagiotis916 <panayiotisscorps@hotmail.com>
+Date:   Sat Mar 12 15:51:37 2016 +0000
+
+    Updated Index page
+
+[33mcommit 804669f3662df838b014bd4dad984ec885c1829b[m
+Author: Panagiotis916 <panayiotisscorps@hotmail.com>
+Date:   Sat Mar 12 15:36:54 2016 +0000
+
+    Updated registration form
+
+[33mcommit 4e9fe3c54444f30e4ebe8bfe2ec2c1cc39efed5a[m
+Author: Panagiotis916 <panayiotisscorps@hotmail.com>
+Date:   Sat Mar 12 15:08:36 2016 +0000
+
+    Updated base.html/login.html
+
+[33mcommit 06f1097715e64401ab25a7869560041ebb592bbb[m
+Author: Panagiotis916 <panayiotisscorps@hotmail.com>
+Date:   Thu Mar 10 21:00:47 2016 +0000
+
+    Update on base.html
+
+[33mcommit 5401d31c5e16d76eb26bd8deee34badc670c0d3d[m
+Author: Panagiotis916 <panayiotisscorps@hotmail.com>
+Date:   Thu Mar 10 17:21:35 2016 +0000
+
+    Added requirements.txt
+
+[33mcommit bbf1ec37e0a85cb6e94a9e8c62083a762f288774[m
+Author: domantasjurkus <domantas.jurkus@gmail.com>
+Date:   Thu Mar 10 17:07:26 2016 +0000
+
+    Updated readme
+
+[33mcommit 03087e4fd4f80105c47edd8af328eef3a6cc625b[m
+Author: domantasjurkus <domantas.jurkus@gmail.com>
+Date:   Thu Mar 10 17:06:42 2016 +0000
+
+    Moved tasks.txt to READEME.md
+
+[33mcommit 2ab8d181b90624b9bb36669088657afa093b517f[m
+Author: domantasjurkus <domantas.jurkus@gmail.com>
+Date:   Thu Mar 10 17:05:37 2016 +0000
+
+    Removed .pyc files
+
+[33mcommit e07ab01a6d35757f09ce074b86ab6eb501555624[m
+Author: domantasjurkus <domantas.jurkus@gmail.com>
+Date:   Thu Mar 10 17:00:07 2016 +0000
+
+    Made task list
+
+[33mcommit 18446ba4f51fc7af71821cfd1ccecc3fa4a2d278[m
+Author: Borislav Hristov <Borislav Hristov>
+Date:   Thu Mar 10 16:20:30 2016 +0000
+
+    add folder
+
+[33mcommit 3c3d03edd1766e9134ee3b99d389260d5d98ebf1[m
+Author: Borislav Hristov <Borislav Hristov>
+Date:   Thu Mar 10 15:54:40 2016 +0000
+
+    Renamed
+
+[33mcommit 65d399d31afb987282b495cd31de791524337b2e[m
+Author: domantasjurkus <domantas.jurkus@gmail.com>
+Date:   Thu Mar 10 15:48:30 2016 +0000
+
+    Added docs
+
+[33mcommit e73c54cf32fe3868ed1cea33497033a950fec1c3[m
+Author: Borislav Hristov <Borislav Hristov>
+Date:   Thu Mar 10 15:32:23 2016 +0000
+
+    Initial
