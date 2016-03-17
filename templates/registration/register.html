@@ -10,8 +10,7 @@
 				Rango says: <strong>thank you for registering!</strong>
 				<a href="/sysrev/">Return to the homepage.</a><br />
 			{% else %}
-				Rango says: <strong>register here!</strong><br />
-				<h3 class="form-signin-heading text-center">SignUp / LogIn</h3><br/>
+
 				<form id="user_form" class="form-signin" method="post" action="/sysrev/register/" enctype="multipart/form-data">
 
 					{% csrf_token %}

@@ -33,10 +33,12 @@ class Page(models.Model):
 
 class UserProfile(models.Model):
     # This line is required. Links UserProfile to a User model instance.
-    eyw_transactionref = models.CharField(max_length=100, null=True, blank=True, unique=True)
+    #eyw_transactionref = models.CharField(max_length=100, null=True, blank=True, unique=True)
     user = models.OneToOneField(User)  # The additional attributes we wish to include.
-    website = models.URLField(blank=True)
-    picture = models.ImageField(upload_to='profile_images', blank=True)
+    forename = models.CharField(max_length=100, null=True, blank=True)
+    surname = models.CharField(max_length=100, null=True, blank=True)
+    #website = models.URLField(blank=True)
+    #picture = models.ImageField(upload_to='profile_images', blank=True)
 
     # Override the __unicode__() method to return out something meaningful!
     def __unicode__(self):
@@ -59,12 +61,13 @@ class Review(models.Model):
     title           = models.CharField(max_length=128)
     description     = models.CharField(max_length=128)
     query_string    = models.CharField(max_length=128)
-    slug            = models.SlugField()
+    # slug            = models.SlugField()
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
-        super(Category, self).save(*args, **kwargs)
-
+        # self.slug = slugify(self.title)
+        # super(Category, self).save(*args, **kwargs)
+		return False
+		
     def __unicode__(self):
         return self.title
 
@@ -85,7 +88,7 @@ class Paper(models.Model):
 
 
 class Query(models.Model):
-    review = models.ForeignKey(Review)
+    review = models.ForeignKey(Review , null=True)
     string = models.CharField(max_length=128)
 
     def __unicode__(self):

@@ -13,7 +13,9 @@ urlpatterns = patterns('',
     url(r'^category/(?P<category_name_slug>\w+)/viewed_documents/$', views.viewed_documents, name='viewed_documents'),
     url(r'^category/(?P<category_name_slug>\w+)/final/$', views.final, name='final'),
     url(r'^category/(?P<category_name_slug>\w+)/done/$', views.done, name='done'),
-
+    url(r'^register/$', views.register, name='register'),
+    url(r'^login/$', views.user_login, name='login'),
+    url(r'^logout/$', views.user_logout, name='logout'),
     url(r'^get_doc_count/$', views.get_doc_count, name='get_doc_count'),
 
     # url(r'^register/$', views.register, name='register'),
