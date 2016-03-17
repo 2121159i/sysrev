@@ -5,49 +5,50 @@
 {% block title %}Index{% endblock %}
 
 {% block body_block %}
-<div class="page-header text-center">
-    <h1>Welcome {{ user.username }}!</h1>
-</div>
+    <div class="page-header text-center">
+        <h1>Welcome {{ user.username }}!</h1>
+    </div>
 
-<a href="{% url 'add_category' %}" class="btn btn-success ">
-    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add New Review
-</a>
+    <a href="{% url 'add_category' %}" class="btn btn-success ">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add New Review
+    </a>
 
-<div class="row placeholders">
-    <div class="col-xs-12 col-sm-6 placeholder">
-        <br/>
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <h3 class="panel-title">Reviews</h3>
-            </div>
-        </div>
-
-        {% if categories %}
-        <ul class="list-group">
-            {% for category in categories %}
-            <!-- PROCESS BAR -->
-            <div>
-                <div class="progress">
-                    <div class="progress-bar progress-bar-success" style="width: 35%">
-                        <span class="sr-only">35% Complete (success)</span>
-                    </div>
-                    <div class="progress-bar progress-bar-warning" style="width: 20%">
-                        <span class="sr-only">20% Complete (warning)</span>
-                    </div>
-                    <div class="progress-bar progress-bar-danger" style="width: 10%">
-                        <span class="sr-only">10% Complete (danger)</span>
-                    </div>
+    <div class="row placeholders">
+        <div class="placeholder">
+            <br/>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Reviews</h3>
                 </div>
             </div>
 
-            <li class="list-group-item"><a href="{% url 'category'  category.slug %}">{{ category.name }}</a></li>
-            {% endfor %}
-        </ul>
-        {% else %}
-        <strong>There are no reviews present.</strong>
-        {% endif %}
-    </div>
-</div>
+            {% if categories %}
+                <ul class="list-group">
+                    {% for category in categories %}
+                        <!-- PROCESS BAR -->
+                        <div>
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-success" style="width: 35%">
+                                    <span class="sr-only">35% Complete (success)</span>
+                                </div>
+                                <div class="progress-bar progress-bar-warning" style="width: 20%">
+                                    <span class="sr-only">20% Complete (warning)</span>
+                                </div>
+                                <div class="progress-bar progress-bar-danger" style="width: 10%">
+                                    <span class="sr-only">10% Complete (danger)</span>
+                                </div>
+                            </div>
+                        </div>
 
-<p> Visits: {{ visits }}</p>
+                        <li class="list-group-item"><a href="{% url 'category'  category.slug %}">{{ category.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <strong>There are no reviews present.</strong>
+            {% endif %}
+        </div>
+    </div>
+
+
+    <p> Visits: {{ visits }}</p>
 {% endblock %}

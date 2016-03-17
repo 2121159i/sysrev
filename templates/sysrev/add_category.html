@@ -11,12 +11,24 @@
     <form role="form" method="post" action=".">
         {% csrf_token %}
 
+        <div class="col-lg-4">
+
         <input class="form-control" id="id_title" name="title" type="text" placeholder="Enter Review Title" required/>
         <input class="form-control" id="id_add_user" name="add_user" type="text" placeholder="Add User/Remove User" required/>
 
-        <input class="form-control" id="id_query" name="query" type="text" placeholder="Enter Query" required/>
+
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Enter Query Here...">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">Go!</button>
+                  </span>
+            </div>
+
         <button id="count-button" class="btn btn-default" type="button">Get Document Count</button>
         <span id="document-count">(Number of Documents)</span>
+
+        </div>
+
         <img id="loading-icon" src="{% static 'images/loading.gif' %}">
 
         <div class="form-group">
