@@ -11,6 +11,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from datetime import datetime
+from sysrev.query_pubmed import *
 
 # Old Rango views (delete if no reference is needed)
 
@@ -358,8 +359,9 @@ def add_page(request, category_name_slug):
 
     return render(request, 'sysrev/add_page.html', context_dict)
 
-def get_document_count(request):
+def get_doc_count(request):
 
+    # Make sure it's a Get request with a 'query' parameter
     if request.method != 'GET':
         return "/get_document_count must be a GET request"
 
@@ -367,5 +369,9 @@ def get_document_count(request):
         return "No 'query' parameter"
 
     query = request.GET['query']
+    print query
+    count = get_document_count(query)
 
-    return HttpResponse(query)
+    print "got " + str(count)
+
+    return count

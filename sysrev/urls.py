@@ -14,7 +14,7 @@ urlpatterns = patterns('',
     url(r'^category/(?P<category_name_slug>\w+)/final/$', views.final, name='final'),
     url(r'^category/(?P<category_name_slug>\w+)/done/$', views.done, name='done'),
 
-    url(r'^get_document_count/$', views.get_document_count, name='get_document_count'),
+    url(r'^get_doc_count/$', views.get_doc_count, name='get_doc_count'),
 
     # url(r'^register/$', views.register, name='register'),
     # url(r'^login/$', views.user_login, name='login'),

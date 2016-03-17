@@ -8,11 +8,13 @@ $('#count-button').click(function() {
     $('#loading-icon').css("visibility", "visible");
 
     // Call endpoint with the given query
-    $.get("/sysrev/get_document_count/", { query: query }, function(data) {
+    $.get("/sysrev/get_doc_count/", { query: query }, function(data) {
 
         // Hide loading icon
         $('#loading-icon').css("visibility", "hidden");
 
+        // Append the result to the HTML element
+        $('#document-count').html(data);
         console.log(data);
 
     });
