@@ -1,29 +1,28 @@
 {% extends 'sysrev/base.html' %}
 
+{# Needed to load the script for retreiving document count #}
+{% load staticfiles %}
+
 {% block body_public %}
+    <h1 class="page-header text-center">New Review</h1>
 
-<link href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet">
+    <form class="form-signin" role="form" method="post" action=".">
+        {% csrf_token %}
 
-<h1 class="panel-heading text-center">New Review</h1>
+        <input class="form-control" id="id_title" name="title" type="text" placeholder="Enter Review Title" required/> <br />
 
+        <input class="form-control" id="id_query" name="query" type="text" placeholder="Enter Query" required/>
 
-<form role="form" method="post" action=".">
-    {% csrf_token %}
-
-
-    <input class="form-control" id="id_title" name="title" type="text" placeholder="Enter Review Title" required/>
-
-    <input class="form-control" id="id_add_user" name="add_user" type="text" placeholder="Add User/Remove User"
-           required/>
-
-    <input class="form-control" id="id_query" name="query" type="text" placeholder="Enter Query" required/>
-    <span>(.... documents)</span>
+        <img id="loading-icon" src="{% static 'images/loading.gif' %}">
+        <span id="document-count">(Number of Documents)</span>
 
 
-    <div class="form-group">
+        <br/><br/>
         <a href="#" class="btn btn-lg btn-success">Create</a>
         <a href="{% url 'index' %}" class="btn btn-lg btn-danger">Discard</a>
-    </div>
-</form>
+
+    </form>
+
+    <script src="{% static 'js/get_document_count.js' %}" ></script>
 
 {% endblock %}

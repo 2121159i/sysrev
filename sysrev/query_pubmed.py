@@ -41,10 +41,13 @@ def query_pubmed(search_terms):
 # Function for getting the number of documents
 # a particular query string would retreive
 def get_document_count(search_terms):
+    print "Getting document count for: " + search_terms
 
     res = query_pubmed(search_terms)
     return res["eSearchResult"]["Count"]
 
+
+# Main function for testing
 def main():
 
     if len(sys.argv) != 2:
