@@ -10,7 +10,7 @@
         {% csrf_token %}
 
         <input class="form-control" id="id_title" name="title" type="text" placeholder="Enter review title" required/> <br />
-        <input class="form-control" id="id_desc"  name="description" type="text" placeholder="Enter a brief description" required/>
+        <input class="form-control" id="id_desc"  name="description" type="text" placeholder="Enter a brief description" required/> <br/>
         <input class="form-control" id="id_query" name="query_string" type="text" placeholder="Enter query" required/>
 
         <img id="loading-icon" src="{% static 'images/loading.gif' %}">
