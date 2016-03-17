@@ -7,7 +7,7 @@ from sysrev.forms import CategoryForm
 from sysrev.forms import PageForm
 from sysrev.forms import UserForm, UserProfileForm
 from django.contrib.auth import authenticate, login
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from datetime import datetime
@@ -374,4 +374,4 @@ def get_doc_count(request):
 
     print "got " + str(count)
 
-    return count
+    return JsonResponse({"count": count})
