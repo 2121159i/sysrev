@@ -1,18 +1,19 @@
-(function() {
+$('#count-button').click(function() {
 
-    $('#count-button').click(function() {
+    // Get the query string from the input field
+    var query = $('#id_query').val();
+    console.log(query);
 
-        console.log("Button clicked");
+    // Make the loading icon visible
+    $('#loading-icon').css("visibility", "visible");
 
-        // Call endpoint with the given query
-        $.get("/sysrev/get_document_count/", { query: "dog cancer" }, function(data) {
+    // Call endpoint with the given query
+    $.get("/sysrev/get_document_count/", { query: query }, function(data) {
 
-            console.log(data);
+        // Hide loading icon
+        $('#loading-icon').css("visibility", "hidden");
 
-        });
+        console.log(data);
+
     });
-
-
-
-})();
-
+});
