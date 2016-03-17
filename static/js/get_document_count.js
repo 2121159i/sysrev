@@ -1,8 +1,15 @@
-$('#count-button').click(function() {
+
+// Make a request on input field change
+$('#id_query').bind('input', function() {
 
     // Get the query string from the input field
     var query = $('#id_query').val();
-    console.log(query);
+    if (query == "") {
+        console.log("Empty");
+        $('#document-count').html("(Number of Documents)");
+        $('#loading-icon').css("visibility", "hidden");
+        return;
+    }
 
     // Make the loading icon visible
     $('#loading-icon').css("visibility", "visible");
@@ -13,8 +20,8 @@ $('#count-button').click(function() {
         // Hide loading icon
         $('#loading-icon').css("visibility", "hidden");
 
-        // Append the result to the HTML element
-        $('#document-count').html(data);
+        // Attach the result to the HTML element
+        $('#document-count').html(data.count);
         console.log(data);
 
     });
