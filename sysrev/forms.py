@@ -21,8 +21,6 @@ class PageForm(forms.ModelForm):
     url = forms.URLField(max_length=200, help_text="Please enter the URL of the page.")
     views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
 
-	
-	
     class Meta:
         # Provide an association between the ModelForm and a model
         model = Page
@@ -46,4 +44,4 @@ class UserForm(forms.ModelForm):
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ('website', 'picture')	
+        fields = ('forename', 'surname')	

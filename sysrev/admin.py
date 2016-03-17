@@ -1,5 +1,5 @@
 from django.contrib import admin
-from sysrev.models import Category, Page
+from sysrev.models import *
 from sysrev.models import UserProfile
 
 
@@ -11,3 +11,7 @@ class CategoryAdmin(admin.ModelAdmin):
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Page)
 admin.site.register(UserProfile)
+admin.site.register(Review)
+admin.site.register(Researcher)
+admin.site.register(Paper)
+admin.site.register(Query)

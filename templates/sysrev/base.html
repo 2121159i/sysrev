@@ -48,7 +48,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="{% url 'index' %}">Home</a></li>
-                    <li><a href="{% url 'auth_logout' %}?next={% url 'auth_login'%}">LogOut</a></li>
+					<li><a href="/sysrev/logout">LogOut</a></li>
                 </ul>
             </div>
         {% endif %}
@@ -60,7 +60,7 @@
     {% block body_block %}{% endblock %}
 {% else %}
     {% block login_block %}
-        <br/><br/><h4 class="text-center">Please <a href="{% url 'auth_login' %}">log in</a> to use the app.</h4>
+		<h4 class="text-center">Please <a href="/sysrev/login">log in</a> to use the app.</h4>
     {% endblock %}
 {% endif %}
 
