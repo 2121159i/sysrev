@@ -358,3 +358,14 @@ def add_page(request, category_name_slug):
 
     return render(request, 'sysrev/add_page.html', context_dict)
 
+def get_document_count(request):
+
+    if request.method != 'GET':
+        return "/get_document_count must be a GET request"
+
+    if not request.GET['query']:
+        return "No 'query' parameter"
+
+    query = request.GET['query']
+
+    return HttpResponse(query)

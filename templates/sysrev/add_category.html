@@ -1,29 +1,29 @@
 {% extends 'sysrev/base.html' %}
 
+{# Needed to load the script for retreiving document count #}
+{% load staticfiles %}
+
 {% block body_public %}
 
-<link href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet">
+    <link href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet">
+    <h1 class="panel-heading text-center">New Review</h1>
 
-<h1 class="panel-heading text-center">New Review</h1>
+    <form role="form" method="post" action=".">
+        {% csrf_token %}
 
+        <input class="form-control" id="id_title" name="title" type="text" placeholder="Enter Review Title" required/>
+        <input class="form-control" id="id_add_user" name="add_user" type="text" placeholder="Add User/Remove User" required/>
 
-<form role="form" method="post" action=".">
-    {% csrf_token %}
+        <input class="form-control" id="id_query" name="query" type="text" placeholder="Enter Query" required/>
+        <button id="count-button" class="btn btn-default" type="button">Get Document Count</button>
+        <span id="document-count">(Number of Documents)</span>
 
+        <div class="form-group">
+            <a href="#" class="btn btn-lg btn-success">Create</a>
+            <a href="{% url 'index' %}" class="btn btn-lg btn-danger">Discard</a>
+        </div>
+    </form>
 
-    <input class="form-control" id="id_title" name="title" type="text" placeholder="Enter Review Title" required/>
-
-    <input class="form-control" id="id_add_user" name="add_user" type="text" placeholder="Add User/Remove User"
-           required/>
-
-    <input class="form-control" id="id_query" name="query" type="text" placeholder="Enter Query" required/>
-    <span>(.... documents)</span>
-
-
-    <div class="form-group">
-        <a href="#" class="btn btn-lg btn-success">Create</a>
-        <a href="{% url 'index' %}" class="btn btn-lg btn-danger">Discard</a>
-    </div>
-</form>
+    <script src="{% static 'js/get_document_count.js' %}" ></script>
 
 {% endblock %}
