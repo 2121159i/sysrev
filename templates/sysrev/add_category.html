@@ -6,19 +6,19 @@
 {% block body_public %}
     <h1 class="page-header text-center">New Review</h1>
 
-    <form class="form-signin" role="form" method="post" action=".">
+    <form class="form-signin" role="form" method="post" action="/sysrev/add_category/">
         {% csrf_token %}
 
-        <input class="form-control" id="id_title" name="title" type="text" placeholder="Enter Review Title" required/> <br />
-
-        <input class="form-control" id="id_query" name="query" type="text" placeholder="Enter Query" required/>
+        <input class="form-control" id="id_title" name="title" type="text" placeholder="Enter review title" required/> <br />
+        <input class="form-control" id="id_desc"  name="description" type="text" placeholder="Enter a brief description" required/>
+        <input class="form-control" id="id_query" name="query_string" type="text" placeholder="Enter query" required/>
 
         <img id="loading-icon" src="{% static 'images/loading.gif' %}">
-        <span id="document-count">(Number of Documents)</span>
+        <span id="document-count"></span>
 
 
         <br/><br/>
-        <a href="#" class="btn btn-lg btn-success">Create</a>
+        <button type="submit" class="btn btn-lg btn-success">Create</button>
         <a href="{% url 'index' %}" class="btn btn-lg btn-danger">Discard</a>
 
     </form>

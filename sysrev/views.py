@@ -3,9 +3,7 @@ from django.shortcuts import render
 # Import the Category model
 from sysrev.models import Category
 from sysrev.models import Page
-from sysrev.forms import CategoryForm
-from sysrev.forms import PageForm
-from sysrev.forms import UserForm, UserProfileForm
+from sysrev.forms import *
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
@@ -52,7 +50,7 @@ def register(request):
         # Attempt to grab information from the raw form information.
         # Note that we make use of both UserForm and UserProfileForm.
         user_form = UserForm(data=request.POST)
-        profile_form = UserProfileForm(data=request.POST)
+        profile_form = ResearcherForm(data=request.POST)
 
         # If the two forms are valid...
         if user_form.is_valid() and profile_form.is_valid():
@@ -91,7 +89,7 @@ def register(request):
     # These forms will be blank, ready for user input.
     else:
         user_form = UserForm()
-        profile_form = UserProfileForm()
+        profile_form = ResearcherForm()
 
     # Render the template depending on the context.
     return render(request,
@@ -260,20 +258,28 @@ def index(request):
 
     return response
 
+# Rename this to 'add_review' or 'create_review' when possible
 def add_category(request):
-    # A HTTP POST?
-    if request.method == 'POST':
-        form = CategoryForm(request.POST)
 
-        # Have we been provided with a valid form?
+    # Check if a new review is posted
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+
+        user = Researcher.objects.filter(id = request.user.id)
+        print user
+        form.user = user
+
+        # Check if the form is valid
         if form.is_valid():
-            # Save the new category to the database.
+            print "FORM VALID!"
+            # Save the new review
             form.save(commit=True)
 
             # Now call the index() view.
             # The user will be shown the homepage.
             return index(request)
         else:
+            print "FORM NOT VALID!"
             # The supplied form contained errors - just print them to the terminal.
             print form.errors
     else:

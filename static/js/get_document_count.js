@@ -6,7 +6,7 @@ $('#id_query').bind('input', function() {
     var query = $('#id_query').val();
     if (query == "") {
         console.log("Empty");
-        $('#document-count').html("(Number of Documents)");
+        $('#document-count').html("");
         $('#loading-icon').css("visibility", "hidden");
         return;
     }
@@ -21,7 +21,7 @@ $('#id_query').bind('input', function() {
         $('#loading-icon').css("visibility", "hidden");
 
         // Attach the result to the HTML element
-        $('#document-count').html(data.count);
+        $('#document-count').html(data.count + " documents found");
         console.log(data);
 
     });

@@ -8,7 +8,6 @@ urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
     url(r'^about/$', views.about, name='about'),
     url(r'^category/(?P<category_name_slug>\w+)$', views.category, name='category'),
-    url(r'^add_category/$', views.add_category, name='add_category'),
     url(r'^category/(?P<category_name_slug>\w+)/add_page/$', views.add_page, name='add_page'),
     url(r'^category/(?P<category_name_slug>\w+)/viewed_documents/$', views.viewed_documents, name='viewed_documents'),
     url(r'^category/(?P<category_name_slug>\w+)/final/$', views.final, name='final'),
@@ -16,6 +15,9 @@ urlpatterns = patterns('',
     url(r'^register/$', views.register, name='register'),
     url(r'^login/$', views.user_login, name='login'),
     url(r'^logout/$', views.user_logout, name='logout'),
+
+    # Dom's routes
+    url(r'^add_category/$', views.add_category, name='add_category'),
     url(r'^get_doc_count/$', views.get_doc_count, name='get_doc_count'),
 
     # url(r'^register/$', views.register, name='register'),
