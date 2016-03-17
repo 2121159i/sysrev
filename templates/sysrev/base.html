@@ -4,18 +4,18 @@
 {% load staticfiles %}
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <link rel="icon" href="../../static/images/logo.jpg">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../static/images/logo.jpg">
 
-  <title>Systematic Review - {% block title %}{% endblock %}</title>
+    <title>Systematic Review - {% block title %}{% endblock %}</title>
 
-  <link href="https://bootswatch.com/readable/bootstrap.min.css" rel="stylesheet">
-  <link href="http://getbootstrap.com/examples/dashboard/dashboard.css" rel="stylesheet">
-  <link href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet">
+    <link href="https://bootswatch.com/readable/bootstrap.min.css" rel="stylesheet">
+    <link href="http://getbootstrap.com/examples/dashboard/dashboard.css" rel="stylesheet">
+    <link href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet">
 
     <!-- Load jQuery here so that later scripts can use $ -->
     <script src="{% static 'js/jquery.js' %}"></script>
@@ -24,7 +24,7 @@
     <!-- Project stylesheet -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-  <!--[if lt IE 9]>
+    <!--[if lt IE 9]>
   <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
@@ -33,35 +33,35 @@
 <body>
 
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <img class="navbar-brand" src="{% static "images/logo.jpg" %}" alt="logo"/>
-      <a class="navbar-brand" href="/sysrev/">Systematic Reviews</a>
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <img class="navbar-brand" src="{% static "images/logo.jpg" %}" alt="logo"/>
+            <a class="navbar-brand" href="/sysrev/">Systematic Reviews</a>
+        </div>
+        {% if user.is_authenticated %}
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="{% url 'auth_logout' %}?next={% url 'auth_login'%}">LogOut</a></li>
+                </ul>
+            </div>
+        {% endif %}
     </div>
-    {% if user.is_authenticated %}
-    <div class="navbar-collapse collapse">
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="{% url 'index' %}">Home</a></li>
-        <li><a href="{% url 'auth_logout' %}?next={% url 'auth_login'%}">LogOut</a></li>
-      </ul>
-    </div>
-    {% endif %}
-  </div>
 </div>
 
 {% block body_public %}{% endblock %}
-    {% if user.is_authenticated %}
-        {% block body_block %}{% endblock %}
-    {% else %}
-        {% block login_block %}
-    <h4 class="text-center">Please <a href="{% url 'auth_login' %}">log in</a> to use the app.</h4>
-{% endblock %}
+{% if user.is_authenticated %}
+    {% block body_block %}{% endblock %}
+{% else %}
+    {% block login_block %}
+        <br/><br/><h4 class="text-center">Please <a href="{% url 'auth_login' %}">log in</a> to use the app.</h4>
+    {% endblock %}
 {% endif %}
 
 {% block about_block %}
