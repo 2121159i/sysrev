@@ -12,43 +12,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from datetime import datetime
 
-
-def index(request):
-    category_list = Category.objects.order_by('-likes')[:5]
-    page_list = Page.objects.order_by('-views')[:5]
-
-    context_dict = {'categories': category_list, 'pages': page_list}
-
-    visits = request.session.get('visits')
-    if not visits:
-        visits = 1
-    reset_last_visit_time = False
-
-    last_visit = request.session.get('last_visit')
-    if last_visit:
-        last_visit_time = datetime.strptime(last_visit[:-7], "%Y-%m-%d %H:%M:%S")
-
-        if (datetime.now() - last_visit_time).seconds > 0:
-            # ...reassign the value of the cookie to +1 of what it was before...
-            visits = visits + 1
-            # ...and update the last visit cookie, too.
-            reset_last_visit_time = True
-    else:
-        reset_last_visit_time = True
-
-    if reset_last_visit_time:
-        request.session['last_visit'] = str(datetime.now())
-        request.session['visits'] = visits
-
-        context_dict['visits'] = visits
-
-    response = render(request, 'sysrev/index.html', context_dict)
-
-    return response
+# Old Rango views (delete if no reference is needed)
 
 def about(request):
     context_dict = {'boldmessage': "Hello from about bold"}
-
 
     if request.session.get('visits'):
         count = request.session.get('visits')
@@ -73,165 +40,6 @@ def about(request):
     context_dict['visits']=count
 
     return render(request,'sysrev/about.html',context_dict)
-
-def category(request, category_name_slug):
-    # Create a context dictionary which we can pass to the template rendering engine.
-    context_dict = {}
-
-    try:
-        # Can we find a category name slug with the given name?
-        # If we can't, the .get() method raises a DoesNotExist exception.
-        # So the .get() method returns one model instance or raises an exception.
-        category = Category.objects.get(slug=category_name_slug)
-        context_dict['category_name'] = category.name
-        context_dict['category_name_slug'] = category.slug
-
-        # Retrieve all of the associated pages.
-        # Note that filter returns >= 1 model instance.
-        pages = Page.objects.filter(category=category)
-
-        # Adds our results list to the template context under name pages.
-        context_dict['pages'] = pages
-        # We also add the category object from the database to the context dictionary.
-        # We'll use this in the template to verify that the category exists.
-        context_dict['category'] = category
-    except Category.DoesNotExist:
-        # We get here if we didn't find the specified category.
-        # Don't do anything - the template displays the "no category" message for us.
-        pass
-
-    # Go render the response and return it to the client.
-    return render(request, 'sysrev/category.html', context_dict)
-
-
-def viewed_documents(request, category_name_slug):
-    try:
-        cat = Category.objects.get(slug=category_name_slug)
-    except Category.DoesNotExist:
-        cat = None
-
-    if request.method == 'POST':
-        form = PageForm(request.POST)
-        if form.is_valid():
-            if cat:
-                page = form.save(commit=False)
-                page.category = cat
-                page.views = 0
-                page.save()
-                # probably better to use a redirect here.
-                return category(request, category_name_slug)
-        else:
-            print form.errors
-    else:
-        form = PageForm()
-
-    context_dict = {'form': form, 'category': cat}
-
-    return render(request, 'sysrev/viewed_documents.html', context_dict)
-
-
-def final(request, category_name_slug):
-    try:
-        cat = Category.objects.get(slug=category_name_slug)
-    except Category.DoesNotExist:
-        cat = None
-
-    if request.method == 'POST':
-        form = PageForm(request.POST)
-        if form.is_valid():
-            if cat:
-                page = form.save(commit=False)
-                page.category = cat
-                page.views = 0
-                page.save()
-                # probably better to use a redirect here.
-                return category(request, category_name_slug)
-        else:
-            print form.errors
-    else:
-        form = PageForm()
-
-    context_dict = {'form': form, 'category': cat}
-
-    return render(request, 'sysrev/final.html', context_dict)
-
-
-def done(request, category_name_slug):
-    try:
-        cat = Category.objects.get(slug=category_name_slug)
-    except Category.DoesNotExist:
-        cat = None
-
-    if request.method == 'POST':
-        form = PageForm(request.POST)
-        if form.is_valid():
-            if cat:
-                page = form.save(commit=False)
-                page.category = cat
-                page.views = 0
-                page.save()
-                # probably better to use a redirect here.
-                return category(request, category_name_slug)
-        else:
-            print form.errors
-    else:
-        form = PageForm()
-
-    context_dict = {'form': form, 'category': cat}
-
-    return render(request, 'sysrev/done.html', context_dict)
-
-
-def add_category(request):
-    # A HTTP POST?
-    if request.method == 'POST':
-        form = CategoryForm(request.POST)
-
-        # Have we been provided with a valid form?
-        if form.is_valid():
-            # Save the new category to the database.
-            form.save(commit=True)
-
-            # Now call the index() view.
-            # The user will be shown the homepage.
-            return index(request)
-        else:
-            # The supplied form contained errors - just print them to the terminal.
-            print form.errors
-    else:
-        # If the request was not a POST, display the form to enter details.
-        form = CategoryForm()
-
-    # Bad form (or form details), no form supplied...
-    # Render the form with error messages (if any).
-    return render(request, 'sysrev/add_category.html', {'form': form})
-
-
-def add_page(request, category_name_slug):
-    try:
-        cat = Category.objects.get(slug=category_name_slug)
-    except Category.DoesNotExist:
-        cat = None
-
-    if request.method == 'POST':
-        form = PageForm(request.POST)
-        if form.is_valid():
-            if cat:
-                page = form.save(commit=False)
-                page.category = cat
-                page.views = 0
-                page.save()
-                # probably better to use a redirect here.
-                return category(request, category_name_slug)
-        else:
-            print form.errors
-    else:
-        form = PageForm()
-
-    context_dict = {'form': form, 'category': cat}
-
-    return render(request, 'sysrev/add_page.html', context_dict)
-
 
 def register(request):
     # A boolean value for telling the template whether the registration was successful.
@@ -289,8 +97,8 @@ def register(request):
                   'sysrev/register.html',
                   {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
 
+def user_login(request):
 
-'''def user_login(request):
     # If the request is a HTTP POST, try to pull out the relevant information.
     if request.method == 'POST':
         # Gather the username and password provided by the user.
@@ -328,23 +136,71 @@ def register(request):
     else:
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
-        return render(request, 'sysrev/login.html', {}) '''
+        return render(request, 'sysrev/login.html', {})
 
-
-@login_required
-def restricted(request):
-    return HttpResponse("Since you're logged in, you can see this text!")
-
-
-# Use the login_required() decorator to ensure only those logged in can access the view.
 @login_required
 def user_logout(request):
+
+    # Use the login_required() decorator to ensure only those logged in can access the view.
     # Since we know the user is logged in, we can now just log them out.
     logout(request)
 
     # Take the user back to the homepage.
     return HttpResponseRedirect('/sysrev/')
 
+def category(request, category_name_slug):
+    # Create a context dictionary which we can pass to the template rendering engine.
+    context_dict = {}
+
+    try:
+        # Can we find a category name slug with the given name?
+        # If we can't, the .get() method raises a DoesNotExist exception.
+        # So the .get() method returns one model instance or raises an exception.
+        category = Category.objects.get(slug=category_name_slug)
+        context_dict['category_name'] = category.name
+        context_dict['category_name_slug'] = category.slug
+
+        # Retrieve all of the associated pages.
+        # Note that filter returns >= 1 model instance.
+        pages = Page.objects.filter(category=category)
+
+        # Adds our results list to the template context under name pages.
+        context_dict['pages'] = pages
+        # We also add the category object from the database to the context dictionary.
+        # We'll use this in the template to verify that the category exists.
+        context_dict['category'] = category
+    except Category.DoesNotExist:
+        # We get here if we didn't find the specified category.
+        # Don't do anything - the template displays the "no category" message for us.
+        pass
+
+    # Go render the response and return it to the client.
+    return render(request, 'sysrev/category.html', context_dict)
+
+def viewed_documents(request, category_name_slug):
+    try:
+        cat = Category.objects.get(slug=category_name_slug)
+    except Category.DoesNotExist:
+        cat = None
+
+    if request.method == 'POST':
+        form = PageForm(request.POST)
+        if form.is_valid():
+            if cat:
+                page = form.save(commit=False)
+                page.category = cat
+                page.views = 0
+                page.save()
+                # probably better to use a redirect here.
+                return category(request, category_name_slug)
+        else:
+            print form.errors
+    else:
+        form = PageForm()
+
+    context_dict = {'form': form, 'category': cat}
+
+    return render(request, 'sysrev/viewed_documents.html', context_dict)
 
 def track_url(request):
     if request.method == 'GET':
@@ -366,3 +222,139 @@ def track_url(request):
                 print form.errors
 
     return HttpResponseRedirect('/sysrev/')
+
+
+# Sysrev views (may need refactoring if taken from old Rango views)
+
+def index(request):
+    # category_list = Category.objects.order_by('-likes')[:5]
+    # page_list = Page.objects.order_by('-views')[:5]
+
+    context_dict = {}
+
+    visits = request.session.get('visits')
+    if not visits:
+        visits = 1
+    reset_last_visit_time = False
+
+    last_visit = request.session.get('last_visit')
+    if last_visit:
+        last_visit_time = datetime.strptime(last_visit[:-7], "%Y-%m-%d %H:%M:%S")
+
+        if (datetime.now() - last_visit_time).seconds > 0:
+            # ...reassign the value of the cookie to +1 of what it was before...
+            visits = visits + 1
+            # ...and update the last visit cookie, too.
+            reset_last_visit_time = True
+    else:
+        reset_last_visit_time = True
+
+    if reset_last_visit_time:
+        request.session['last_visit'] = str(datetime.now())
+        request.session['visits'] = visits
+
+        context_dict['visits'] = visits
+
+    response = render(request, 'sysrev/index.html', context_dict)
+
+    return response
+
+def add_category(request):
+    # A HTTP POST?
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+
+        # Have we been provided with a valid form?
+        if form.is_valid():
+            # Save the new category to the database.
+            form.save(commit=True)
+
+            # Now call the index() view.
+            # The user will be shown the homepage.
+            return index(request)
+        else:
+            # The supplied form contained errors - just print them to the terminal.
+            print form.errors
+    else:
+        # If the request was not a POST, display the form to enter details.
+        form = CategoryForm()
+
+    # Bad form (or form details), no form supplied...
+    # Render the form with error messages (if any).
+    return render(request, 'sysrev/add_category.html', {'form': form})
+
+def final(request, category_name_slug):
+    try:
+        cat = Category.objects.get(slug=category_name_slug)
+    except Category.DoesNotExist:
+        cat = None
+
+    if request.method == 'POST':
+        form = PageForm(request.POST)
+        if form.is_valid():
+            if cat:
+                page = form.save(commit=False)
+                page.category = cat
+                page.views = 0
+                page.save()
+                # probably better to use a redirect here.
+                return category(request, category_name_slug)
+        else:
+            print form.errors
+    else:
+        form = PageForm()
+
+    context_dict = {'form': form, 'category': cat}
+
+    return render(request, 'sysrev/final.html', context_dict)
+
+def done(request, category_name_slug):
+    try:
+        cat = Category.objects.get(slug=category_name_slug)
+    except Category.DoesNotExist:
+        cat = None
+
+    if request.method == 'POST':
+        form = PageForm(request.POST)
+        if form.is_valid():
+            if cat:
+                page = form.save(commit=False)
+                page.category = cat
+                page.views = 0
+                page.save()
+                # probably better to use a redirect here.
+                return category(request, category_name_slug)
+        else:
+            print form.errors
+    else:
+        form = PageForm()
+
+    context_dict = {'form': form, 'category': cat}
+
+    return render(request, 'sysrev/done.html', context_dict)
+
+def add_page(request, category_name_slug):
+    try:
+        cat = Category.objects.get(slug=category_name_slug)
+    except Category.DoesNotExist:
+        cat = None
+
+    if request.method == 'POST':
+        form = PageForm(request.POST)
+        if form.is_valid():
+            if cat:
+                page = form.save(commit=False)
+                page.category = cat
+                page.views = 0
+                page.save()
+                # probably better to use a redirect here.
+                return category(request, category_name_slug)
+        else:
+            print form.errors
+    else:
+        form = PageForm()
+
+    context_dict = {'form': form, 'category': cat}
+
+    return render(request, 'sysrev/add_page.html', context_dict)
+

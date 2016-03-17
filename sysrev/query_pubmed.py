@@ -45,6 +45,8 @@ def get_document_count(search_terms):
     res = query_pubmed(search_terms)
     return res["eSearchResult"]["Count"]
 
+
+# Main function for testing
 def main():
 
     if len(sys.argv) != 2:
