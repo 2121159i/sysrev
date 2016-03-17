@@ -47,25 +47,30 @@ class UserProfile(models.Model):
 
 # Models for SysRev
 
-class Review(models.Model):
+class Researcher(models.Model):
     user = models.ForeignKey(UserProfile)
-    title = models.CharField(max_length=128)
-    description = models.CharField(max_length=128)
-    #date = models.DateTimeField(default=datetime.now, blank=True)
-    query_string = models.CharField(max_length=128)
-    slug = models.SlugField()
+
+    def __unicode__(self):
+        return self.user
 
 
-def save(self, *args, **kwargs):
-    self.slug = slugify(self.title)
-    super(Category, self).save(*args, **kwargs)
+class Review(models.Model):
+    user            = models.ForeignKey(UserProfile)
+    title           = models.CharField(max_length=128)
+    description     = models.CharField(max_length=128)
+    query_string    = models.CharField(max_length=128)
+    slug            = models.SlugField()
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Category, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.title
 
 
 class Paper(models.Model):
-    review          = models.ForeignKey(Review)
+    review          = models.ForeignKey(Review,default=None)
     title           = models.CharField(max_length=128)
     authors         = models.CharField(max_length=128, default=None)
     abstract        = models.CharField(max_length=128)
@@ -87,8 +92,4 @@ class Query(models.Model):
         return self.review
 
 
-class Researcher(models.Model):
-    user = models.ForeignKey(UserProfile)
 
-    def __unicode__(self):
-        return self.user
