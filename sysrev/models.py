@@ -1,7 +1,7 @@
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
-import datetime
+from datetime import datetime
 
 
 class Category(models.Model):
@@ -47,35 +47,38 @@ class UserProfile(models.Model):
 
 # Models for SysRev
 
-class Review(models.Model):
+class Researcher(models.Model):
     user = models.ForeignKey(UserProfile)
-    title = models.CharField(max_length=128)
-    description = models.CharField(max_length=128)
-    #date = models.DateTimeField(default=datetime.now, blank=True)
-    query_string = models.CharField(max_length=128)
-    slug = models.SlugField()
+
+    def __unicode__(self):
+        return self.user
 
 
-def save(self, *args, **kwargs):
-    self.slug = slugify(self.title)
-    super(Category, self).save(*args, **kwargs)
+class Review(models.Model):
+    user            = models.ForeignKey(UserProfile)
+    title           = models.CharField(max_length=128)
+    description     = models.CharField(max_length=128)
+    query_string    = models.CharField(max_length=128)
+    slug            = models.SlugField()
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Category, self).save(*args, **kwargs)
 
-def __unicode__(self):
-    return self.title
+    def __unicode__(self):
+        return self.title
 
 
 class Paper(models.Model):
-    review = models.ForeignKey(Review)
-    title = models.CharField(max_length=128)
-    authors = models.CharField(max_length=128)
-    abstract = models.CharField(max_length=128)
-    # date = models.DateTimeField(default=datetime.now, blank=True)
-    date = models.DateTimeField(auto_now_add=True, blank=True)
-    query_string = models.CharField(max_length=128)
-    paper_url = models.URLField()
-    abstract_rev = models.BooleanField(default=False)
-    document_rev = models.BooleanField(default=False)
+    review          = models.ForeignKey(Review,default=None)
+    title           = models.CharField(max_length=128)
+    authors         = models.CharField(max_length=128, default=None)
+    abstract        = models.CharField(max_length=128)
+    date            = models.DateTimeField(auto_now_add=True, blank=True, default=datetime.now)
+    query_string    = models.CharField(max_length=128)
+    paper_url       = models.URLField(default=None)
+    abstract_rev    = models.BooleanField(default=False)
+    document_rev    = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.title
@@ -89,8 +92,4 @@ class Query(models.Model):
         return self.review
 
 
-class Researcher(models.Model):
-    user = models.ForeignKey(UserProfile)
 
-    def __unicode__(self):
-        return self.user

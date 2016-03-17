@@ -1,0 +1,33 @@
+
+{% extends 'sysrev/base.html' %}
+
+{% block body_public %}
+
+    <link href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet">
+
+     <h1 class="panel-heading text-center">Systematic Review</h1>
+	{% if registered %}
+				Rango says: <strong>thank you for registering!</strong>
+				<a href="/sysrev/">Return to the homepage.</a><br />
+			{% else %}
+				Rango says: <strong>register here!</strong><br />
+				<h3 class="form-signin-heading text-center">SignUp / LogIn</h3><br/>
+				<form id="user_form" class="form-signin" method="post" action="/sysrev/register/" enctype="multipart/form-data">
+
+					{% csrf_token %}
+					<input class="form-control" placeholder="Username" id="id_username" maxlength="254" name="username" type="text" required autofocus=""/><br/>
+					<input class="form-control" placeholder="Forename" id="id_forename" maxlength="254" name="forename" type="text" required/><br/>
+					<input class="form-control" placeholder="Surname" id="id_surname" maxlength="254" name="surname" type="text" required/><br/>
+					<input class="form-control" placeholder="Email" id="id_email" maxlength="254" name="email" type="text" required/><br/>
+					<input type="password" class="form-control" placeholder="Password" id="id_password" name="password"  required /><br/>
+					<input type="password" class="form-control" placeholder="Repeat assword" id="id_repeatPassword" name="repeatPassword"  required /><br/>
+
+					<!-- Provide a button to click to submit the form. -->
+					<button class="btn btn-lg btn-primary btn-block" type="submit" value="Submit" >Sign up</button>
+					<a href="/sysrev/login" class="btn btn-lg btn-primary btn-block" >Sign in</a>
+				</form>
+			{% endif %}
+   
+{% endblock %}
+{% block login_block %}{% endblock %}
+
