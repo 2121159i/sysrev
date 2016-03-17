@@ -34,12 +34,15 @@ class Page(models.Model):
 # Models for SysRev
 
 class Researcher(models.Model):
+
+    # Link Researcher to Django User
     user = models.OneToOneField(User)
+
     forename = models.CharField(max_length=100, null=True, blank=True)
     surname = models.CharField(max_length=100, null=True, blank=True)
 
     def __unicode__(self):
-        return self.user
+        return self.user.username
 
 
 class Review(models.Model):

@@ -259,29 +259,60 @@ def index(request):
     return response
 
 # Rename this to 'add_review' or 'create_review' when possible
+@login_required
 def add_category(request):
 
     # Check if a new review is posted
     if request.method == 'POST':
+
+        title = request.POST['title']
+        description = request.POST['description']
+        query_string = request.POST['query_string']
+
+        user = User.objects.get(username=request.user)
+        researcher = Researcher.objects.get(user=user)
+
+        print
+        print title
+        print researcher
+        print description
+        print query_string
+        print
+
+        review = Review(
+            user=researcher,
+            title=title,
+            description=description,
+            query_string=query_string
+        )
+        review.save()
+        # Yay, it works up to here!
+        # Return a success page
+
+        '''
         form = ReviewForm(request.POST)
 
-        user = Researcher.objects.filter(id = request.user.id)
-        print user
-        form.user = user
+        try:
+            cat = Researcher.objects.get(id = request.user.id)
+        except Researcher.DoesNotExist:
+            cat = None
+        #er = Researcher.objects.filter(id = request.user.id)
+        #print user
+        #form.user = cat
 
         # Check if the form is valid
         if form.is_valid():
             print "FORM VALID!"
             # Save the new review
-            form.save(commit=True)
-
-            # Now call the index() view.
-            # The user will be shown the homepage.
-            return index(request)
+            if(cat):
+                form.save(commit=True)
+                # Now call the index() view.
+                # The user will be shown the homepage.
+                return index(request)
         else:
             print "FORM NOT VALID!"
-            # The supplied form contained errors - just print them to the terminal.
             print form.errors
+        '''
     else:
         # If the request was not a POST, display the form to enter details.
         form = CategoryForm()
