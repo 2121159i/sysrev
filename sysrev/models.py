@@ -31,42 +31,26 @@ class Page(models.Model):
         return self.title
 
 
-class UserProfile(models.Model):
-    # This line is required. Links UserProfile to a User model instance.
-    #eyw_transactionref = models.CharField(max_length=100, null=True, blank=True, unique=True)
-    user = models.OneToOneField(User)  # The additional attributes we wish to include.
+# Models for SysRev
+
+class Researcher(models.Model):
+
+    # Link Researcher to Django User
+    user = models.OneToOneField(User)
+
     forename = models.CharField(max_length=100, null=True, blank=True)
     surname = models.CharField(max_length=100, null=True, blank=True)
-    #website = models.URLField(blank=True)
-    #picture = models.ImageField(upload_to='profile_images', blank=True)
 
-    # Override the __unicode__() method to return out something meaningful!
     def __unicode__(self):
         return self.user.username
 
 
-
-
-# Models for SysRev
-
-class Researcher(models.Model):
-    user = models.ForeignKey(UserProfile)
-
-    def __unicode__(self):
-        return self.user
-
-
 class Review(models.Model):
-    user            = models.ForeignKey(UserProfile)
+    user            = models.ForeignKey(Researcher)
     title           = models.CharField(max_length=128)
     description     = models.CharField(max_length=128)
     query_string    = models.CharField(max_length=128)
-    # slug            = models.SlugField()
 
-    def save(self, *args, **kwargs):
-        # self.slug = slugify(self.title)
-        # super(Category, self).save(*args, **kwargs)
-		return False
 		
     def __unicode__(self):
         return self.title
