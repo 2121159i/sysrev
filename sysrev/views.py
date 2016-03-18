@@ -267,6 +267,7 @@ def dashboard(request):
     context_dict = {}
 
     user = Researcher.objects.get(user__username = request.user.username)
+    
     reviews = Review.objects.filter(user=user)
     print reviews[0].title
 
@@ -315,10 +316,30 @@ def add_category(request):
             pool_size = pool_size
         )
         # For dev - uncomment later
-        review = review.save()
+        # review = review.save()
         # asd.review = id of this review
 
-        
+        # Query PubMed to get a list of paper IDs
+        id_list = get_id_list(query_string)
+
+        # Loop through each ID
+        for id in id_list['Id']:
+
+            # Query PubMed for paper info
+            res = get_paper_info(id)
+            print res
+
+            # Create new paper
+            paper = Paper(
+                user = researcher,
+                title = title,
+                author = "",
+                abstract = "",
+                date = "",
+                paper_url = "",
+                abstract_rev = "",
+                document_rev = "",
+            )
 
 
         # Yay, it works up to here! Go back to main page
