@@ -97,7 +97,7 @@ def register(request):
                   {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
 
 def user_login(request):
-
+    logged_in_error = False;
     # If the request is a HTTP POST, try to pull out the relevant information.
     if request.method == 'POST':
         # Gather the username and password provided by the user.
@@ -126,16 +126,18 @@ def user_login(request):
                 # An inactive account was used - no logging in!
                 return HttpResponse("Your sysrev account is disabled.")
         else:
+            logged_in_error = True;
             # Bad login details were provided. So we can't log the user in.
-            print "Invalid login details: {0}, {1}".format(username, password)
-            return HttpResponse("Invalid login details supplied.")
+            #print "Invalid login details: {0}, {1}".format(username, password)
+            #return HttpResponseRedirect("/sysrev/login")
+            return render(request, 'registration/login.html', {'logged_in_error': logged_in_error})
 
     # The request is not a HTTP POST, so display the login form.
     # This scenario would most likely be a HTTP GET.
     else:
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
-        return render(request, 'registration/login.html', {})
+        return render(request, 'registration/login.html', {'logged_in_error': logged_in_error})
 
 @login_required
 def user_logout(request):
@@ -231,34 +233,7 @@ def index(request):
     if request.user.username:
         return HttpResponseRedirect('/sysrev/dashboard/')
 
-    context_dict = {}
-
-    visits = request.session.get('visits')
-    if not visits:
-        visits = 1
-    reset_last_visit_time = False
-
-    last_visit = request.session.get('last_visit')
-    if last_visit:
-        last_visit_time = datetime.strptime(last_visit[:-7], "%Y-%m-%d %H:%M:%S")
-
-        if (datetime.now() - last_visit_time).seconds > 0:
-            # ...reassign the value of the cookie to +1 of what it was before...
-            visits = visits + 1
-            # ...and update the last visit cookie, too.
-            reset_last_visit_time = True
-    else:
-        reset_last_visit_time = True
-
-    if reset_last_visit_time:
-        request.session['last_visit'] = str(datetime.now())
-        request.session['visits'] = visits
-
-        context_dict['visits'] = visits
-
-    response = render(request, 'sysrev/index.html', context_dict)
-
-    return response
+    return HttpResponseRedirect('/sysrev/login/')
 
 
 @login_required
