@@ -317,6 +317,18 @@ def add_category(request):
             res = get_paper_info(id)
             print res
 
+            # Create new paper
+            paper = Paper(
+                user = researcher,
+                title = title,
+                author = "",
+                abstract = "",
+                date = "",
+                paper_url = "",
+                abstract_rev = "",
+                document_rev = "",
+            )
+
 
         # Yay, it works up to here! Go back to main page
         return HttpResponseRedirect('/sysrev/')

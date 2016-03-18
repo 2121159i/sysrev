@@ -68,7 +68,10 @@ def get_paper_info(id):
         print "Error making request: ", e
 
 
+# Get paper URL (PubMed, why?)
+def get_paper_url():
 
+    return None
 
 
 

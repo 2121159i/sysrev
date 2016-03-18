@@ -66,8 +66,8 @@ class Paper(models.Model):
     date            = models.DateTimeField(auto_now_add=True, blank=True, default=datetime.now)
     query_string    = models.CharField(max_length=128)
     paper_url       = models.URLField(default=None)
-    abstract_rev    = models.BooleanField(default=False)
-    document_rev    = models.BooleanField(default=False)
+    abstract_rev    = models.BooleanField(default=None)
+    document_rev    = models.BooleanField(default=None)
 
     def __unicode__(self):
         return self.title
