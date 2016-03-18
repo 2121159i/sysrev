@@ -223,11 +223,13 @@ def track_url(request):
     return HttpResponseRedirect('/sysrev/')
 
 
-# Sysrev views (may need refactoring if taken from old Rango views)
+# ----- Sysrev views -----
 
 def index(request):
-    # category_list = Category.objects.order_by('-likes')[:5]
-    # page_list = Page.objects.order_by('-views')[:5]
+
+    # If the user is logged in - redirect to dashboard
+    if request.user.username:
+        return HttpResponseRedirect('/sysrev/dashboard/')
 
     context_dict = {}
 
@@ -253,28 +255,37 @@ def index(request):
         request.session['visits'] = visits
 
         context_dict['visits'] = visits
-        print "Let's get some reviews"
-        print request.user.username
-        user = Researcher.objects.get(user__username = request.user.username)
-        reviews = Review.objects.filter(user=user)
-        print reviews[0].title
-
-        context_dict['reviews'] = []
-
-        for review in reviews:
-            local_dict = {}
-            local_dict['title'] = review.title
-            local_dict['description'] = review.description
-            local_dict['query_string'] = review.query_string
-            local_dict['pool_size'] = review.pool_size
-
-            local_dict['document_kept'] = 10
-            local_dict['kept_perc'] = (10/3200)*100
-            local_dict['documents_discarded'] = 400
-            local_dict['documents_left'] = 3200-10-400
-            context_dict['reviews'].append(local_dict)
 
     response = render(request, 'sysrev/index.html', context_dict)
+
+    return response
+
+
+@login_required
+def dashboard(request):
+
+    context_dict = {}
+
+    user = Researcher.objects.get(user__username = request.user.username)
+    reviews = Review.objects.filter(user=user)
+    print reviews[0].title
+
+    context_dict['reviews'] = []
+
+    for review in reviews:
+        local_dict = {}
+        local_dict['title'] = review.title
+        local_dict['description'] = review.description
+        local_dict['query_string'] = review.query_string
+        local_dict['pool_size'] = review.pool_size
+
+        local_dict['document_kept'] = 10
+        local_dict['kept_perc'] = (10/3200)*100
+        local_dict['documents_discarded'] = 400
+        local_dict['documents_left'] = 3200-10-400
+        context_dict['reviews'].append(local_dict)
+
+    response = render(request, 'sysrev/dashboard.html', context_dict)
 
     return response
 
@@ -304,30 +315,10 @@ def add_category(request):
             pool_size = pool_size
         )
         # For dev - uncomment later
-        # review = review.save()
+        review = review.save()
         # asd.review = id of this review
 
-        # Query PubMed to get a list of paper IDs
-        id_list = get_id_list(query_string)
-
-        # Loop through each ID
-        for id in id_list['Id']:
-
-            # Query PubMed for paper info
-            res = get_paper_info(id)
-            print res
-
-            # Create new paper
-            paper = Paper(
-                user = researcher,
-                title = title,
-                author = "",
-                abstract = "",
-                date = "",
-                paper_url = "",
-                abstract_rev = "",
-                document_rev = "",
-            )
+        
 
 
         # Yay, it works up to here! Go back to main page

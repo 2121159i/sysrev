@@ -1,0 +1,59 @@
+{% extends 'sysrev/base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}Index{% endblock %}
+
+{% block body_block %}
+    <div class="page-header text-center">
+        <h1>Welcome {{ user.username }}!</h1>
+    </div>
+
+    <a href="{% url 'add_category' %}" class="btn btn-success ">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add New Review
+    </a>
+
+    {% if message != None %}
+        <span>{{ message }}</span>
+    {% endif %}
+
+    <div class="row placeholders">
+        <div class="placeholder">
+            <br/>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Reviews</h3>
+                </div>
+            </div>
+
+            {% if reviews %}
+                <ul class="list-group">
+                    {% for review in reviews %}
+                        <!-- PROCESS BAR -->
+                        <div>
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-warning" style="width: 10% ">10</div>
+                                <div class="progress-bar progress-bar-success" style="width: 20%">20</div>
+                                <div class="progress-bar progress-bar-danger" style="width: 10%">10</div>
+                            </div>
+                        </div>
+
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-xs-2">{{ review.title }}</div>
+                                <div class="col-xs-7">{{ review.description }}</div>
+                                <div class="col-xs-1">{{ review.query_String }}</div>
+                                <div class="col-xs-1"><a href="#" class="btn btn-default">Continue/View</a></div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <strong>There are no reviews present.</strong>
+            {% endif %}
+        </div>
+    </div>
+
+
+    <p> Visits: {{ visits }}</p>
+{% endblock %}

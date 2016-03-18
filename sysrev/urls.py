@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     url(r'^logout/$', views.user_logout, name='logout'),
 
     # Dom's routes
+    url(r'^dashboard/$', views.dashboard, name='dashboard'),
     url(r'^add_category/$', views.add_category, name='add_category'),
     url(r'^get_doc_count/$', views.get_doc_count, name='get_doc_count'),
 
