@@ -57,7 +57,13 @@
 
 {% block body_public %}{% endblock %}
 {% if user.is_authenticated %}
-    {% block body_block %}{% endblock %}
+
+    <div class="jumbotron"><div class="container">
+        {% block body_block %}{% endblock %}
+    </div></div>
+
+
+
 {% else %}
     {% block login_block %}
 		<br/><br/><h4 class="text-center">Please <a href="/sysrev/login">log in</a> to use the app.</h4>

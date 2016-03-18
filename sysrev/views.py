@@ -254,11 +254,27 @@ def index(request):
 
         context_dict['visits'] = visits
 
-
-
-    # Get all reviews
-
-
+        # Make fake data
+        context_dict['reviews'] = [
+            {
+                'title': 'Dog Cancer',
+                'description': 'A short description',
+                'document_count': 3200,
+                'document_kept': 10,
+                'kept_perc':(10/3200)*100,
+                'document_discarded': 400,
+                'document_left': 3200-10-400, #calculation
+                'query_String': 'Dog AND Cancer'
+            }, {
+                'title': 'Cat Cancer',
+                'description': 'A short description',
+                'document_count': 163,
+                'document_kept': 12,
+                'document_discarded':20,
+                'document_left': 163-12-20, #calculation
+                'query_String': 'Cat AND Cancer'
+            }
+        ]
     response = render(request, 'sysrev/index.html', context_dict)
 
     return response
