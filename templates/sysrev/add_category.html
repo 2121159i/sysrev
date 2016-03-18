@@ -10,9 +10,8 @@
         {% csrf_token %}
 
         <input class="form-control" id="id_title" name="title" type="text" placeholder="Enter review title" required/> <br />
-        <input class="form-control" id="id_desc"  name="description" type="text" placeholder="Enter a brief description" required/> <br/>
         <input class="form-control" id="id_query" name="query_string" type="text" placeholder="Enter query" required/><br/>
-        <textarea class="form-control" rows="6" id="review_info" name="review_info" type="text" placeholder="Enter description of the review here" required></textarea><br/>
+        <textarea class="form-control" rows="6" id="review_info" name="description" type="text" placeholder="Enter description of the review here" required></textarea><br/>
 
         <img id="loading-icon" src="{% static 'images/loading.gif' %}">
         <span id="document-count"></span>
