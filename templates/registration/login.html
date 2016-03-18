@@ -11,10 +11,14 @@
 
         <h3 class="form-signin-heading text-center">LogIn / SignUp</h3><br/>
         <input class="form-control" placeholder="Username" id="id_username" maxlength="254" name="username" type="text" required autofocus=""/><br/>
-        <input type="password" class="form-control" placeholder="Password" id="id_password" name="password"  required /><br/>
+        <input type="password" class="form-control" placeholder="Password" id="id_password" name="password"  required />
 
         {% if logged_in_error %}
-            <ul><li>Invalid Login Details.</li></ul>
+            <div class="alert alert-danger" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">Error:</span>
+                Invalid Login Details
+            </div>
         {% endif %}
 
         <button class="btn btn-lg btn-primary btn-block" type="submit" value="Submit" >Sign in</button>
