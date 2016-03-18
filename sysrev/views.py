@@ -253,28 +253,27 @@ def index(request):
         request.session['visits'] = visits
 
         context_dict['visits'] = visits
+        print "Let's get some reviews"
+        print request.user.username
+        user = Researcher.objects.get(user__username = request.user.username)
+        reviews = Review.objects.filter(user=user)
+        print reviews[0].title
 
-        # Make fake data
-        context_dict['reviews'] = [
-            {
-                'title': 'Dog Cancer',
-                'description': 'A short description',
-                'document_count': 3200,
-                'document_kept': 10,
-                'kept_perc':(10/3200)*100,
-                'document_discarded': 400,
-                'document_left': 3200-10-400, #calculation
-                'query_String': 'Dog AND Cancer'
-            }, {
-                'title': 'Cat Cancer',
-                'description': 'A short description',
-                'document_count': 163,
-                'document_kept': 12,
-                'document_discarded':20,
-                'document_left': 163-12-20, #calculation
-                'query_String': 'Cat AND Cancer'
-            }
-        ]
+        context_dict['reviews'] = []
+
+        for review in reviews:
+            local_dict = {}
+            local_dict['title'] = review.title
+            local_dict['description'] = review.description
+            local_dict['query_string'] = review.query_string
+            local_dict['pool_size'] = review.pool_size
+
+            local_dict['document_kept'] = 10
+            local_dict['kept_perc'] = (10/3200)*100
+            local_dict['documents_discarded'] = 400
+            local_dict['documents_left'] = 3200-10-400
+            context_dict['reviews'].append(local_dict)
+
     response = render(request, 'sysrev/index.html', context_dict)
 
     return response
@@ -308,7 +307,8 @@ def add_category(request):
         # asd.id = id of this review
 
         # Yay, it works up to here! Go back to main page
-        return render(request, 'sysrev/index.html', {'message': 'New review created!'})
+        return HttpResponseRedirect('/sysrev/')
+        # return render(request, 'sysrev/index.html', {'message': 'New review created!'})
 
     else:
         # If the request was not a POST, display the form to enter details.
