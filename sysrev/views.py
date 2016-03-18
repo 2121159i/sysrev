@@ -303,8 +303,20 @@ def add_category(request):
             query_string = query_string,
             pool_size = pool_size
         )
-        asd = review.save()
-        # asd.id = id of this review
+        # For dev - uncomment later
+        # review = review.save()
+        # asd.review = id of this review
+
+        # Query PubMed to get a list of paper IDs
+        id_list = get_id_list(query_string)
+
+        # Loop through each ID
+        for id in id_list['Id']:
+
+            # Query PubMed for paper info
+            res = get_paper_info(id)
+            print res
+
 
         # Yay, it works up to here! Go back to main page
         return HttpResponseRedirect('/sysrev/')
