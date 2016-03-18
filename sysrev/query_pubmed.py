@@ -51,7 +51,7 @@ def get_id_list(search_terms):
     return res["eSearchResult"]["IdList"]
 
 
-# Query PubMed for info on a particular paper
+# Get all info for a particular paper
 def get_paper_info(id):
     id = urllib.quote(id)
 
@@ -68,12 +68,45 @@ def get_paper_info(id):
         print "Error making request: ", e
 
 
-# Get paper URL (PubMed, why?)
-def get_paper_url():
+def get_paper_url(id):
+    # Sadly, the paper URL is not contained with the title, author and abstract
+    # So we need an entirely new query to go get it
 
-    return None
+    url = 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi?dbfrom=pubmed&cmd=prlinks&id='+id
+
+    try:
+        response_xml = urllib2.urlopen(url).read()
+        response_dict = xmltodict.parse(response_xml)
+        return response_dict['eLinkResult']['LinkSet']['IdUrlList']['IdUrlSet']['ObjUrl']['Url']
+
+    except:
+        # Oddly, some pages may not have links.
+        # If that's the case we return None.
+        # This will cancel the creation of a Page.
+        return None
 
 
+def get_paper_title(paper_dict):
+    return paper_dict['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['Journal']['Title']
+
+
+def get_paper_abstract(paper_dict):
+    return paper_dict['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['Abstract']['AbstractText']
+
+
+def get_paper_author(paper_dict):
+    print "Author: ", paper_dict['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['AuthorList']['Author']
+    print
+
+    # XML in different formats ;(
+    try:
+        forename = paper_dict['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['AuthorList']['Author'][0]['ForeName']
+        surname = paper_dict['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['AuthorList']['Author'][0]['LastName']
+        return forename+" "+surname
+    except:
+        forename = paper_dict['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['AuthorList']['Author']['ForeName']
+        surname = paper_dict['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['AuthorList']['Author']['LastName']
+        return forename+" "+surname
 
 # Main function for testing
 def main():
@@ -84,7 +117,8 @@ def main():
 
     id = sys.argv[1]
     # print get_document_count(search_terms)
-    print get_paper_info(id)
+    # print get_paper_url(id)
+    print get_paper_abstract(id)
 
 
 

@@ -289,32 +289,30 @@ def add_category(request):
             query_string = query_string,
             pool_size = pool_size
         )
+
         # For dev - uncomment later
-        # review = review.save()
-        # asd.review = id of this review
+        review.save()
 
         # Query PubMed to get a list of paper IDs
         id_list = get_id_list(query_string)
 
         # Loop through each ID
         for id in id_list['Id']:
+            paper_dict = {}
+            paper_dict = get_paper_info(id)
 
-            # Query PubMed for paper info
-            res = get_paper_info(id)
-            print res
+            paper_url = get_paper_url(id)
+            if paper_url == None:
+                continue
 
-            # Create new paper
             paper = Paper(
-                user = researcher,
-                title = title,
-                author = "",
-                abstract = "",
-                date = "",
-                paper_url = "",
-                abstract_rev = "",
-                document_rev = "",
+                review          = review,
+                title           = get_paper_title(paper_dict),
+                authors         = get_paper_author(paper_dict),
+                abstract        = get_paper_abstract(paper_dict),
+                paper_url       = paper_url
             )
-
+            paper.save()
 
         # Yay, it works up to here! Go back to main page
         return HttpResponseRedirect('/sysrev/')
