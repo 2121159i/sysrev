@@ -13,6 +13,10 @@
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add New Review
     </a>
 
+    {% if message != None %}
+        <span>{{ message }}</span>
+    {% endif %}
+
     <div class="row placeholders">
         <div class="placeholder">
             <br/>
