@@ -269,7 +269,6 @@ def dashboard(request):
     user = Researcher.objects.get(user__username = request.user.username)
     
     reviews = Review.objects.filter(user=user)
-    print reviews[0].title
 
     context_dict['reviews'] = []
 
