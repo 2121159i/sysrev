@@ -254,6 +254,11 @@ def index(request):
 
         context_dict['visits'] = visits
 
+
+
+    # Get all reviews
+
+
     response = render(request, 'sysrev/index.html', context_dict)
 
     return response
@@ -269,17 +274,22 @@ def add_category(request):
         description     = request.POST['description']
         query_string    = request.POST['query_string']
 
+        # Get the document count for the given query_string
+        pool_size = get_document_count(query_string)
+
         user = User.objects.get(username=request.user)
         researcher = Researcher.objects.get(user=user)
 
         # Make a new Review and save it
         review = Review(
-            user=researcher,
-            title=title,
-            description=description,
-            query_string=query_string
+            user = researcher,
+            title = title,
+            description = description,
+            query_string = query_string,
+            pool_size = pool_size
         )
-        review.save()
+        asd = review.save()
+        # asd.id = id of this review
 
         # Yay, it works up to here! Go back to main page
         return render(request, 'sysrev/index.html', {'message': 'New review created!'})

@@ -1,6 +1,7 @@
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
+from django.utils import timezone
 from datetime import datetime
 
 
@@ -49,9 +50,10 @@ class Review(models.Model):
     user            = models.ForeignKey(Researcher)
     title           = models.CharField(max_length=128)
     description     = models.CharField(max_length=128)
+    date_started    = models.DateTimeField(default=timezone.now)
     query_string    = models.CharField(max_length=128)
+    pool_size       = models.IntegerField()
 
-		
     def __unicode__(self):
         return self.title
 
