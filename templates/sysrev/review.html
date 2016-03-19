@@ -20,10 +20,11 @@
     <ul>
         {% for paper in papers %}
             <li>
-                <a href="{{ paper.url }}">{{ paper.title }}</a>
+                <a href="{{ paper.paper_url }}">{{ paper.title }}</a>
                 <p>{{ paper.abstract }}</p>
-                <button type="submit" class="btn btn-success">Keep</button>
-                <button type="submit" class="btn btn-danger">Discard</button>
+
+                <a href="/sysrev/review/abstract/{{ paper.id }}/{{ 1 }}" type="submit" class="btn btn-success">Keep</a>
+                <a href="/sysrev/review/abstract/{{ paper.id }}/{{ 0 }}" type="submit" class="btn btn-danger">Discard</a>
             </li>
         {% endfor %}
     </ul>

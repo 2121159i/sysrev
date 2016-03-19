@@ -405,22 +405,26 @@ def delete_review(request, id):
     except:
         return JsonResponse({"message": "Unable to delete review"})
 
+
 @login_required
-def mark_abstract(request):
+def mark_abstract(request, id, rel):
 
-    if request.method != 'POST':
-        return JsonResponse({"message": "Must be a POST"})
+    # Parameters are passed as strings
+    if rel == "1":
+        rel = True
+    else:
+        rel = False
 
-    id = request.POST['id']
-    rel = request.POST['rel']
-    if id == "" or rel not in [0, 1, "0", "1"]:
-        return JsonResponse({"message": "Empty review ID"})
+    try:
+        # Mark the paper abstract as (not)relevant
+        paper = Paper.objects.get(id=id)
+        paper.abstract_rev=rel
+        paper.save()
 
-    review = Review.objects.filter(id=id)
-    print "Review:", review
-    review.delete()
+        return HttpResponseRedirect('/sysrev/review/'+str(paper.review.id))
 
-    return HttpResponseRedirect('/sysrev/')
+    except:
+        return JsonResponse({"message": "Something went wrong"})
 
 
 def final(request, category_name_slug):

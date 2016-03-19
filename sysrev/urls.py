@@ -25,10 +25,11 @@ urlpatterns = patterns('',
     url(r'^review/(\d+)/$',views.review,name='review'),
 
     # Dom's routes
-    url(r'^dashboard/$',     views.dashboard,     name='dashboard'),
-    url(r'^add_category/$',  views.add_category,  name='add_category'),
-    url(r'^delete/(\d+)/$',  views.delete_review, name='delete_review'),
-    url(r'^get_doc_count/$', views.get_doc_count, name='get_doc_count'),
+    url(r'^dashboard/$',        views.dashboard,     name='dashboard'),
+    url(r'^add_category/$',     views.add_category,  name='add_category'),
+    url(r'^delete/(\d+)/$',     views.delete_review, name='delete_review'),
+    url(r'^get_doc_count/$',    views.get_doc_count, name='get_doc_count'),
+    url(r'^review/abstract/(\d+)/(\d+)/$',views.mark_abstract, name='mark_abstract'),
 
     # url(r'^register/$', views.register, name='register'),
     # url(r'^login/$', views.user_login, name='login'),
