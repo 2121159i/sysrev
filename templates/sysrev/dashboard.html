@@ -29,23 +29,26 @@
             {% if reviews %}
                 <ul class="list-group">
                     {% for review in reviews %}
-                        <!-- PROCESS BAR -->
-                        <div>
-                            <div class="progress">
-                                <div class="progress-bar progress-bar-warning" style="width: 10% ">10</div>
-                                <div class="progress-bar progress-bar-success" style="width: 20%">20</div>
-                                <div class="progress-bar progress-bar-danger" style="width: 10%">10</div>
-                            </div>
-                        </div>
 
                         <li class="list-group-item">
                             <div class="row">
-                                <div class="col-xs-2">{{ review.title }}</div>
-                                <div class="col-xs-7">{{ review.description }}</div>
-                                <div class="col-xs-1">{{ review.query_String }}</div>
-                                <div class="col-xs-1"><a href="#" class="btn btn-default">Continue/View</a></div>
+                                <!-- PROCESS BAR -->
+                                <div>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-warning" style="width: 10% ">10</div>
+                                        <div class="progress-bar progress-bar-success" style="width: 20%">20</div>
+                                        <div class="progress-bar progress-bar-danger" style="width: 10%">10</div>
+                                    </div>
+                                </div>
                             </div>
-                        </li>
+                            <div class="row">
+                                <div class="col-xs-2">{{ review.title }}</div>
+                                <div class="col-xs-6">{{ review.description }}</div>
+                                <div class="col-xs-1">{{ review.query_String }}</div>
+                                <div class="col-xs-2"><a href="#" class="btn btn-default">Continue/View</a></div>
+                                <div class="col-xs-1"><a href="#" class="btn btn-default delete" id = "{{ review.id }}">Delete</a></div>
+                            </div>
+                        </li><br/>
                     {% endfor %}
                 </ul>
             {% else %}
@@ -56,4 +59,5 @@
 
 
     <p> Visits: {{ visits }}</p>
+	<script src="../../static/js/delete_review.js"></script>
 {% endblock %}
