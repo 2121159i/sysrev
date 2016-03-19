@@ -43,7 +43,8 @@
                                 <div class="col-xs-2">{{ review.title }}</div>
                                 <div class="col-xs-7">{{ review.description }}</div>
                                 <div class="col-xs-1">{{ review.query_String }}</div>
-                                <div class="col-xs-1"><a href="#" class="btn btn-default">Continue/View</a></div>
+                                <div class="col-xs-1"><a href="#" class="btn btn-default">Continue/View</a></div><br />
+                                <div class="col-xs-1"><a href="#" class="btn btn-default delete" id = "{{ review.id }}">Delete</a></div>
                             </div>
                         </li>
                     {% endfor %}
@@ -56,4 +57,5 @@
 
 
     <p> Visits: {{ visits }}</p>
+	<script src="../../static/js/delete_review.js"></script>
 {% endblock %}

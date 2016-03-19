@@ -258,6 +258,7 @@ def dashboard(request):
 
     for review in reviews:
         local_dict = {}
+        local_dict['id'] = review.id
         local_dict['title'] = review.title
         local_dict['description'] = review.description
         local_dict['query_string'] = review.query_string
