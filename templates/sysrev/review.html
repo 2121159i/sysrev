@@ -18,22 +18,36 @@
 
     </div>
 
-
     {% if papers %}
+
         <ul>
             {% for paper in papers %}
                 <li>
-                    <a href="{{ paper.paper_url }}">{{ paper.title }}</a>
-                    <p>{{ paper.abstract }}</p>
+                    <div class="row">
+                        <div class="col-xs-10">
+                            <a href="{{ paper.url }}" class ="paper_title" id="abstract_title">{{ paper.title }}</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-10">
+                            <p id="abstract_info" class="paper_abstract">{{ paper.abstract }}</p>
+                        </div>
+                    <br/>
+                        <div class="col-xs-2">
 
-                    {% if stage != "done" %}
-                        <a href="/sysrev/review/{{ stage }}/{{ paper.id }}/{{ 1 }}" type="submit" class="btn btn-success">Keep</a>
-                        <a href="/sysrev/review/{{ stage }}/{{ paper.id }}/{{ 0 }}" type="submit" class="btn btn-danger">Discard</a>
-                    {% endif %}
+                            {% if stage != "done" %}
+                                <a href="/sysrev/review/{{ stage }}/{{ paper.id }}/{{ 1 }}" type="submit" class="btn btn-success">Keep</a>
+                                <a href="/sysrev/review/{{ stage }}/{{ paper.id }}/{{ 0 }}" type="submit" class="btn btn-danger">Discard</a>
+                            {% endif %}
+                        </div>
 
+                    </div><br/>
                 </li>
             {% endfor %}
         </ul>
+
+    {% else %}
+        <strong>No paper currently in review.</strong>
     {% endif %}
 
 {% endblock %}

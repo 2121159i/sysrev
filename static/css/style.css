@@ -2,3 +2,22 @@
     width: 20px;
     visibility: hidden;
 }
+
+.paper_title{
+    position: relative;
+    float:left
+}
+.paper_abstract {
+    /*font-family: Verdana;*/
+    font: 10px;
+
+}
+
+#abstract_info{
+    font-size: 17px;
+    text-align: justify;
+}
+
+#abstract_title{
+    font-size: 20px;
+}
