@@ -10,11 +10,7 @@ def query_pubmed(search_terms):
     url_term = urllib.quote(search_terms)
 
     # API docs: http://www.ncbi.nlm.nih.gov/home/api.shtml
-    url = 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term='+url_term
-    # results_per_page = 10
-    # offset = 0
-
-    results = []
+    url = 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmax=1000&term='+url_term
 
     try:
         # Connect to the server and read the response
@@ -83,7 +79,6 @@ def get_paper_url(id):
         # Oddly, some pages may not have links.
         # If that's the case we return None.
         # This will cancel the creation of a Page.
-        print "Unable to get URL for:", id
         return None
 
 
@@ -92,22 +87,41 @@ def get_paper_title(paper_dict):
 
 
 def get_paper_abstract(paper_dict):
-    return paper_dict['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['Abstract']['AbstractText']
 
+    try:
+        text = paper_dict['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['Abstract']['AbstractText']
+        return text
+
+    except:
+        # Django likes empty string for char fields more than nulls
+        return ""
 
 def get_paper_author(paper_dict):
     # print "Author: ", paper_dict['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['AuthorList']['Author']
     # print
 
     # XML in different formats ;(
+    # We have to try getting the author in a few different ways
+
     try:
         forename = paper_dict['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['AuthorList']['Author'][0]['ForeName']
         surname = paper_dict['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['AuthorList']['Author'][0]['LastName']
         return forename+" "+surname
+
     except:
+        pass
+
+    try:
         forename = paper_dict['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['AuthorList']['Author']['ForeName']
         surname = paper_dict['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['AuthorList']['Author']['LastName']
         return forename+" "+surname
+
+    except:
+        pass
+
+    # Django docs recommend saving empty strings
+    # instead of nulls in charfields
+    return ""
 
 
 # Main function for testing

@@ -40,6 +40,7 @@ def about(request):
 
     return render(request,'sysrev/about.html',context_dict)
 
+
 def register(request):
     # A boolean value for telling the template whether the registration was successful.
     # Set to False initially. Code changes value to True when registration succeeds.
@@ -96,6 +97,7 @@ def register(request):
                   'registration/register.html',
                   {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
 
+
 def user_login(request):
     logged_in_error = False;
     # If the request is a HTTP POST, try to pull out the relevant information.
@@ -139,6 +141,7 @@ def user_login(request):
         # blank dictionary object...
         return render(request, 'registration/login.html', {'logged_in_error': logged_in_error})
 
+
 @login_required
 def user_logout(request):
 
@@ -148,6 +151,7 @@ def user_logout(request):
 
     # Take the user back to the homepage.
     return HttpResponseRedirect('/sysrev/')
+
 
 def category(request, category_name_slug):
     # Create a context dictionary which we can pass to the template rendering engine.
@@ -178,6 +182,7 @@ def category(request, category_name_slug):
     # Go render the response and return it to the client.
     return render(request, 'sysrev/category.html', context_dict)
 
+
 def viewed_documents(request, category_name_slug):
     try:
         cat = Category.objects.get(slug=category_name_slug)
@@ -202,6 +207,7 @@ def viewed_documents(request, category_name_slug):
     context_dict = {'form': form, 'category': cat}
 
     return render(request, 'sysrev/viewed_documents.html', context_dict)
+
 
 def track_url(request):
     if request.method == 'GET':
@@ -264,9 +270,10 @@ def dashboard(request):
 
     return response
 
-# Rename this to 'add_review' or 'create_review' when possible
+
 @login_required
 def add_category(request):
+    # Rename this to 'add_review' or 'create_review' when possible
 
     # Check if a new review is posted
     if request.method == 'POST':
@@ -310,6 +317,14 @@ def add_category(request):
             # If that's the case - skip this document
             paper_url = get_paper_url(id)
             if paper_url == None:
+                print "Unable to get URL for:", id
+                count_bad += 1
+                continue
+
+            # Same can happen with the abstract
+            abstract = get_paper_abstract(paper_dict),
+            if abstract == "":
+                print "Unable to get abstract for:", id
                 count_bad += 1
                 continue
 
@@ -317,11 +332,12 @@ def add_category(request):
                 review          = review,
                 title           = get_paper_title(paper_dict),
                 authors         = get_paper_author(paper_dict),
-                abstract        = get_paper_abstract(paper_dict),
+                abstract        = abstract,
                 paper_url       = paper_url
             )
             paper.save()
             count_good += 1
+            print "Saved ID", id
 
         print "All:", count_total
         print "Good:", count_good
@@ -340,9 +356,10 @@ def add_category(request):
     # Render the form with error messages (if any).
     return render(request, 'sysrev/add_category.html', {'form': form})
 
-# Delete a review
+
 @login_required
 def delete_review(request):
+    # Delete a review
 
     # Must be a POST
     if request.method != 'POST':
@@ -357,6 +374,25 @@ def delete_review(request):
     review.delete()
 
     return HttpResponseRedirect('/sysrev/')
+
+
+@login_required
+def mark_abstract(request):
+
+    if request.method != 'POST':
+        return JsonResponse({"message": "Must be a POST"})
+
+    id = request.POST['id']
+    rel = request.POST['rel']
+    if id == "" or rel not in [0, 1, "0", "1"]:
+        return JsonResponse({"message": "Empty review ID"})
+
+    review = Review.objects.filter(id=id)
+    print "Review:", review
+    review.delete()
+
+    return HttpResponseRedirect('/sysrev/')
+
 
 def final(request, category_name_slug):
     try:
@@ -383,6 +419,7 @@ def final(request, category_name_slug):
 
     return render(request, 'sysrev/final.html', context_dict)
 
+
 def done(request, category_name_slug):
     try:
         cat = Category.objects.get(slug=category_name_slug)
@@ -408,6 +445,7 @@ def done(request, category_name_slug):
 
     return render(request, 'sysrev/done.html', context_dict)
 
+
 def add_page(request, category_name_slug):
     try:
         cat = Category.objects.get(slug=category_name_slug)
@@ -432,6 +470,7 @@ def add_page(request, category_name_slug):
     context_dict = {'form': form, 'category': cat}
 
     return render(request, 'sysrev/add_page.html', context_dict)
+
 
 def get_doc_count(request):
 
