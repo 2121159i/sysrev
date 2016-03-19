@@ -35,9 +35,9 @@
                                 <!-- PROCESS BAR -->
                                 <div>
                                     <div class="progress">
-                                        <div class="progress-bar progress-bar-warning" style="width: 10% ">10</div>
-                                        <div class="progress-bar progress-bar-success" style="width: 20%">20</div>
-                                        <div class="progress-bar progress-bar-danger" style="width: 10%">10</div>
+                                        <div class="progress-bar progress-bar-warning" style="width:{{ review.left_perc }}% ">Left: {{ review.documents_left }}</div>
+                                        <div class="progress-bar progress-bar-success" style="width: {{ review.kept_perc }}% ">Kept: {{ review.documents_kept }}</div>
+                                        <div class="progress-bar progress-bar-danger" style="width: {{ review.discarded_perc }}% ">Discarded: {{ review.documents_discarded }}</div>
                                     </div>
                                 </div>
                             </div>
