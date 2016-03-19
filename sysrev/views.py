@@ -161,6 +161,15 @@ def category(request, category_name_slug):
         context_dict['category_name'] = category.name
         context_dict['category_name_slug'] = category.slug
 
+
+        context_dict['testData'] = {
+            {'title':'title of the document',
+             'description':'description of the data'},
+            {'title':'another title of the document',
+             'description':'another description of the data'}
+        }
+        context_dict['testNumberofDocumentsLeft'] = 500
+        
         # Retrieve all of the associated pages.
         # Note that filter returns >= 1 model instance.
         pages = Page.objects.filter(category=category)
