@@ -61,7 +61,7 @@ class Review(models.Model):
 class Paper(models.Model):
     review          = models.ForeignKey(Review,default=None)
     title           = models.CharField(max_length=128)
-    authors         = models.CharField(max_length=128, default=None)
+    authors         = models.CharField(max_length=128, default="")
     abstract        = models.CharField(max_length=128)
     date            = models.DateTimeField(auto_now_add=True, blank=True, default=datetime.now)
     query_string    = models.CharField(max_length=128)
