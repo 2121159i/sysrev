@@ -53,7 +53,7 @@ Group Members:
 1. Domantas Jurkus : Domantas Jurkus  2141380j
 2. 2121159i        : Alex Irikov  2121159i
 3. Panagiotis916   : Panagiotis Antoniou  2077368a
-4. eliriel         : Borislav Hristov
+4. eliriel         : Borislav Hristov  2125538h
 
 Instructions:
  instructions on how to setup and run your application. Especially if you have some strange config,
