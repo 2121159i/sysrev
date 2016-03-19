@@ -11,26 +11,25 @@
 
     <div>
         <h3 class="text-center">{{ category_name }}</h3>
-        <label>... Documents Left</label><br/>
+        <label>{{ title }}</label><br/>
         <a href="/sysrev/category/{{category.slug}}/viewed_documents/" class="btn btn-lg btn-primary" >Viewed Documents</a><br/><br/>
     </div>
 
 
-    {% if category %}
-        {% if pages %}
-        <ul>
-                {% for page in pages %}
-                <div>
-                    <li><a href="{{ page.url }}">{{ page.title }}</a></li>
-                    <button type="submit" class="btn btn-success">Keep</button>
-                    <button type="submit" class="btn btn-danger">Discard</button>
-                </div>
-                {% endfor %}
-                </ul>
-        {% else %}
-                <strong>No pages currently in category.</strong>
-                {% endif %}
-    {% endif %}
+{% if papers %}
+    <ul>
+        {% for paper in papers %}
+            <li>
+                <a href="{{ paper.url }}">{{ paper.title }}</a>
+                <p>{{ paper.abstract }}</p>
+                <button type="submit" class="btn btn-success">Keep</button>
+                <button type="submit" class="btn btn-danger">Discard</button>
+            </li>
+        {% endfor %}
+    </ul>
+    <strong>No pages currently in category.</strong>
+{% endif %}
+
 
     <!-- TEMPORARY -->
     <br/><br/><br/><br/> (Temporary) <br/><br/>

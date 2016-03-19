@@ -280,9 +280,25 @@ def dashboard(request):
     return response
 
 
-def review(request,id):
+def review(request, id):
 
-    return render(request, 'sysrev/review.html', {})
+    # Return a list of papers
+    try:
+        return_dict = {}
+        review = Review.objects.get(id=id)
+        papers = Paper.objects.filter(review=review)
+
+        return_dict['title']        = review.title
+        return_dict['description']  = review.description
+        return_dict['query_string'] = review.query_string
+        return_dict['pool_size']    = review.pool_size
+
+        return_dict['papers'] = papers
+        print return_dict
+        return render(request, 'sysrev/review.html', return_dict)
+
+    except:
+        return render(request, 'sysrev/review.html', {})
 
 
 # Rename this to 'add_review' or 'create_review' when possible
