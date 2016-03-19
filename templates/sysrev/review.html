@@ -19,12 +19,26 @@
 {% if papers %}
     <ul>
         {% for paper in papers %}
-            <li>
-                <a href="{{ paper.url }}">{{ paper.title }}</a>
-                <p>{{ paper.abstract }}</p>
-                <button type="submit" class="btn btn-success">Keep</button>
-                <button type="submit" class="btn btn-danger">Discard</button>
-            </li>
+            <div class="row">
+                <div class="col-xs-10">
+                        <a href="{{ paper.url }}" class ="paper_title" id="abstract_title">{{ paper.title }}</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-10">
+                    <p id="abstract_info" class="paper_abstract">{{ paper.abstract }}</p>
+                </div>
+            <br/>
+                <div class="col-xs-2">
+                    <!--<button type="submit" class="btn btn-success">Keep</button>-->
+                    <a href="/sysrev/review/abstract/keep/{{ paper.id }}/" class="btn btn-lg btn-success" >Keep</a><br/><br/>
+                    <a href="/sysrev/review/abstract/discard/{{ paper.id }}/" class="btn btn-lg btn-danger" >Discard</a><br/><br/>
+                    <!--<button type="submit" class="btn btn-danger">Discard</button>-->
+                </div>
+
+            </div><br/>
+
+
         {% endfor %}
     </ul>
     <strong>No pages currently in category.</strong>
