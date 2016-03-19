@@ -1,10 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+{% extends 'sysrev/base.html' %}
 
-</body>
-</html>
+{% load staticfiles %}
+
+{% block title %}{{ category_name }}{% endblock %}
+
+{% block body_block %}
+    <div class="page-header text-center">
+        <h1>Screening</h1>
+    </div>
+
+    <div>
+        <h3 class="text-center">{{ category_name }}</h3>
+        <label>... Documents Left</label><br/>
+        <a href="/sysrev/category/{{category.slug}}/viewed_documents/" class="btn btn-lg btn-primary" >Viewed Documents</a><br/><br/>
+    </div>
+
+
+    {% if category %}
+        {% if pages %}
+        <ul>
+                {% for page in pages %}
+                <div>
+                    <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+                    <button type="submit" class="btn btn-success">Keep</button>
+                    <button type="submit" class="btn btn-danger">Discard</button>
+                </div>
+                {% endfor %}
+                </ul>
+        {% else %}
+                <strong>No pages currently in category.</strong>
+                {% endif %}
+    {% endif %}
+
+    <!-- TEMPORARY -->
+    <br/><br/><br/><br/> (Temporary) <br/><br/>
+    <a href="/sysrev/category/{{category.slug}}/final/" class="btn btn-lg btn-primary" >Final</a><br/><br/>
+    <a href="/sysrev/category/{{category.slug}}/done/" class="btn btn-lg btn-primary" >Done</a><br/><br/>
+
+{% endblock %}

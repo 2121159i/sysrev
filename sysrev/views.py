@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 # Import the Category model
-from sysrev.models import Category
+from sysrev.models import Category, Review
 from sysrev.models import Page
 from sysrev.forms import *
 from django.contrib.auth import authenticate, login
@@ -272,6 +272,10 @@ def dashboard(request):
     response = render(request, 'sysrev/dashboard.html', context_dict)
 
     return response
+
+def review(request,id):
+
+    return render(request, 'sysrev/review.html', {})
 
 # Rename this to 'add_review' or 'create_review' when possible
 @login_required
