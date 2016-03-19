@@ -276,7 +276,7 @@ def add_category(request):
         query_string    = request.POST['query_string']
 
         # Get the document count for the given query_string
-        pool_size = get_document_count(query_string)
+        pool_size = len(get_id_list(query_string)['Id'])
 
         user = User.objects.get(username=request.user)
         researcher = Researcher.objects.get(user=user)
@@ -289,20 +289,28 @@ def add_category(request):
             query_string = query_string,
             pool_size = pool_size
         )
-
-        # For dev - uncomment later
         review.save()
 
         # Query PubMed to get a list of paper IDs
         id_list = get_id_list(query_string)
+        print id_list
+
+        # Count the number of bad pages
+        count_bad = 0
+        count_good = 0
+        count_total = 0
 
         # Loop through each ID
         for id in id_list['Id']:
+            count_total += 1
             paper_dict = {}
             paper_dict = get_paper_info(id)
 
+            # We may fail getting the paper URL
+            # If that's the case - skip this document
             paper_url = get_paper_url(id)
             if paper_url == None:
+                count_bad += 1
                 continue
 
             paper = Paper(
@@ -313,10 +321,16 @@ def add_category(request):
                 paper_url       = paper_url
             )
             paper.save()
+            count_good += 1
+
+        print "All:", count_total
+        print "Good:", count_good
+        print "Bad:", count_bad
 
         # Yay, it works up to here! Go back to main page
         return HttpResponseRedirect('/sysrev/')
-        # return render(request, 'sysrev/index.html', {'message': 'New review created!'})
+
+
 
     else:
         # If the request was not a POST, display the form to enter details.

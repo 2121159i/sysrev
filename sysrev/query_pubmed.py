@@ -83,6 +83,7 @@ def get_paper_url(id):
         # Oddly, some pages may not have links.
         # If that's the case we return None.
         # This will cancel the creation of a Page.
+        print "Unable to get URL for:", id
         return None
 
 
@@ -95,8 +96,8 @@ def get_paper_abstract(paper_dict):
 
 
 def get_paper_author(paper_dict):
-    print "Author: ", paper_dict['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['AuthorList']['Author']
-    print
+    # print "Author: ", paper_dict['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['AuthorList']['Author']
+    # print
 
     # XML in different formats ;(
     try:
@@ -107,6 +108,7 @@ def get_paper_author(paper_dict):
         forename = paper_dict['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['AuthorList']['Author']['ForeName']
         surname = paper_dict['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['AuthorList']['Author']['LastName']
         return forename+" "+surname
+
 
 # Main function for testing
 def main():
