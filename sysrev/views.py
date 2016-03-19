@@ -270,10 +270,12 @@ def dashboard(request):
         local_dict['query_string'] = review.query_string
         local_dict['pool_size'] = review.pool_size
 
-        local_dict['document_kept'] = 10
-        local_dict['kept_perc'] = (10/3200)*100
-        local_dict['documents_discarded'] = 400
-        local_dict['documents_left'] = 3200-10-400
+        local_dict['documents_kept'] = 10
+        local_dict['kept_perc'] = 10
+        local_dict['documents_discarded'] = 30
+        local_dict['discarded_perc'] = 30
+        local_dict['documents_left'] = 60
+        local_dict['left_perc'] = 60
         context_dict['reviews'].append(local_dict)
 
     response = render(request, 'sysrev/dashboard.html', context_dict)
