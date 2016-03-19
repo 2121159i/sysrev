@@ -349,6 +349,24 @@ def add_category(request):
     # Render the form with error messages (if any).
     return render(request, 'sysrev/add_category.html', {'form': form})
 
+# Delete a review
+@login_required
+def delete_review(request):
+
+    # Must be a POST
+    if request.method != 'POST':
+        return JsonResponse({"message": "Reviev delete muxt be a POST"})
+
+    id = request.POST['id']
+    if id == "":
+        return JsonResponse({"message": "Empty review ID"})
+
+    review = Review.objects.filter(id=id)
+    print "Review:", review
+    review.delete()
+
+    return HttpResponseRedirect('/sysrev/')
+
 def final(request, category_name_slug):
     try:
         cat = Category.objects.get(slug=category_name_slug)
