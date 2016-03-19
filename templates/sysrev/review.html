@@ -11,42 +11,43 @@
 
     <div>
         <h3 class="text-center">{{ category_name }}</h3>
-        <label>{{ title }}</label><br/>
-        <a href="/sysrev/category/{{category.slug}}/viewed_documents/" class="btn btn-lg btn-primary" >Viewed Documents</a><br/><br/>
+
+        {% if stage == "done" %}
+            <p>Stage is {{ stage }} - Review completed!</p>
+        {% endif %}
+
     </div>
 
+    {% if papers %}
 
-{% if papers %}
-    <ul>
-        {% for paper in papers %}
-            <div class="row">
-                <div class="col-xs-10">
-                        <a href="{{ paper.url }}" class ="paper_title" id="abstract_title">{{ paper.title }}</a>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-10">
-                    <p id="abstract_info" class="paper_abstract">{{ paper.abstract }}</p>
-                </div>
-            <br/>
-                <div class="col-xs-2">
-                    <!--<button type="submit" class="btn btn-success">Keep</button>-->
-                    <a href="/sysrev/review/abstract/{{ paper.id }}/{{ 1 }}" class="btn btn-lg btn-success" >Keep</a><br/><br/>
-                    <a href="/sysrev/review/abstract/{{ paper.id }}/{{ 0 }}" class="btn btn-lg btn-danger" >Discard</a><br/><br/>
-                    <!--<button type="submit" class="btn btn-danger">Discard</button>-->
-                </div>
+        <ul>
+            {% for paper in papers %}
+                <li>
+                    <div class="row">
+                        <div class="col-xs-10">
+                            <a href="{{ paper.url }}" class ="paper_title" id="abstract_title">{{ paper.title }}</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-10">
+                            <p id="abstract_info" class="paper_abstract">{{ paper.abstract }}</p>
+                        </div>
+                    <br/>
+                        <div class="col-xs-2">
 
-            </div><br/>
+                            {% if stage != "done" %}
+                                <a href="/sysrev/review/{{ stage }}/{{ paper.id }}/{{ 1 }}" type="submit" class="btn btn-success">Keep</a>
+                                <a href="/sysrev/review/{{ stage }}/{{ paper.id }}/{{ 0 }}" type="submit" class="btn btn-danger">Discard</a>
+                            {% endif %}
+                        </div>
 
-        {% endfor %}
-    </ul>
-    <strong>No pages currently in category.</strong>
-{% endif %}
+                    </div><br/>
+                </li>
+            {% endfor %}
+        </ul>
 
-
-    <!-- TEMPORARY -->
-    <br/><br/><br/><br/> (Temporary) <br/><br/>
-    <a href="/sysrev/category/{{category.slug}}/final/" class="btn btn-lg btn-primary" >Final</a><br/><br/>
-    <a href="/sysrev/category/{{category.slug}}/done/" class="btn btn-lg btn-primary" >Done</a><br/><br/>
+    {% else %}
+        <strong>No paper currently in review.</strong>
+    {% endif %}
 
 {% endblock %}

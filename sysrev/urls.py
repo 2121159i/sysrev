@@ -30,6 +30,7 @@ urlpatterns = patterns('',
     url(r'^delete/(\d+)/$',     views.delete_review, name='delete_review'),
     url(r'^get_doc_count/$',    views.get_doc_count, name='get_doc_count'),
     url(r'^review/abstract/(\d+)/(\d+)/$',views.mark_abstract, name='mark_abstract'),
+    url(r'^review/document/(\d+)/(\d+)/$',views.mark_document, name='mark_document'),
 
     # url(r'^register/$', views.register, name='register'),
     # url(r'^login/$', views.user_login, name='login'),
