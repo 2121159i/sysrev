@@ -7,14 +7,22 @@ from registration.backends.simple.views import RegistrationView
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
     url(r'^about/$', views.about, name='about'),
-    url(r'^category/(?P<category_name_slug>\w+)$', views.category, name='category'),
+
+    #Old URLS Category
+    #url(r'^category/(?P<category_name_slug>\w+)$', views.category, name='category'),
     url(r'^category/(?P<category_name_slug>\w+)/add_page/$', views.add_page, name='add_page'),
     url(r'^category/(?P<category_name_slug>\w+)/viewed_documents/$', views.viewed_documents, name='viewed_documents'),
     url(r'^category/(?P<category_name_slug>\w+)/final/$', views.final, name='final'),
     url(r'^category/(?P<category_name_slug>\w+)/done/$', views.done, name='done'),
+    ##
+
     url(r'^register/$', views.register, name='register'),
     url(r'^login/$', views.user_login, name='login'),
     url(r'^logout/$', views.user_logout, name='logout'),
+
+
+    #New URLS Review
+    url(r'^review/(\d+)/$',views.review,name='review'),
 
     # Dom's routes
     url(r'^dashboard/$',     views.dashboard,     name='dashboard'),

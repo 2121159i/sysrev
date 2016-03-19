@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 # Import the Category model
-from sysrev.models import Category
+from sysrev.models import Category, Review
 from sysrev.models import Page
 from sysrev.forms import *
 from django.contrib.auth import authenticate, login
@@ -165,6 +165,15 @@ def category(request, category_name_slug):
         context_dict['category_name'] = category.name
         context_dict['category_name_slug'] = category.slug
 
+
+        context_dict['testData'] = {
+            {'title':'title of the document',
+             'description':'description of the data'},
+            {'title':'another title of the document',
+             'description':'another description of the data'}
+        }
+        context_dict['testNumberofDocumentsLeft'] = 500
+        
         # Retrieve all of the associated pages.
         # Note that filter returns >= 1 model instance.
         pages = Page.objects.filter(category=category)
@@ -271,6 +280,12 @@ def dashboard(request):
     return response
 
 
+def review(request,id):
+
+    return render(request, 'sysrev/review.html', {})
+
+
+# Rename this to 'add_review' or 'create_review' when possible
 @login_required
 def add_category(request):
     # Rename this to 'add_review' or 'create_review' when possible
