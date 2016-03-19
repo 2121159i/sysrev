@@ -392,23 +392,20 @@ def add_category(request):
 
 
 @login_required
-def delete_review(request):
+def delete_review(request, id):
     # Delete a review
 
-    # Must be a POST
-    if request.method != 'POST':
-        return JsonResponse({"message": "Reviev delete muxt be a POST"})
+    try:
+        # First, delete all papers associated with the review
+        review = Review.objects.filter(id=id)
+        Paper.objects.filter(review=review).delete()
 
-    id = request.POST['id']
-    if id == "":
-        return JsonResponse({"message": "Empty review ID"})
+        # Then get rid of the review itself
+        review.delete()
+        return HttpResponseRedirect('/sysrev/dashboard')
 
-    review = Review.objects.filter(id=id)
-    print "Review:", review
-    review.delete()
-
-    return HttpResponseRedirect('/sysrev/')
-
+    except:
+        return JsonResponse({"message": "Unable to delete review"})
 
 @login_required
 def mark_abstract(request):

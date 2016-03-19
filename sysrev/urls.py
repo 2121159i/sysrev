@@ -27,7 +27,7 @@ urlpatterns = patterns('',
     # Dom's routes
     url(r'^dashboard/$',     views.dashboard,     name='dashboard'),
     url(r'^add_category/$',  views.add_category,  name='add_category'),
-    url(r'^delete/$',        views.delete_review, name='delete_review'),
+    url(r'^delete/(\d+)/$',  views.delete_review, name='delete_review'),
     url(r'^get_doc_count/$', views.get_doc_count, name='get_doc_count'),
 
     # url(r'^register/$', views.register, name='register'),
