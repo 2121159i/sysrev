@@ -52,7 +52,6 @@ class Review(models.Model):
     description     = models.CharField(max_length=128)
     date_started    = models.DateTimeField(default=timezone.now)
     query_string    = models.CharField(max_length=128)
-    pool_size       = models.IntegerField()
 
     def __unicode__(self):
         return self.title
@@ -64,7 +63,6 @@ class Paper(models.Model):
     authors         = models.CharField(max_length=128, default="")
     abstract        = models.CharField(max_length=128)
     date            = models.DateTimeField(auto_now_add=True, blank=True, default=datetime.now)
-    query_string    = models.CharField(max_length=128)
     paper_url       = models.URLField(default=None)
     abstract_rev    = models.NullBooleanField(null=True,default=None)
     document_rev    = models.NullBooleanField(null=True,default=None)

@@ -268,11 +268,10 @@ def dashboard(request):
         local_dict['title'] = review.title
         local_dict['description'] = review.description
         local_dict['query_string'] = review.query_string
-        local_dict['pool_size'] = review.pool_size
-
-        local_dict['documents_kept'] = 10
-        local_dict['kept_perc'] = 10
+        local_dict['pool_size'] = 9999999
+        local_dict['documents_kept'] = 99999
         local_dict['documents_discarded'] = 30
+        local_dict['kept_perc'] = 10
         local_dict['discarded_perc'] = 30
         local_dict['documents_left'] = 60
         local_dict['left_perc'] = 60
@@ -285,23 +284,51 @@ def dashboard(request):
 
 def review(request, id):
 
-    # Return a list of papers
-    try:
-        return_dict = {}
-        review = Review.objects.get(id=id)
-        papers = Paper.objects.filter(review=review)
+    return_dict = {}
 
+    # Try and find the review
+    try:
+        review = Review.objects.get(id=id)
+        print review
         return_dict['title']        = review.title
         return_dict['description']  = review.description
         return_dict['query_string'] = review.query_string
-        return_dict['pool_size']    = review.pool_size
+        print "Review found"
+    except:
+        return JsonResponse({"message": "Cannot find review with id "+str(id)})
 
-        return_dict['papers'] = papers
-        print return_dict
+
+    papers = Paper.objects.filter(review=review,abstract_rev=None)
+
+    # If there are unevaluated abstracts
+    if len(papers) != 0:
+        return_dict['stage']        = "abstract"
+        return_dict['papers']       = papers
+        print "Found papers with abstract_rev=None"
         return render(request, 'sysrev/review.html', return_dict)
 
-    except:
-        return render(request, 'sysrev/review.html', {})
+    # If all abstracts have been evaluated
+    else:
+        papers = Paper.objects.filter(review=review,abstract_rev = True,document_rev=None)
+
+        # If there are unevaluated documents
+        if len(papers) != 0:
+            return_dict['stage']        = "document"
+            return_dict['papers']       = papers
+            print "Found papers with document_rev=None"
+            return render(request, 'sysrev/review.html', return_dict)
+
+        # Else, the review is completed
+        else:
+            papers = Paper.objects.filter(
+                review=review,
+                abstract_rev=True,
+                document_rev=True
+            )
+            return_dict['stage'] = "done"
+            return_dict['papers'] = papers
+            print "Review completed"
+            return render(request, 'sysrev/review.html', return_dict)
 
 
 # Rename this to 'add_review' or 'create_review' when possible
@@ -316,9 +343,6 @@ def add_category(request):
         description     = request.POST['description']
         query_string    = request.POST['query_string']
 
-        # Get the document count for the given query_string
-        pool_size = len(get_id_list(query_string)['Id'])
-
         user = User.objects.get(username=request.user)
         researcher = Researcher.objects.get(user=user)
 
@@ -327,8 +351,7 @@ def add_category(request):
             user = researcher,
             title = title,
             description = description,
-            query_string = query_string,
-            pool_size = pool_size
+            query_string = query_string
         )
         review.save()
 
@@ -337,6 +360,7 @@ def add_category(request):
         print id_list
 
         # Count the number of bad pages
+        # (some papers may get excluded if their links are not found)
         count_bad = 0
         count_good = 0
         count_total = 0
@@ -381,7 +405,6 @@ def add_category(request):
         return HttpResponseRedirect('/sysrev/')
 
 
-
     else:
         # If the request was not a POST, display the form to enter details.
         form = CategoryForm()
@@ -422,6 +445,29 @@ def mark_abstract(request, id, rel):
         paper = Paper.objects.get(id=id)
         paper.abstract_rev=rel
         paper.save()
+
+        return HttpResponseRedirect('/sysrev/review/'+str(paper.review.id))
+
+    except:
+        return JsonResponse({"message": "Something went wrong"})
+
+
+@login_required
+def mark_document(request, id, rel):
+    print "mark_document()"
+
+    # Parameters are passed as strings
+    if rel == "1":
+        rel = True
+    else:
+        rel = False
+
+    try:
+        # Mark the document as (not)relevant
+        paper = Paper.objects.get(id=id)
+        paper.document_rev=rel
+        paper.save()
+        print "Marked paper as relevant:", paper
 
         return HttpResponseRedirect('/sysrev/review/'+str(paper.review.id))
 

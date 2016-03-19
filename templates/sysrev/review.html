@@ -11,30 +11,29 @@
 
     <div>
         <h3 class="text-center">{{ category_name }}</h3>
-        <label>{{ title }}</label><br/>
-        <a href="/sysrev/category/{{category.slug}}/viewed_documents/" class="btn btn-lg btn-primary" >Viewed Documents</a><br/><br/>
+
+        {% if stage == "done" %}
+            <p>Stage is {{ stage }} - Review completed!</p>
+        {% endif %}
+
     </div>
 
 
-{% if papers %}
-    <ul>
-        {% for paper in papers %}
-            <li>
-                <a href="{{ paper.paper_url }}">{{ paper.title }}</a>
-                <p>{{ paper.abstract }}</p>
+    {% if papers %}
+        <ul>
+            {% for paper in papers %}
+                <li>
+                    <a href="{{ paper.paper_url }}">{{ paper.title }}</a>
+                    <p>{{ paper.abstract }}</p>
 
-                <a href="/sysrev/review/abstract/{{ paper.id }}/{{ 1 }}" type="submit" class="btn btn-success">Keep</a>
-                <a href="/sysrev/review/abstract/{{ paper.id }}/{{ 0 }}" type="submit" class="btn btn-danger">Discard</a>
-            </li>
-        {% endfor %}
-    </ul>
-    <strong>No pages currently in category.</strong>
-{% endif %}
+                    {% if stage != "done" %}
+                        <a href="/sysrev/review/{{ stage }}/{{ paper.id }}/{{ 1 }}" type="submit" class="btn btn-success">Keep</a>
+                        <a href="/sysrev/review/{{ stage }}/{{ paper.id }}/{{ 0 }}" type="submit" class="btn btn-danger">Discard</a>
+                    {% endif %}
 
-
-    <!-- TEMPORARY -->
-    <br/><br/><br/><br/> (Temporary) <br/><br/>
-    <a href="/sysrev/category/{{category.slug}}/final/" class="btn btn-lg btn-primary" >Final</a><br/><br/>
-    <a href="/sysrev/category/{{category.slug}}/done/" class="btn btn-lg btn-primary" >Done</a><br/><br/>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 
 {% endblock %}
