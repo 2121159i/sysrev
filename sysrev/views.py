@@ -404,8 +404,12 @@ def add_category(request):
                 count_bad += 1
                 continue
 
-            # Same can happen with the abstract
-            abstract = get_paper_abstract(paper_dict),
+
+            abstract = str(get_paper_abstract(paper_dict))
+
+            # print "Abstract:", type(abstract)
+            # print "Abstract:", abstract
+
             if abstract == "":
                 print "Unable to get abstract for:", id
                 count_bad += 1
@@ -428,7 +432,6 @@ def add_category(request):
 
         # Yay, it works up to here! Go back to main page
         return HttpResponseRedirect('/sysrev/')
-
 
     else:
         # If the request was not a POST, display the form to enter details.
