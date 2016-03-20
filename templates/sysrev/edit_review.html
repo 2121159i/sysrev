@@ -17,7 +17,18 @@
         <img id="loading-icon" src="{% static 'images/loading.gif' %}">
         <span id="document-count"></span>
 
-        <br/><br/>
+        <br/>
+
+        {% if queries %}
+            <h5>List of previous queries:</h5>
+            <ul>
+                {% for query in queries %}
+                    <li>{{ query.string }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <br/>
 
         <button type="submit" data-toggle="modal" data-target=".bs-example-modal-sm" class="btn btn-lg btn-success">Modify</button>
 
