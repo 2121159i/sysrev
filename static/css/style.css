@@ -24,3 +24,15 @@
 li {
     list-style-type: none;
 }
+
+#please_wait_text{
+    text-align: center;
+}
+#please_wait_img{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 300px;
+
+}
+
