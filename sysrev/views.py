@@ -460,7 +460,7 @@ def review(request, id):
         return_dict['query_string'] = review.query_string
         print "Review found"
     except:
-        return JsonResponse({"message": "Cannot find review with id " + str(id)})
+        return HttpResponseRedirect("/sysrev/dashboard")
 
     papers = Paper.objects.filter(review=review, abstract_rev=None)[:10]
 
@@ -619,8 +619,25 @@ def mark_document(request, id, rel):
 
 @login_required
 def end_stage(request, review_id, review_stage):
-
     # Mark all remaining abstracts/documents as irrelevant
+
+    # Get the review instance
+    try:
+        review = Review.objects.get(id=review_id)
+    except:
+        return JsonResponse({"message": "Cannot find the review"})
+
+    # Get all papers with unmarked abstracts/documents
+    if review_stage == "abstract":
+        print "Removing remaining abstracts"
+        bad_papers = Paper.objects.filter(review=review, abstract_rev=None)
+        bad_papers.delete()
+    elif review_stage == "document":
+        print "Removing remaining documents"
+        bad_papers = Paper.objects.filter(review=review, document_rev=None)
+        bad_papers.delete()
+    else:
+        return JsonResponse({"message": "Invalid stage provided"})
 
     return HttpResponseRedirect('/sysrev/review/'+review_id)
 
