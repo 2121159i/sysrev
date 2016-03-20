@@ -40,11 +40,18 @@
         <p><input class="form-control" id="id_query" name="query_string_advanced" type="text" placeholder="Enter advanced query" required/></p><br/>
 
         <div class="sb_line">
-            <select id="fop_2" class="op_combo" style="visibility:visible"><option value=""></option><option value="NOT">NOT</option></select><label for="ff_1" class="offscreen_noflow">Select Field</label>
+            <select id="not_selector">
+                <option value="1"></option>
+                <option value="2">NOT</option>
+            </select>
+            <label > Select Field</label>
         </div>
 
         <div class="sb_line">
-            <select id="fop_1" class="op_combo" style="visibility:visible"><option value="AND">AND</option><option value="OR">OR</option></select><label for="ff_1" class="offscreen_noflow">Select Field</label><br/>
+            <select id="and_or_selector">
+                <option value="AND">AND</option>
+                <option value="OR">OR</option></select>
+            <label > Select Field</label><br/>
         </div>
 
         <div id="plus_button">
