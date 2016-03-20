@@ -24,6 +24,7 @@
                     <li>
                         <div class="row">
                             <div class="col-xs-10">
+                                <h4>{{ paper.id }}</h4>
                                 <p id="abstract_info" class="paper_abstract">{{ paper.abstract }}</p>
                             </div>
                         <br/>
@@ -43,6 +44,7 @@
                     <li>
                         <div class="row">
                             <div class="col-xs-10">
+                                <h4>{{ paper.id }}</h4>
                                 <a href="{{ paper.paper_url }}" class ="paper_title" id="abstract_title">{{ paper.title }}</a>
                             </div>
                         </div>
@@ -64,6 +66,7 @@
                     <li>
                         <div class="row">
                             <div class="col-xs-10">
+                                <h4>{{ paper.id }}</h4>
                                 <a href="{{ paper.url }}" class ="paper_title" id="abstract_title">{{ paper.title }}</a>
                                 <br/>
                                 <br/>
@@ -73,7 +76,6 @@
                     </li>
 
                 {% endif %}
-
 
             {% endfor %}
         </ul>

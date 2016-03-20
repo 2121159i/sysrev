@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from datetime import datetime
 from sysrev.query_pubmed import *
+from django.contrib.auth.models import User
 
 # Old Rango views (delete if no reference is needed)
 
@@ -21,20 +22,20 @@ def about(request):
 
     last_visit = request.session.get('last_visit')
     if last_visit:
-        last_visit_time = datetime.strptime(last_visit[:-7],"%Y-%m-%d %H:%M:%S")
-        if (datetime.now() - last_visit_time).seconds >5:
-            count +=1
+        last_visit_time = datetime.strptime(last_visit[:-7], "%Y-%m-%d %H:%M:%S")
+        if (datetime.now() - last_visit_time).seconds > 5:
+            count += 1
             reset_last_visit_time = True
     else:
         reset_last_visit_time = True
 
     if reset_last_visit_time:
-        request.session['last_visit']=str(datetime.now())
+        request.session['last_visit'] = str(datetime.now())
         request.session['visits'] = count
 
-    context_dict['visits']=count
+    context_dict['visits'] = count
 
-    return render(request,'sysrev/about.html',context_dict)
+    return render(request, 'sysrev/about.html', context_dict)
 
 
 def register(request):
@@ -50,7 +51,37 @@ def register(request):
         profile_form = ResearcherForm(data=request.POST)
 
         # If the two forms are valid...
+        username = request.POST.get('username')
+        try:
+            checkUser = User.objects.get(username=username)
+            if checkUser:
+                print 9999999
+                return render(request, 'registration/register.html',
+                              {'user_form': user_form, 'profile_form': profile_form, 'register_error': True,
+                               'error_type': 'The username is already taken'})
+        except Exception as e:
+            None
+
         if user_form.is_valid() and profile_form.is_valid():
+
+            password = request.POST.get('password')
+            repeatPassword = request.POST.get('repeatPassword')
+            email = request.POST.get('email')
+
+            try:
+                check_email = User.objects.get(email=email)
+                if check_email:
+                    return render(request, 'registration/register.html',
+                                  {'user_form': user_form, 'profile_form': profile_form, 'register_error': True,
+                                   'error_type': 'The email is already taken'})
+            except Exception as v:
+                None
+            if (password != repeatPassword):
+                return render(request, 'registration/register.html',
+                              {'user_form': user_form, 'profile_form': profile_form, 'register_error': True,
+                               'error_type': 'The passwords don\'t match'})
+
+
             # Save the user's form data to the database.
             user = user_form.save()
 
@@ -75,6 +106,7 @@ def register(request):
 
             # Update our variable to tell the template registration was successful.
             registered = True
+
 
         # Invalid form or forms - mistakes or something else?
         # Print problems to the terminal.
@@ -106,6 +138,7 @@ def user_login(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
 
+
         # Use Django's machinery to attempt to see if the username/password
         # combination is valid - a User object is returned if it is.
         user = authenticate(username=username, password=password)
@@ -126,7 +159,7 @@ def user_login(request):
         else:
             logged_in_error = True;
             # Bad login details were provided. So we can't log the user in.
-            #print "Invalid login details: {0}, {1}".format(username, password)
+            # print "Invalid login details: {0}, {1}".format(username, password)
             #return HttpResponseRedirect("/sysrev/login")
             return render(request, 'registration/login.html', {'logged_in_error': logged_in_error})
 
@@ -140,7 +173,6 @@ def user_login(request):
 
 @login_required
 def user_logout(request):
-
     # Use the login_required() decorator to ensure only those logged in can access the view.
     # Since we know the user is logged in, we can now just log them out.
     logout(request)
@@ -161,15 +193,14 @@ def category(request, category_name_slug):
         context_dict['category_name'] = category.name
         context_dict['category_name_slug'] = category.slug
 
-
         context_dict['testData'] = {
-            {'title':'title of the document',
-             'description':'description of the data'},
-            {'title':'another title of the document',
-             'description':'another description of the data'}
+        {'title': 'title of the document',
+         'description': 'description of the data'},
+        {'title': 'another title of the document',
+         'description': 'another description of the data'}
         }
         context_dict['testNumberofDocumentsLeft'] = 500
-        
+
         # Retrieve all of the associated pages.
         # Note that filter returns >= 1 model instance.
         pages = Page.objects.filter(category=category)
@@ -239,7 +270,6 @@ def track_url(request):
 # ----- Sysrev views -----
 
 def index(request):
-
     # If the user is logged in - redirect to dashboard
     if request.user.username:
         return HttpResponseRedirect('/sysrev/dashboard/')
@@ -249,11 +279,10 @@ def index(request):
 
 @login_required
 def dashboard(request):
-
     context_dict = {}
 
-    user = Researcher.objects.get(user__username = request.user.username)
-    
+    user = Researcher.objects.get(user__username=request.user.username)
+
     reviews = Review.objects.filter(user=user)
 
     context_dict['reviews'] = []
@@ -279,27 +308,25 @@ def dashboard(request):
 
 
 def review(request, id):
-
     return_dict = {}
 
     # Try and find the review
     try:
         review = Review.objects.get(id=id)
         print review
-        return_dict['title']        = review.title
-        return_dict['description']  = review.description
+        return_dict['title'] = review.title
+        return_dict['description'] = review.description
         return_dict['query_string'] = review.query_string
         print "Review found"
     except:
-        return JsonResponse({"message": "Cannot find review with id "+str(id)})
+        return JsonResponse({"message": "Cannot find review with id " + str(id)})
 
-
-    papers = Paper.objects.filter(review=review,abstract_rev=None)
+    papers = Paper.objects.filter(review=review, abstract_rev=None)
 
     # If there are unevaluated abstracts
     if len(papers) != 0:
-        return_dict['stage']        = "abstract"
-        return_dict['papers']       = papers
+        return_dict['stage'] = "abstract"
+        return_dict['papers'] = papers
         for paper in papers:
             print type(paper.abstract)
         print "Found papers with abstract_rev=None"
@@ -307,12 +334,12 @@ def review(request, id):
 
     # If all abstracts have been evaluated
     else:
-        papers = Paper.objects.filter(review=review,abstract_rev = True,document_rev=None)
+        papers = Paper.objects.filter(review=review, abstract_rev=True, document_rev=None)
 
         # If there are unevaluated documents
         if len(papers) != 0:
-            return_dict['stage']        = "document"
-            return_dict['papers']       = papers
+            return_dict['stage'] = "document"
+            return_dict['papers'] = papers
             print "Found papers with document_rev=None"
             return render(request, 'sysrev/review.html', return_dict)
 
@@ -337,19 +364,19 @@ def add_category(request):
     # Check if a new review is posted
     if request.method == 'POST':
 
-        title           = request.POST['title']
-        description     = request.POST['description']
-        query_string    = request.POST['query_string']
+        title = request.POST['title']
+        description = request.POST['description']
+        query_string = request.POST['query_string']
 
         user = User.objects.get(username=request.user)
         researcher = Researcher.objects.get(user=user)
 
         # Make a new Review and save it
         review = Review(
-            user = researcher,
-            title = title,
-            description = description,
-            query_string = query_string
+            user=researcher,
+            title=title,
+            description=description,
+            query_string=query_string
         )
         review.save()
 
@@ -385,11 +412,11 @@ def add_category(request):
                 continue
 
             paper = Paper(
-                review          = review,
-                title           = get_paper_title(paper_dict),
-                authors         = get_paper_author(paper_dict),
-                abstract        = abstract,
-                paper_url       = paper_url
+                review=review,
+                title=get_paper_title(paper_dict),
+                authors=get_paper_author(paper_dict),
+                abstract=abstract,
+                paper_url=paper_url
             )
             paper.save()
             count_good += 1
@@ -431,7 +458,6 @@ def delete_review(request, id):
 
 @login_required
 def mark_abstract(request, id, rel):
-
     # Parameters are passed as strings
     if rel == "1":
         rel = True
@@ -441,10 +467,10 @@ def mark_abstract(request, id, rel):
     try:
         # Mark the paper abstract as (not)relevant
         paper = Paper.objects.get(id=id)
-        paper.abstract_rev=rel
+        paper.abstract_rev = rel
         paper.save()
 
-        return HttpResponseRedirect('/sysrev/review/'+str(paper.review.id))
+        return HttpResponseRedirect('/sysrev/review/' + str(paper.review.id))
 
     except:
         return JsonResponse({"message": "Something went wrong"})
@@ -463,11 +489,11 @@ def mark_document(request, id, rel):
     try:
         # Mark the document as (not)relevant
         paper = Paper.objects.get(id=id)
-        paper.document_rev=rel
+        paper.document_rev = rel
         paper.save()
         print "Marked paper as relevant:", paper
 
-        return HttpResponseRedirect('/sysrev/review/'+str(paper.review.id))
+        return HttpResponseRedirect('/sysrev/review/' + str(paper.review.id))
 
     except:
         return JsonResponse({"message": "Something went wrong"})
@@ -552,7 +578,6 @@ def add_page(request, category_name_slug):
 
 
 def get_doc_count(request):
-
     # Make sure it's a Get request with a 'query' parameter
     if request.method != 'GET':
         return "/get_document_count must be a GET request"
