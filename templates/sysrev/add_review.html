@@ -11,6 +11,11 @@
 
         <input class="form-control" id="id_title" name="title" type="text" placeholder="Enter review title" required/><br/>
         <input class="form-control" id="id_query" name="query_string" type="text" placeholder="Enter query" required/><br/>
+
+
+        <button type="button" id="advanced" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Advanced</button>
+
+        
         <textarea class="form-control" rows="6" id="review_info" name="description" type="text" placeholder="Enter description of the review here" required></textarea><br/>
 
 
@@ -25,8 +30,35 @@
 
     </form>
 
+<!-- Large modal for advanced query interface -->
 
-<!-- Small modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <h3 id="advanced_query_title">Advanced Query Builder</h3> <br/>
+
+        <p><input class="form-control" id="id_query" name="query_string_advanced" type="text" placeholder="Enter advanced query" required/></p><br/>
+
+        <div class="sb_line">
+            <select id="fop_2" class="op_combo" style="visibility:visible"><option value=""></option><option value="NOT">NOT</option></select><label for="ff_1" class="offscreen_noflow">Select Field</label>
+        </div>
+
+        <div class="sb_line">
+            <select id="fop_1" class="op_combo" style="visibility:visible"><option value="AND">AND</option><option value="OR">OR</option></select><label for="ff_1" class="offscreen_noflow">Select Field</label><br/>
+        </div>
+
+        <div id="plus_button">
+            <i class="glyphicon glyphicon-plus"></i>
+        </div><br/>
+        <div class="list"></div></br>
+
+        <button type="button" class="btn btn-primary" >Save</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Small modal for creating a new review -->
 
 <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
   <div class="modal-dialog modal-sm">
@@ -38,6 +70,7 @@
 </div>
 
 
+    <script src="{% static 'js/add_review_advanced_search_add_another_row.js' %}"></script>
     <script src = "{% static 'js/loading.js' %}"></script>
     <script src="{% static 'js/get_document_count.js' %}" ></script>
 
