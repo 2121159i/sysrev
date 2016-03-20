@@ -401,7 +401,7 @@ def add_category(request):
                 count_bad += 1
                 continue
 
-            abstract = str(get_paper_abstract(paper_dict))
+            abstract = get_paper_abstract(paper_dict)
 
             # print "Abstract:", type(abstract)
             # print "Abstract:", abstract

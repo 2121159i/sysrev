@@ -60,6 +60,7 @@ class Review(models.Model):
 class Paper(models.Model):
     review          = models.ForeignKey(Review,default=None)
     title           = models.CharField(max_length=128)
+    # pubmed_id       = models.IntegerField()
     authors         = models.CharField(max_length=128, default="")
     abstract        = models.CharField(max_length=4096)
     date            = models.DateTimeField(auto_now_add=True, blank=True, default=datetime.now)
@@ -72,7 +73,7 @@ class Paper(models.Model):
 
 
 class Query(models.Model):
-    review = models.ForeignKey(Review , null=True)
+    review = models.ForeignKey(Review, null=True)
     string = models.CharField(max_length=128)
 
     def __unicode__(self):
