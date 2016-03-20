@@ -7,6 +7,9 @@
 {% block body_block %}
     <div class="page-header text-center">
         <h1>Screening</h1>
+        <a href="/sysrev/review/edit/{{ review_id }}/" type="submit" class="btn btn-success">Edit</a>
+        <a href="/sysrev/review/done/{{ review_id }}/{{ stage }}/" type="submit" class="btn btn-success">Keep</a>
+
         <h5>{{ stage }} stage</h5>
     </div>
 
