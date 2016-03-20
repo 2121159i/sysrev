@@ -621,3 +621,54 @@ def get_doc_count(request):
     print "got " + str(count)
 
     return JsonResponse({"count": count})
+
+
+def update_password(request):
+# If it's a HTTP POST, we're interested in processing form data.
+    if request.method == 'POST':
+        # Attempt to grab information from the raw form information.
+        # Note that we make use of both UserForm and UserProfileForm.
+        user_form = UserForm(data=request.POST)
+        # If the two forms are valid...
+        password = request.POST.get('password')
+        repeatPassword = request.POST.get('repeatPassword')
+        try:
+            user = User.objects.get(id = request.user.id)
+        except Exception as v:
+            return render(request, 'sysrev/update_password.html', {'update_success': False , 'update_error': True, 'error_type': 'Unexpected error, please try again later'})
+
+
+        if (password != repeatPassword):
+            return render(request, 'sysrev/update_password.html', {'update_success': False , 'update_error': True, 'error_type': 'The passwords don\'t match'})
+		# Now we hash the password with the set_password method.
+		# Once hashed, we can update the user object.
+        user.set_password(password)
+        user.save()
+        return render(request, 'sysrev/update_password.html', {'update_success': True , 'update_error': False, 'error_type': ''})
+    else:
+        # Render the template depending on the context.
+        return render(request, 'sysrev/update_password.html', {'update_success': False , 'update_error': False, 'error_type': ''})
+
+
+def update_email(request):
+    try:
+        user = User.objects.get(id=request.user.id)
+    except Exception as v:
+        return render(request, 'sysrev/update_password.html', {'update_success': False , 'update_error': True, 'error_type': 'Unexpected error, please try again later'})
+
+    # If it's a HTTP POST, we're interested in processing form data.
+    if request.method == 'POST':
+        email = request.POST.get('email')
+
+
+		# Now we hash the password with the set_password method.
+		# Once hashed, we can update the user object.
+        user.email = email
+        user.save()
+        return render(request, 'sysrev/update_email.html', {'update_success': True , 'update_error': False, 'error_type': '' , 'email':user.email})
+    # Render the template depending on the context.
+    return render(request, 'sysrev/update_email.html', {'update_success': False , 'update_error': False, 'error_type': '' , 'email':user.email})
+
+
+def update_profile(request):
+    return render(request, 'sysrev/update_profile.html', {})
