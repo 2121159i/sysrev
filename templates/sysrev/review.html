@@ -18,16 +18,16 @@
 
         <ul>
             {% for paper in papers %}
+                <li class="list-group-item">
+                    {# Abstract stage #}
+                    {% if stage == "abstract" %}
 
-                {# Abstract stage #}
-                {% if stage == "abstract" %}
-                    <li>
                         <div class="row">
                             <div class="col-xs-10">
-                                <h5 class="paper_title" id="abstract_title">{{ paper.title }}</h5>
+                                <h5 class="paper_title" id="abstract_title">{{ paper.title }}</h5><br/><br/>
                                 <p id="abstract_info" class="paper_abstract">{{ paper.abstract }}</p>
                             </div>
-                        <br/>
+                            <br/>
                             <div class="col-xs-2">
 
                                 {% if stage != "done" %}
@@ -37,11 +37,10 @@
                             </div>
 
                         </div><br/>
-                    </li>
 
-                {# Document stage #}
-                {% elif stage == "document" %}
-                    <li>
+                        {# Document stage #}
+                    {% elif stage == "document" %}
+
                         <div class="row">
                             <div class="col-xs-10">
                                 <h4>{{ paper.id }}</h4>
@@ -58,11 +57,11 @@
                             </div>
 
                         </div><br/>
-                    </li>
 
-                {# Done stage #}
-                {% else %}
-                    <li>
+
+                        {# Done stage #}
+                    {% else %}
+
                         <div class="row">
                             <div class="col-xs-10">
                                 <a href="{{ paper.url }}" class ="paper_title" id="abstract_title">{{ paper.title }}</a>
@@ -71,9 +70,10 @@
                                 <br/>
                             </div>
                         </div>
-                    </li>
 
-                {% endif %}
+
+                    {% endif %}
+                </li><br/>
 
             {% endfor %}
         </ul>
