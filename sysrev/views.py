@@ -355,7 +355,7 @@ def review(request, id):
 
 # Rename this to 'add_review' or 'create_review' when possible
 @login_required
-def add_category(request):
+def add_review(request):
     # Rename this to 'add_review' or 'create_review' when possible
 
     # Check if a new review is posted
@@ -435,7 +435,7 @@ def add_category(request):
 
     # Bad form (or form details), no form supplied...
     # Render the form with error messages (if any).
-    return render(request, 'sysrev/add_category.html', {'form': form})
+    return render(request, 'sysrev/add_review.html', {'form': form})
 
 
 @login_required

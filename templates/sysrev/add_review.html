@@ -6,7 +6,7 @@
 {% block body_public %}
     <h1 class="page-header text-center">New Review</h1>
 
-    <form class="form-signin" role="form" method="post" action="/sysrev/add_category/">
+    <form class="form-signin" role="form" method="post" action="{% url 'add_review' %}">
         {% csrf_token %}
 
         <input class="form-control" id="id_title" name="title" type="text" placeholder="Enter review title" required/><br/>

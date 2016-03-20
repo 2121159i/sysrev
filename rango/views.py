@@ -180,7 +180,7 @@ def add_category(request):
 
     # Bad form (or form details), no form supplied...
     # Render the form with error messages (if any).
-    return render(request, 'rango/add_category.html', {'form': form})
+    return render(request, 'rango/add_review.html', {'form': form})
 
 
 def add_page(request, category_name_slug):
