@@ -306,7 +306,8 @@ def dashboard(request):
         # local_dict['left_perc'] = ((10000-10-300)/10000)*100
 
         local_dict['documents_all'] = 10000
-        local_dict['documents_left'] = 300
+        local_dict['abstracts_done'] = 100
+        local_dict['documents_done'] = 20
 
         context_dict['reviews'].append(local_dict)
 
