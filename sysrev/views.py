@@ -1,8 +1,4 @@
-from django.http import HttpResponse
 from django.shortcuts import render
-# Import the Category model
-from sysrev.models import Category, Review
-from sysrev.models import Page
 from sysrev.forms import *
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
@@ -304,6 +300,8 @@ def review(request, id):
     if len(papers) != 0:
         return_dict['stage']        = "abstract"
         return_dict['papers']       = papers
+        for paper in papers:
+            print type(paper.abstract)
         print "Found papers with abstract_rev=None"
         return render(request, 'sysrev/review.html', return_dict)
 

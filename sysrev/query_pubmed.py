@@ -88,13 +88,24 @@ def get_paper_title(paper_dict):
 
 def get_paper_abstract(paper_dict):
 
+    # Try finding the abstract
+    try:
+        text = paper_dict['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['Abstract']['AbstractText']['#text']
+        print "Nested in #text"
+        return str(text)
+    except:
+        pass
+
     try:
         text = paper_dict['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['Abstract']['AbstractText']
-        return text
-
+        print text[0]
+        return str(text)
     except:
-        # Django likes empty string for char fields more than nulls
-        return ""
+        pass
+
+    # If we got here - the abstract is nested in an unknown location
+    # Django likes empty string for char fields more than nulls
+    return ""
 
 def get_paper_author(paper_dict):
     # print "Author: ", paper_dict['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['AuthorList']['Author']

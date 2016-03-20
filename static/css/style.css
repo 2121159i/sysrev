@@ -9,8 +9,7 @@
 }
 .paper_abstract {
     /*font-family: Verdana;*/
-    font: 10px;
-
+    font-size: 10px;
 }
 
 #abstract_info{
@@ -20,4 +19,8 @@
 
 #abstract_title{
     font-size: 20px;
+}
+
+li {
+    list-style-type: none;
 }

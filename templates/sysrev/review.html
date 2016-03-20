@@ -7,47 +7,79 @@
 {% block body_block %}
     <div class="page-header text-center">
         <h1>Screening</h1>
+        <h5>{{ stage }} stage</h5>
     </div>
 
     <div>
         <h3 class="text-center">{{ category_name }}</h3>
-
-        {% if stage == "done" %}
-            <p>Stage is {{ stage }} - Review completed!</p>
-        {% endif %}
-
     </div>
 
     {% if papers %}
 
         <ul>
             {% for paper in papers %}
-                <li>
-                    <div class="row">
-                        <div class="col-xs-10">
-                            <a href="{{ paper.url }}" class ="paper_title" id="abstract_title">{{ paper.title }}</a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-10">
-                            <p id="abstract_info" class="paper_abstract">{{ paper.abstract }}</p>
-                        </div>
-                    <br/>
-                        <div class="col-xs-2">
 
-                            {% if stage != "done" %}
-                                <a href="/sysrev/review/{{ stage }}/{{ paper.id }}/{{ 1 }}" type="submit" class="btn btn-success">Keep</a>
-                                <a href="/sysrev/review/{{ stage }}/{{ paper.id }}/{{ 0 }}" type="submit" class="btn btn-danger">Discard</a>
-                            {% endif %}
-                        </div>
+                {# Abstract stage #}
+                {% if stage == "abstract" %}
+                    <li>
+                        <div class="row">
+                            <div class="col-xs-10">
+                                <p id="abstract_info" class="paper_abstract">{{ paper.abstract }}</p>
+                            </div>
+                        <br/>
+                            <div class="col-xs-2">
 
-                    </div><br/>
-                </li>
+                                {% if stage != "done" %}
+                                    <a href="/sysrev/review/{{ stage }}/{{ paper.id }}/{{ 1 }}" type="submit" class="btn btn-success">Keep</a>
+                                    <a href="/sysrev/review/{{ stage }}/{{ paper.id }}/{{ 0 }}" type="submit" class="btn btn-danger">Discard</a>
+                                {% endif %}
+                            </div>
+
+                        </div><br/>
+                    </li>
+
+                {# Document stage #}
+                {% elif stage == "document" %}
+                    <li>
+                        <div class="row">
+                            <div class="col-xs-10">
+                                <a href="{{ paper.paper_url }}" class ="paper_title" id="abstract_title">{{ paper.title }}</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <br/>
+                            <div class="col-xs-2">
+
+                                {% if stage != "done" %}
+                                    <a href="/sysrev/review/{{ stage }}/{{ paper.id }}/{{ 1 }}" type="submit" class="btn btn-success">Keep</a>
+                                    <a href="/sysrev/review/{{ stage }}/{{ paper.id }}/{{ 0 }}" type="submit" class="btn btn-danger">Discard</a>
+                                {% endif %}
+                            </div>
+
+                        </div><br/>
+                    </li>
+
+                {# Done stage #}
+                {% else %}
+                    <li>
+                        <div class="row">
+                            <div class="col-xs-10">
+                                <a href="{{ paper.url }}" class ="paper_title" id="abstract_title">{{ paper.title }}</a>
+                                <br/>
+                                <br/>
+                                <br/>
+                            </div>
+                        </div>
+                    </li>
+
+                {% endif %}
+
+
             {% endfor %}
         </ul>
 
     {% else %}
-        <strong>No paper currently in review.</strong>
+        <strong>No papers in review.</strong>
     {% endif %}
 
 {% endblock %}
