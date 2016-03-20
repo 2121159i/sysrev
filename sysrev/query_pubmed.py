@@ -88,17 +88,29 @@ def get_paper_title(paper_dict):
 def get_paper_abstract(paper_dict):
 
     # Try finding the abstract
+
+    # This first case is likely to fail,
+    # however some abstracts are nested like this
     try:
-        text = paper_dict['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['Abstract']['AbstractText']['#text']
-        print "Nested in #text"
-        return str(text)
+        res = paper_dict['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['Abstract']['AbstractText']
+
+        # If we got a string - skip this case
+        if isinstance(res, basestring):
+            print "STRING"
+            raise ValueError('Expected a list, got a string')
+
+        # Return the first snippet of the abstract
+        return res[0]["#text"]
     except:
         pass
 
+    # This is the most general case that will work with most documents
     try:
         text = paper_dict['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['Abstract']['AbstractText']
-        print text[0]
-        return str(text)
+        # text = "".join(text)
+
+        # Cast to string to avoid unicode nonsense
+        return text
     except:
         pass
 

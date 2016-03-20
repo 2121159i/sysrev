@@ -293,13 +293,22 @@ def dashboard(request):
         local_dict['title'] = review.title
         local_dict['description'] = review.description
         local_dict['query_string'] = review.query_string
-        local_dict['pool_size'] = 9999999
-        local_dict['documents_kept'] = 99999
-        local_dict['documents_discarded'] = 30
-        local_dict['kept_perc'] = 10
-        local_dict['discarded_perc'] = 30
-        local_dict['documents_left'] = 60
-        local_dict['left_perc'] = 60
+
+        # local_dict['documents_left'] = 10000
+        # local_dict['abstracts_kept'] = 10
+        # local_dict['documents_kept'] = 10
+        # local_dict['documents_discarded'] = 10
+        #
+        # local_dict['kept_perc'] = 10
+        # local_dict['documents_discarded'] = 30
+        # local_dict['discarded_perc'] = 30
+        # local_dict['documents_left'] = 10000-10-300
+        # local_dict['left_perc'] = ((10000-10-300)/10000)*100
+
+        local_dict['documents_all'] = 10000
+        local_dict['abstracts_done'] = 100
+        local_dict['documents_done'] = 20
+
         context_dict['reviews'].append(local_dict)
 
     response = render(request, 'sysrev/dashboard.html', context_dict)
@@ -404,8 +413,12 @@ def add_category(request):
                 count_bad += 1
                 continue
 
-            # Same can happen with the abstract
-            abstract = get_paper_abstract(paper_dict),
+
+            abstract = str(get_paper_abstract(paper_dict))
+
+            # print "Abstract:", type(abstract)
+            # print "Abstract:", abstract
+
             if abstract == "":
                 print "Unable to get abstract for:", id
                 count_bad += 1
@@ -428,7 +441,6 @@ def add_category(request):
 
         # Yay, it works up to here! Go back to main page
         return HttpResponseRedirect('/sysrev/')
-
 
     else:
         # If the request was not a POST, display the form to enter details.

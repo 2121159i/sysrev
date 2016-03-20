@@ -33,17 +33,22 @@
 
                         <li class="list-group-item">
                             <div class="row">
-                                <!-- PROCESS BAR -->
-                                <div>
+                                <div class="col-xs-3"><br/>{{ review.title }}</div>
+                                <div class="col-xs-2">Review All Documents <br/> {{ review.documents_all }}</div>
+                                <div class="col-xs-2">Abstracts
                                     <div class="progress">
-                                        <div class="progress-bar progress-bar-warning" style="width:{{ review.left_perc }}% ">Left: {{ review.documents_left }}</div>
-                                        <div class="progress-bar progress-bar-success" style="width: {{ review.kept_perc }}% ">Kept: {{ review.documents_kept }}</div>
-                                        <div class="progress-bar progress-bar-danger" style="width: {{ review.discarded_perc }}% ">Discarded: {{ review.documents_discarded }}</div>
+                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{ review.abstracts_done }}%;">
+                                            {{ review.abstracts_done }}%
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-9">{{ review.title }}</div>
+                                <div class="col-xs-2">Documents
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{ review.documents_done }}%;">
+                                            {{ review.documents_done }}%
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-xs-2"><a href="/sysrev/review/{{ review.id }}" class="btn btn-default">Continue/View</a></div>
                                 <div class="col-xs-1"><a href="/sysrev/delete/{{ review.id }}" class="btn btn-default">Delete</a></div>
                             </div>
