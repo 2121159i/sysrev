@@ -13,4 +13,4 @@ class CategoryAdmin(admin.ModelAdmin):
 admin.site.register(Researcher)
 admin.site.register(Review)
 admin.site.register(Paper)
-admin.site.register(Query)
+# admin.site.register(Query)
