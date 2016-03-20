@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 
 from sysrev.forms import *
 from sysrev.query_pubmed import *
@@ -304,55 +306,6 @@ def dashboard(request):
     return response
 
 
-def review(request, id):
-    return_dict = {}
-
-    # Try and find the review
-    try:
-        review = Review.objects.get(id=id)
-        print review
-        return_dict['title'] = review.title
-        return_dict['description'] = review.description
-        return_dict['query_string'] = review.query_string
-        print "Review found"
-    except:
-        return JsonResponse({"message": "Cannot find review with id " + str(id)})
-
-    papers = Paper.objects.filter(review=review, abstract_rev=None)
-
-    # If there are unevaluated abstracts
-    if len(papers) != 0:
-        return_dict['stage'] = "abstract"
-        return_dict['papers'] = papers
-        for paper in papers:
-            print type(paper.abstract)
-        print "Found papers with abstract_rev=None"
-        return render(request, 'sysrev/review.html', return_dict)
-
-    # If all abstracts have been evaluated
-    else:
-        papers = Paper.objects.filter(review=review, abstract_rev=True, document_rev=None)
-
-        # If there are unevaluated documents
-        if len(papers) != 0:
-            return_dict['stage'] = "document"
-            return_dict['papers'] = papers
-            print "Found papers with document_rev=None"
-            return render(request, 'sysrev/review.html', return_dict)
-
-        # Else, the review is completed
-        else:
-            papers = Paper.objects.filter(
-                review=review,
-                abstract_rev=True,
-                document_rev=True
-            )
-            return_dict['stage'] = "done"
-            return_dict['papers'] = papers
-            print "Review completed"
-            return render(request, 'sysrev/review.html', return_dict)
-
-
 # Rename this to 'add_review' or 'create_review' when possible
 @login_required
 def add_review(request):
@@ -390,33 +343,14 @@ def add_review(request):
         # Loop through each ID
         for id in id_list['Id']:
             count_total += 1
-            paper_dict = {}
-            paper_dict = get_paper_info(id)
-
-            # We may fail getting the paper URL
-            # If that's the case - skip this document
-            paper_url = get_paper_url(id)
-            if paper_url == None:
-                print "Unable to get URL for:", id
-                count_bad += 1
-                continue
-
-            abstract = get_paper_abstract(paper_dict)
-
-            # print "Abstract:", type(abstract)
-            # print "Abstract:", abstract
-
-            if abstract == "":
-                print "Unable to get abstract for:", id
-                count_bad += 1
-                continue
 
             paper = Paper(
                 review=review,
-                title=get_paper_title(paper_dict),
-                authors=get_paper_author(paper_dict),
-                abstract=abstract,
-                paper_url=paper_url
+                pubmed_id=id,
+                #title=get_paper_title(paper_dict),
+                #authors=get_paper_author(paper_dict),
+                #abstract=abstract,
+                #paper_url=paper_url
             )
             paper.save()
             count_good += 1
@@ -429,13 +363,183 @@ def add_review(request):
         # Yay, it works up to here! Go back to main page
         return HttpResponseRedirect('/sysrev/')
 
-    else:
-        # If the request was not a POST, display the form to enter details.
-        form = CategoryForm()
 
     # Bad form (or form details), no form supplied...
     # Render the form with error messages (if any).
-    return render(request, 'sysrev/add_review.html', {'form': form})
+    return render(request, 'sysrev/add_review.html', {})
+
+
+def edit_review(request, id):
+    try:
+        review = Review.objects.get(id=id)
+    except:
+        return render(request, 'sysrev/edit_review.html' , {})
+
+    # Check if a new review is posted
+    if request.method == 'POST':
+
+        title = request.POST['title']
+        description = request.POST['description']
+        query_string = request.POST['query_string']
+
+        # Modify Review and save it
+        review.title = title
+        review.description = description
+        review.query_string = query_string
+        review.save()
+
+        # Query PubMed to get a list of paper IDs
+        new_id_list = get_id_list(query_string)
+        print new_id_list
+
+        # Count the number of bad pages
+        # (some papers may get excluded if their links are not found)
+        count_bad = 0
+        count_good = 0
+        count_total = 0
+
+        # Loop through each ID
+        for pubmed_id in new_id_list['Id']:
+            count_total += 1
+
+            # If the current ID can be found in existing papers - keep it
+            try:
+                Paper.objects.get(review=review, pubmed_id=pubmed_id)
+                continue
+
+            # Else - create a new paper instance
+            except:
+                print "Making a new paper:", pubmed_id
+                print review
+                try:
+                    Paper(
+                        review=review,
+                        pubmed_id=pubmed_id,
+                    ).save()
+                except:
+                    continue
+                count_good += 1
+                print "Saved ID", pubmed_id
+
+        # Remove old papers that do not fit new search term
+        try:
+            old_papers = Paper.objects.filter(review=review, abstract_rev=None)
+
+            print "Debug:", new_id_list['Id']
+            for paper in old_papers:
+
+                # If one of the old papers is not in the
+                # new list of ID's - get rid of it
+                if unicode(paper.pubmed_id) not in new_id_list['Id']:
+                    print "Found a paper that does not fit the new search criteria"
+                    paper.delete()
+        except:
+            pass
+
+        print "All:", count_total
+        print "Good:", count_good
+        print "Bad:", count_bad
+
+        # Yay, it works up to here! Go back to main page
+        return HttpResponseRedirect('/sysrev/')
+
+
+    return render(request, 'sysrev/edit_review.html' , {'review': review})
+
+
+def review(request, id):
+    return_dict = {}
+
+    # Try and find the review
+    try:
+        review = Review.objects.get(id=id)
+        print review
+        return_dict['review_id'] = id
+        return_dict['title'] = review.title
+        return_dict['description'] = review.description
+        return_dict['query_string'] = review.query_string
+        print "Review found"
+    except:
+        return JsonResponse({"message": "Cannot find review with id " + str(id)})
+
+    papers = Paper.objects.filter(review=review, abstract_rev=None)[:10]
+
+    # If there are unevaluated abstracts
+    if len(papers) != 0:
+
+        return_dict['stage'] = "abstract"
+        paper_array = []
+        for paper in papers:
+            print type(paper.abstract)
+
+            try:
+                paper_data = Paper.objects.get(id = paper.id)
+            except:
+                continue
+
+            if paper_data.title == '':
+
+                print type(paper.pubmed_id)
+                print paper.pubmed_id
+                paper_dict = get_paper_info(paper.pubmed_id)
+
+                # We may fail getting the paper URL
+                # If that's the case - skip this document
+                paper_url = get_paper_url(paper.pubmed_id)
+                if paper_url == None:
+                    print "Unable to get URL for:", paper.pubmed_id
+                    #count_bad += 1
+                    paper_data.delete()
+                    continue
+
+                abstract = get_paper_abstract(paper_dict)
+
+                # print "Abstract:", type(abstract)
+                # print "Abstract:", abstract
+
+                if abstract == "":
+                    print "Unable to get abstract for:", paper.pubmed_id
+                    #count_bad += 1
+                    paper_data.delete()
+                    continue
+
+                paper_data.title     = get_paper_title(paper_dict)
+                paper_data.authors   = get_paper_author(paper_dict)
+                paper_data.abstract  = abstract
+                paper_data.paper_url = paper_url
+                paper_data.save()
+                print paper_data
+
+            paper_array.append(paper_data)
+
+
+        return_dict['papers'] = paper_array
+        print "Found papers with abstract_rev=None"
+        return render(request, 'sysrev/review.html', return_dict)
+
+    # If all abstracts have been evaluated
+    else:
+        print "Doc time"
+        papers = Paper.objects.filter(review=review, abstract_rev=True, document_rev=None)
+
+        # If there are unevaluated documents
+        if len(papers) != 0:
+            return_dict['stage'] = "document"
+            return_dict['papers'] = papers
+            print "Found papers with document_rev=None"
+            return render(request, 'sysrev/review.html', return_dict)
+
+        # Else, the review is completed
+        else:
+            papers = Paper.objects.filter(
+                review=review,
+                abstract_rev=True,
+                document_rev=True
+            )
+            return_dict['stage'] = "done"
+            return_dict['papers'] = papers
+            print "Review completed"
+            return render(request, 'sysrev/review.html', return_dict)
 
 
 @login_required
@@ -513,56 +617,12 @@ def mark_document(request, id, rel):
             return JsonResponse({"message": "Unable to delete irrelevant paper"})
 
 
-def final(request, category_name_slug):
-    try:
-        cat = Category.objects.get(slug=category_name_slug)
-    except Category.DoesNotExist:
-        cat = None
+@login_required
+def end_stage(request, review_id, review_stage):
 
-    if request.method == 'POST':
-        form = PageForm(request.POST)
-        if form.is_valid():
-            if cat:
-                page = form.save(commit=False)
-                page.category = cat
-                page.views = 0
-                page.save()
-                # probably better to use a redirect here.
-                return category(request, category_name_slug)
-        else:
-            print form.errors
-    else:
-        form = PageForm()
+    # Mark all remaining abstracts/documents as irrelevant
 
-    context_dict = {'form': form, 'category': cat}
-
-    return render(request, 'sysrev/final.html', context_dict)
-
-
-def done(request, category_name_slug):
-    try:
-        cat = Category.objects.get(slug=category_name_slug)
-    except Category.DoesNotExist:
-        cat = None
-
-    if request.method == 'POST':
-        form = PageForm(request.POST)
-        if form.is_valid():
-            if cat:
-                page = form.save(commit=False)
-                page.category = cat
-                page.views = 0
-                page.save()
-                # probably better to use a redirect here.
-                return category(request, category_name_slug)
-        else:
-            print form.errors
-    else:
-        form = PageForm()
-
-    context_dict = {'form': form, 'category': cat}
-
-    return render(request, 'sysrev/done.html', context_dict)
+    return HttpResponseRedirect('/sysrev/review/'+review_id)
 
 
 def add_page(request, category_name_slug):
@@ -648,6 +708,19 @@ def update_email(request):
     # If it's a HTTP POST, we're interested in processing form data.
     if request.method == 'POST':
         email = request.POST.get('email')
+
+        try:
+            check_email = User.objects.get(email=email)
+            if check_email:
+                return render(request, 'sysrev/update_email.html', {'update_success': False , 'update_error': True, 'error_type': 'The email is already taken'})
+        except Exception as v:
+            pass
+
+
+        try:
+            validate_email(email)
+        except ValidationError as e:
+            return render(request, 'sysrev/update_email.html', {'update_success': False , 'update_error': True, 'error_type': 'Invalid email entered'})
 
 
         # Now we hash the password with the set_password method.

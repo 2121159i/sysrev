@@ -59,12 +59,12 @@ class Review(models.Model):
 
 class Paper(models.Model):
     review          = models.ForeignKey(Review,default=None)
-    title           = models.CharField(max_length=128)
-    # pubmed_id       = models.IntegerField()
+    pubmed_id       = models.IntegerField()
+    title           = models.CharField(max_length=128, default="")
     authors         = models.CharField(max_length=128, default="")
-    abstract        = models.CharField(max_length=4096)
+    abstract        = models.CharField(max_length=4096, default="")
+    paper_url       = models.URLField(null=True, blank=True, default=None)
     date            = models.DateTimeField(auto_now_add=True, blank=True, default=datetime.now)
-    paper_url       = models.URLField(default=None)
     abstract_rev    = models.NullBooleanField(null=True,default=None)
     document_rev    = models.NullBooleanField(null=True,default=None)
 

@@ -49,7 +49,7 @@ def get_id_list(search_terms):
 
 # Get all info for a particular paper
 def get_paper_info(id):
-    id = urllib.quote(id)
+    id = urllib.quote(str(id))
 
     # API docs: http://www.ncbi.nlm.nih.gov/home/api.shtml
     url = 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmode=xml&rettype=abstract&id='+str(id)
@@ -68,7 +68,7 @@ def get_paper_url(id):
     # Sadly, the paper URL is not contained with the title, author and abstract
     # So we need an entirely new query to go get it
 
-    url = 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi?dbfrom=pubmed&cmd=prlinks&id='+id
+    url = 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi?dbfrom=pubmed&cmd=prlinks&id='+str(id)
 
     try:
         response_xml = urllib2.urlopen(url).read()
