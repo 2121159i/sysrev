@@ -470,45 +470,62 @@ def delete_review(request, id):
 
 @login_required
 def mark_abstract(request, id, rel):
+
     # Parameters are passed as strings
+    # If it's a 1 - save the paper for later
     if rel == "1":
-        rel = True
+
+        try:
+            # Mark the paper abstract as (not)relevant
+            paper = Paper.objects.get(id=id)
+            paper.abstract_rev = True
+            paper.save()
+
+            return HttpResponseRedirect('/sysrev/review/' + str(paper.review.id))
+
+        except:
+            return JsonResponse({"message": "Unable to save relevant abstract"})
+
+    # Else - delete the Paper, we won't need it anymore
     else:
-        rel = False
 
-    try:
-        # Mark the paper abstract as (not)relevant
-        paper = Paper.objects.get(id=id)
-        paper.abstract_rev = rel
-        paper.save()
+        try:
+            paper = Paper.objects.get(id=id)
+            paper.delete()
 
-        return HttpResponseRedirect('/sysrev/review/' + str(paper.review.id))
+            return HttpResponseRedirect('/sysrev/review/' + str(paper.review.id))
 
-    except:
-        return JsonResponse({"message": "Something went wrong"})
+        except:
+            return JsonResponse({"message": "Unable to delete irrelevant abstract"})
 
 
 @login_required
 def mark_document(request, id, rel):
-    print "mark_document()"
 
-    # Parameters are passed as strings
+    # If it's a 1 - paper is relevant
     if rel == "1":
-        rel = True
+
+        try:
+            paper = Paper.objects.get(id=id)
+            paper.document_rev = True
+            paper.save()
+
+            return HttpResponseRedirect('/sysrev/review/' + str(paper.review.id))
+
+        except:
+            return JsonResponse({"message": "Unable to save relevant paper"})
+
+    # Else - delete the Paper, we won't need it anymore
     else:
-        rel = False
 
-    try:
-        # Mark the document as (not)relevant
-        paper = Paper.objects.get(id=id)
-        paper.document_rev = rel
-        paper.save()
-        print "Marked paper as relevant:", paper
+        try:
+            paper = Paper.objects.get(id=id)
+            paper.delete()
 
-        return HttpResponseRedirect('/sysrev/review/' + str(paper.review.id))
+            return HttpResponseRedirect('/sysrev/review/' + str(paper.review.id))
 
-    except:
-        return JsonResponse({"message": "Something went wrong"})
+        except:
+            return JsonResponse({"message": "Unable to delete irrelevant paper"})
 
 
 def final(request, category_name_slug):
