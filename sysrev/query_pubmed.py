@@ -83,8 +83,7 @@ def get_paper_url(id):
 
 
 def get_paper_title(paper_dict):
-    return paper_dict['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['Journal']['Title']
-
+    return paper_dict['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['ArticleTitle']
 
 def get_paper_abstract(paper_dict):
 
