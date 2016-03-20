@@ -1,12 +1,12 @@
 from django.shortcuts import render
-from sysrev.forms import *
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from datetime import datetime
+
+from sysrev.forms import *
 from sysrev.query_pubmed import *
-from django.contrib.auth.models import User
+from sysrev.progress import *
 
 # Old Rango views (delete if no reference is needed)
 
@@ -160,7 +160,7 @@ def user_login(request):
             logged_in_error = True;
             # Bad login details were provided. So we can't log the user in.
             # print "Invalid login details: {0}, {1}".format(username, password)
-            #return HttpResponseRedirect("/sysrev/login")
+            # return HttpResponseRedirect("/sysrev/login")
             return render(request, 'registration/login.html', {'logged_in_error': logged_in_error})
 
     # The request is not a HTTP POST, so display the login form.
@@ -194,10 +194,10 @@ def category(request, category_name_slug):
         context_dict['category_name_slug'] = category.slug
 
         context_dict['testData'] = {
-        {'title': 'title of the document',
-         'description': 'description of the data'},
-        {'title': 'another title of the document',
-         'description': 'another description of the data'}
+            {'title': 'title of the document',
+             'description': 'description of the data'},
+            {'title': 'another title of the document',
+             'description': 'another description of the data'}
         }
         context_dict['testNumberofDocumentsLeft'] = 500
 
@@ -294,20 +294,8 @@ def dashboard(request):
         local_dict['description'] = review.description
         local_dict['query_string'] = review.query_string
 
-        # local_dict['documents_left'] = 10000
-        # local_dict['abstracts_kept'] = 10
-        # local_dict['documents_kept'] = 10
-        # local_dict['documents_discarded'] = 10
-        #
-        # local_dict['kept_perc'] = 10
-        # local_dict['documents_discarded'] = 30
-        # local_dict['discarded_perc'] = 30
-        # local_dict['documents_left'] = 10000-10-300
-        # local_dict['left_perc'] = ((10000-10-300)/10000)*100
-
-        local_dict['documents_all'] = 10000
-        local_dict['abstracts_done'] = 100
-        local_dict['documents_done'] = 20
+        local_dict['abstracts_done'] = get_progress(review, "abstract")
+        local_dict['documents_done'] = get_progress(review, "document")
 
         context_dict['reviews'].append(local_dict)
 
@@ -413,7 +401,6 @@ def add_category(request):
                 count_bad += 1
                 continue
 
-
             abstract = str(get_paper_abstract(paper_dict))
 
             # print "Abstract:", type(abstract)
@@ -470,7 +457,6 @@ def delete_review(request, id):
 
 @login_required
 def mark_abstract(request, id, rel):
-
     # Parameters are passed as strings
     # If it's a 1 - save the paper for later
     if rel == "1":
@@ -501,7 +487,6 @@ def mark_abstract(request, id, rel):
 
 @login_required
 def mark_document(request, id, rel):
-
     # If it's a 1 - paper is relevant
     if rel == "1":
 
@@ -624,7 +609,7 @@ def get_doc_count(request):
 
 
 def update_password(request):
-# If it's a HTTP POST, we're interested in processing form data.
+    # If it's a HTTP POST, we're interested in processing form data.
     if request.method == 'POST':
         # Attempt to grab information from the raw form information.
         # Note that we make use of both UserForm and UserProfileForm.
@@ -633,41 +618,47 @@ def update_password(request):
         password = request.POST.get('password')
         repeatPassword = request.POST.get('repeatPassword')
         try:
-            user = User.objects.get(id = request.user.id)
+            user = User.objects.get(id=request.user.id)
         except Exception as v:
-            return render(request, 'sysrev/update_password.html', {'update_success': False , 'update_error': True, 'error_type': 'Unexpected error, please try again later'})
-
+            return render(request, 'sysrev/update_password.html', {'update_success': False, 'update_error': True,
+                                                                   'error_type': 'Unexpected error, please try again later'})
 
         if (password != repeatPassword):
-            return render(request, 'sysrev/update_password.html', {'update_success': False , 'update_error': True, 'error_type': 'The passwords don\'t match'})
-		# Now we hash the password with the set_password method.
-		# Once hashed, we can update the user object.
+            return render(request, 'sysrev/update_password.html',
+                          {'update_success': False, 'update_error': True, 'error_type': 'The passwords don\'t match'})
+            # Now we hash the password with the set_password method.
+        # Once hashed, we can update the user object.
         user.set_password(password)
         user.save()
-        return render(request, 'sysrev/update_password.html', {'update_success': True , 'update_error': False, 'error_type': ''})
+        return render(request, 'sysrev/update_password.html',
+                      {'update_success': True, 'update_error': False, 'error_type': ''})
     else:
         # Render the template depending on the context.
-        return render(request, 'sysrev/update_password.html', {'update_success': False , 'update_error': False, 'error_type': ''})
+        return render(request, 'sysrev/update_password.html',
+                      {'update_success': False, 'update_error': False, 'error_type': ''})
 
 
 def update_email(request):
     try:
         user = User.objects.get(id=request.user.id)
     except Exception as v:
-        return render(request, 'sysrev/update_password.html', {'update_success': False , 'update_error': True, 'error_type': 'Unexpected error, please try again later'})
+        return render(request, 'sysrev/update_password.html', {'update_success': False, 'update_error': True,
+                                                               'error_type': 'Unexpected error, please try again later'})
 
     # If it's a HTTP POST, we're interested in processing form data.
     if request.method == 'POST':
         email = request.POST.get('email')
 
 
-		# Now we hash the password with the set_password method.
-		# Once hashed, we can update the user object.
+        # Now we hash the password with the set_password method.
+        # Once hashed, we can update the user object.
         user.email = email
         user.save()
-        return render(request, 'sysrev/update_email.html', {'update_success': True , 'update_error': False, 'error_type': '' , 'email':user.email})
+        return render(request, 'sysrev/update_email.html',
+                      {'update_success': True, 'update_error': False, 'error_type': '', 'email': user.email})
     # Render the template depending on the context.
-    return render(request, 'sysrev/update_email.html', {'update_success': False , 'update_error': False, 'error_type': '' , 'email':user.email})
+    return render(request, 'sysrev/update_email.html',
+                  {'update_success': False, 'update_error': False, 'error_type': '', 'email': user.email})
 
 
 def update_profile(request):
