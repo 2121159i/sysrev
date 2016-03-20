@@ -1,17 +1,15 @@
 
 {% extends 'sysrev/base.html' %}
 
-{% block body_public %}
+{% block body_block %}
 
     <link href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet">
 
-     <h1 class="panel-heading text-center">Change Information</h1>
+     <h1 class="page-header text-center">Update Information</h1>
 
-    
-	<li><a href="/sysrev/update_password">Update password</a></li>
-	<li><a href="/sysrev/update_email">Update email</a></li>
-
+    <div class="form-signin">
+	    <a class="btn btn-default" href="/sysrev/update_password">Change password</a>
+	    <a class="btn btn-default" href="/sysrev/update_email">Update email</a>
+    <div/>
    
 {% endblock %}
-{% block login_block %}{% endblock %}
-

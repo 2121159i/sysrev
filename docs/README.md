@@ -3,12 +3,12 @@ Requirements:
 - Edit/update profile ✓
 - Create/edit/delete systematic review topics ✓
 - Construct boolean based queries:
-	- Standard query box (expert mode)
-	- Structural/Visual querying interface (novice mode)
+	- Standard query box (expert mode) 
+	- Structural/Visual querying interface (novice mode) ✓
 - Show total number or hits a query would return ✓
-- Save/Edit/Delete queries
-- Add/Remove results from a query/from the abstract pool
-- Update abstract pool based on the set or queries
+- Save/Edit/Delete queries ✓
+- Add/Remove results from a query/from the abstract pool ✓
+- Update abstract pool based on the set or queries ✓
 	- Warn the user about documents to be removed
 - Show abstract pool of documents ✓
 - Judge abstracts in abstract pool ✓
