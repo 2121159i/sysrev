@@ -23,6 +23,7 @@
         <ul>
             {% for paper in papers %}
                 <li class="list-group-item">
+
                     {# Abstract stage #}
                     {% if stage == "abstract" %}
 
@@ -42,12 +43,11 @@
 
                         </div><br/>
 
-                        {# Document stage #}
+                    {# Document stage #}
                     {% elif stage == "document" %}
 
                         <div class="row">
                             <div class="col-xs-10">
-                                <h4>{{ paper.id }}</h4>
                                 <a href="{{ paper.paper_url }}" class ="paper_title" id="abstract_title">{{ paper.title }}</a>
                             </div>
 
@@ -63,18 +63,17 @@
                         </div><br/>
 
 
-                        {# Done stage #}
+                    {# Done stage #}
                     {% else %}
 
                         <div class="row">
                             <div class="col-xs-10">
-                                <a href="{{ paper.url }}" class ="paper_title" id="abstract_title">{{ paper.title }}</a>
+                                <a href="{{ paper.paper_url }}" class ="paper_title" id="abstract_title">{{ paper.title }}</a>
                                 <br/>
                                 <br/>
                                 <br/>
                             </div>
                         </div>
-
 
                     {% endif %}
                 </li><br/>

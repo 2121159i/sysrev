@@ -88,7 +88,6 @@ def get_paper_title(paper_dict):
 def get_paper_abstract(paper_dict):
 
     # Try finding the abstract
-
     # This first case is likely to fail,
     # however some abstracts are nested like this
     try:
@@ -96,7 +95,6 @@ def get_paper_abstract(paper_dict):
 
         # If we got a string - skip this case
         if isinstance(res, basestring):
-            print "STRING"
             raise ValueError('Expected a list, got a string')
 
         # Return the first snippet of the abstract
@@ -119,12 +117,9 @@ def get_paper_abstract(paper_dict):
     return ""
 
 def get_paper_author(paper_dict):
-    # print "Author: ", paper_dict['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['AuthorList']['Author']
-    # print
 
     # XML in different formats ;(
     # We have to try getting the author in a few different ways
-
     try:
         forename = paper_dict['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['AuthorList']['Author'][0]['ForeName']
         surname = paper_dict['PubmedArticleSet']['PubmedArticle']['MedlineCitation']['Article']['AuthorList']['Author'][0]['LastName']
@@ -144,22 +139,3 @@ def get_paper_author(paper_dict):
     # Django docs recommend saving empty strings
     # instead of nulls in charfields
     return ""
-
-
-# Main function for testing
-def main():
-
-    if len(sys.argv) != 2:
-        print "Error: I need ONE string as a query parameter"
-        return
-
-    id = sys.argv[1]
-    # print get_document_count(search_terms)
-    # print get_paper_url(id)
-    print get_paper_abstract(id)
-
-
-
-
-if __name__ == '__main__':
-    main()
