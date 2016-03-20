@@ -48,6 +48,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#">Update Profile</a></li>
+                    <li><a href="{% url 'about' %}">About</a></li>
 					<li><a href="/sysrev/logout">LogOut</a></li>
                 </ul>
             </div>
@@ -70,9 +71,6 @@
     {% endblock %}
 {% endif %}
 
-{% block about_block %}
-    <div class="navbar-fixed-bottom text-center"><a href="{% url 'about' %}">About</a></div>
-{% endblock %}
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
