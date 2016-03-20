@@ -1,0 +1,35 @@
+
+{% extends 'sysrev/base.html' %}
+
+{% block body_public %}
+
+    <link href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet">
+
+     <h1 class="panel-heading text-center">Change email</h1>
+	{% if update_error %}
+		{{ error_type }}
+	{% endif %}
+	
+	{% if update_success %}
+		You're the man
+	{% endif %}
+	
+	
+	{% if email %}
+		Current email:
+		{{ email }}
+	{% endif %}
+	
+    <form id="user_form" class="form-signin" method="post" action="/sysrev/update_email/" enctype="multipart/form-data">
+		
+        {% csrf_token %}
+        <input class="form-control" placeholder="New email" id="id_email" maxlength="254" name="email" type="text" required/><br/>
+
+        <!-- Provide a button to click to submit the form. -->
+        <button class="btn btn-lg btn-primary btn-block" type="submit" value="Submit" >Change</button>
+    </form>
+
+   
+{% endblock %}
+{% block login_block %}{% endblock %}
+

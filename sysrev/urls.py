@@ -32,6 +32,11 @@ urlpatterns = patterns('',
     url(r'^review/abstract/(\d+)/(\d+)/$',views.mark_abstract, name='mark_abstract'),
     url(r'^review/document/(\d+)/(\d+)/$',views.mark_document, name='mark_document'),
 
+    # Update profile urls
+    url(r'^update_profile/$', views.update_profile, name='update_profile'),
+    url(r'^update_password/$', views.update_password, name='update_password'),
+    url(r'^update_email/$', views.update_email, name='update_email'),
+
     # url(r'^register/$', views.register, name='register'),
     # url(r'^login/$', views.user_login, name='login'),
     # url(r'^restricted/', views.restricted, name='restricted'),

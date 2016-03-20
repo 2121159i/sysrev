@@ -7,17 +7,9 @@
 
      <h1 class="panel-heading text-center">Change Information</h1>
 
-    <form id="user_form" class="form-signin" method="post" action="/sysrev/register/" enctype="multipart/form-data">
-
-        {% csrf_token %}
-        <input class="form-control" placeholder="Email" id="id_email" maxlength="254" name="email" type="text" required/><br/>
-        <input type="password" class="form-control" placeholder="Old Password" id="id_old_password" name="oldPassword"  required /><br/>
-        <input type="password" class="form-control" placeholder="Password" id="id_password" name="password"  required /><br/>
-        <input type="password" class="form-control" placeholder="Repeat assword" id="id_repeatPassword" name="repeatPassword"  required /><br/>
-
-        <!-- Provide a button to click to submit the form. -->
-        <button class="btn btn-lg btn-primary btn-block" type="submit" value="Submit" >Change</button>
-    </form>
+    
+	<li><a href="/sysrev/update_password">Update password</a></li>
+	<li><a href="/sysrev/update_email">Update email</a></li>
 
    
 {% endblock %}
