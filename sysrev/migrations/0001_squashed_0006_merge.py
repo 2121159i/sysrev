@@ -150,42 +150,6 @@ class Migration(migrations.Migration):
             field=models.CharField(max_length=100, null=True, blank=True),
             preserve_default=True,
         ),
-        migrations.CreateModel(
-            name='Researcher',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('user', models.ForeignKey(to='sysrev.UserProfile')),
-            ],
-            options={
-            },
-            bases=(models.Model,),
-        ),
-        migrations.RenameField(
-            model_name='paper',
-            old_name='description',
-            new_name='abstract',
-        ),
-        migrations.RenameField(
-            model_name='query',
-            old_name='description',
-            new_name='string',
-        ),
-        migrations.RemoveField(
-            model_name='paper',
-            name='user',
-        ),
-        migrations.RemoveField(
-            model_name='query',
-            name='query_string',
-        ),
-        migrations.RemoveField(
-            model_name='query',
-            name='title',
-        ),
-        migrations.RemoveField(
-            model_name='query',
-            name='user',
-        ),
         migrations.AddField(
             model_name='paper',
             name='abstract_rev',
