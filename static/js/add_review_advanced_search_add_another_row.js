@@ -5,10 +5,16 @@ $(document).ready(function(){
 
         var selectNot = $("#not_selector option:selected").text();
         var selectAndOr = $("#and_or_selector option:selected").text();
-        $('.list').append('<div class="item">' + selectNot + " " + toAdd + " " + selectAndOr + '</div>');
+        $('.list').append('<div class="item">' + selectNot + " " + toAdd + " " + selectAndOr + " " + '</div>');
 
     });
     $(document).on('click','.item',function(){
         $(this).remove();
     });
+    $('#save_button').click(function(){
+        var saveQueryString = $('.item').text();
+        $('#query_string_mring input').val(saveQueryString);
+
+    });
+
 });
