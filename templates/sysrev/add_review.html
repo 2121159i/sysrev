@@ -13,7 +13,7 @@
         <input class="form-control" id="id_query" name="query_string" type="text" placeholder="Enter query" required/><br/>
 
 
-        <button type="button" id="advanced" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Advanced</button>
+        <button type="button" id="advanced" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Advanced</button><br/>
 
         
         <textarea class="form-control" rows="6" id="review_info" name="description" type="text" placeholder="Enter description of the review here" required></textarea><br/>
@@ -37,29 +37,63 @@
     <div class="modal-content">
         <h3 id="advanced_query_title">Advanced Query Builder</h3> <br/>
 
-        <p><input class="form-control" id="id_query" name="query_string_advanced" type="text" placeholder="Enter advanced query" required/></p><br/>
+        <div class="readability_score">
+            <!--<div class="col-sm-6">Readability</div>-->
+            <div class="input-group input-group-sm mtb10">
 
-        <div class="sb_line">
-            <select id="not_selector">
-                <option value="1"></option>
-                <option value="2">NOT</option>
-            </select>
-            <label > Select Field</label>
-        </div>
+              <span class="input-group-addon" id="sizing-addon2">
+                          <div class="sb_line">
+                                <select id="not_selector">
+                                    <option value="1"></option>
+                                    <option value="2">NOT</option>
+                                </select>
+                          </div>
 
-        <div class="sb_line">
-            <select id="and_or_selector">
-                <option value="AND">AND</option>
-                <option value="OR">OR</option></select>
-            <label > Select Field</label><br/>
-        </div>
+              </span>
+              <p><input class="form-control" id="id_query_modal" aria-describedby="sizing-addon2" name="query_string_advanced" type="text" placeholder="Enter advanced query" required /></p><br/>
+              <span class="input-group-addon " id="sizing-addon2">
+                  <div class="sb_line">
+                        <select id="and_or_selector">
+                            <option value="AND">AND</option>
+                            <option value="OR">OR</option></select>
+                        <!--<label > Select Field</label><br/>-->
+                  </div>
 
-        <div id="plus_button">
-            <i class="glyphicon glyphicon-plus"></i>
-        </div><br/>
+              </span>
+              <span class="input-group-addon">
+                  <div id="plus_button">
+                        <button id="button_add_new_row"><i class="glyphicon glyphicon-plus"></i></button>
+                    </div><br/>
+
+              </span>
+            </div>
+          </div>
+        <!--<p><input class="form-control" id="id_query_modal" name="query_string_advanced" type="text" placeholder="Enter advanced query" required/></p><br/>-->
+
+{#        <div class="sb_line">#}
+{#            <select id="not_selector">#}
+{#                <option value="1"></option>#}
+{#                <option value="2">NOT</option>#}
+{#            </select>#}
+{#            <!--<label > Select Field</label>-->#}
+{#        </div>#}
+{##}
+{#        <div class="sb_line">#}
+{#            <select id="and_or_selector">#}
+{#                <option value="AND">AND</option>#}
+{#                <option value="OR">OR</option></select>#}
+{#            <!--<label > Select Field</label><br/>-->#}
+{#        </div>#}
+{##}
+{#        <div id="plus_button">#}
+{#            <i class="glyphicon glyphicon-plus"></i>#}
+{#        </div><br/>#}
         <div class="list"></div></br>
-
+        <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary" id="save_button" >Save</button>
+        </div>
+
     </div>
   </div>
 </div>

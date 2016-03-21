@@ -13,7 +13,7 @@ $(document).ready(function(){
     });
     $('#save_button').click(function(){
         var saveQueryString = $('.item').text();
-        $('#query_string_mring input').val(saveQueryString);
+        $('#id_query:text').val(saveQueryString);
 
     });
 
