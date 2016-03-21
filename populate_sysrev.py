@@ -9,7 +9,9 @@ from sysrev.query_pubmed import *
 
 
 def populate():
+    add_user('jim', 'jim@gmail.com', 'jim', 'Jim', 'Jimsom')
     add_user('jill', 'jill@gmail.com', 'jill', 'Jill', 'Jillson')
+    add_user('joe', 'joe@gmail.com', 'joe', 'Joe', 'Joeson')
     add_user('bob', 'bob@gmail.com', 'bob', 'Bob', 'Bobson')
     add_user('jen', 'jen@gmail.com', 'jen', 'Jen', 'Jenson')
 

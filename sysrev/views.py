@@ -250,6 +250,7 @@ def add_review(request):
                 pubmed_id=id,
             )
             paper.save()
+            print "Saved paper", id
 
         # Yay, it works up to here! Go back to main page
         return HttpResponseRedirect('/sysrev/')
@@ -278,10 +279,12 @@ def review(request, id):
 
     # If there are unevaluated abstracts
     if len(papers) != 0:
+        # print "Unevaluated abstracts found"
 
         return_dict['stage'] = "abstract"
         paper_array = []
         for paper in papers:
+            # print paper.id
 
             try:
                 paper_data = Paper.objects.get(id = paper.id)
@@ -311,6 +314,7 @@ def review(request, id):
                 paper_data.abstract  = abstract
                 paper_data.paper_url = paper_url
                 paper_data.save()
+                # print "Fetched data for paper", paper.id
 
             paper_array.append(paper_data)
 
