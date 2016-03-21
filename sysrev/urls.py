@@ -1,8 +1,5 @@
 from django.conf.urls import patterns, url
 from sysrev import views
-from django.conf.urls import include
-from django.contrib import admin
-from registration.backends.simple.views import RegistrationView
 
 urlpatterns = patterns('',
 
