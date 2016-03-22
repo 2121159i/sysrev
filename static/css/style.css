@@ -44,4 +44,16 @@ li {
     height: 60px;
 }
 
+#advaned_button_div{
+    text-align: center;
+}
+
+#keep_discard_buttons{
+    text-align: center;
+}
+
+#about_text{
+    margin-top: 100px;
+    height:200px;
+}
 

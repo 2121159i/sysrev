@@ -10,11 +10,13 @@
         {% csrf_token %}
 
         <input class="form-control" id="id_title" name="title" type="text" placeholder="Enter review title" required/><br/>
+
         <input class="form-control" id="id_query" name="query_string" type="text" placeholder="Enter query" required/><br/>
 
 
+        <div class="btn-block" id="advaned_button_div">
         <button type="button" id="advanced" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Advanced</button><br/>
-
+        </div><br/>
         
         <textarea class="form-control" rows="6" id="review_info" name="description" type="text" placeholder="Enter description of the review here" required></textarea><br/>
 
@@ -23,10 +25,11 @@
         <span id="document-count"></span>
 
         <br/><br/>
-
+        <div id="keep_discard_buttons">
         <button type="submit" data-toggle="modal" data-target=".bs-example-modal-sm" class="btn btn-lg btn-success">Create</button>
 
         <a href="{% url 'index' %}" class="btn btn-lg btn-danger">Discard</a>
+        </div>
 
     </form>
 
