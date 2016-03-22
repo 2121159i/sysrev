@@ -3,7 +3,7 @@
 {# Needed to load the script for retreiving document count #}
 {% load staticfiles %}
 
-{% block body_public %}
+{% block body_block %}
     <h1 class="page-header text-center">Edit Review</h1>
 
     <form class="form-signin" role="form" method="post" action="/sysrev/review/edit/{{ review.id }}/">
@@ -29,7 +29,8 @@
         {% endif %}
 
         <br/>
-
+        <span class="justify" >Editing the query may result in the deletion of some documents that have not been checked.<br />
+              Editing the query may result in the addition to new documents to be checked</span>
         <button type="submit" data-toggle="modal" data-target=".bs-example-modal-sm" class="btn btn-lg btn-success">Modify</button>
 
         <a href="/sysrev/review/{{ review.id }}" class="btn btn-lg btn-danger">Discard</a>
