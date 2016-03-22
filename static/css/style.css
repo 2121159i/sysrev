@@ -54,7 +54,7 @@ li {
 
 #about_text{
     margin-top: 100px;
-    height:200px;
+    height:165px;
 }
 .justify {
     text-align: justify;
@@ -62,5 +62,15 @@ li {
 
 .progress-bar-success{
     color:black; !important;
+}
+
+#footer_text {
+    text-align: center;
+}
+
+.form-signin.row {
+    text-align: center;
+    margin-top: 80px;
+    height: 222px;
 }
 
