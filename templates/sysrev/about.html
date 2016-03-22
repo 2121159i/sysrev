@@ -5,14 +5,20 @@
 	{% block title %}About{% endblock %}
 
 	{% block body_public %}
-		<div class="page-header">
-					<h1>About</h1>
-		</div>
-		<div>
-			hello world! <strong>{{boldmessage}}</strong><br />
-			<p>Visits: {{visits}}</p>
+        <link href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet" xmlns="http://www.w3.org/1999/html">
 
-			<img src="{% static "images/logo.jpg" %}" alt="Picture of sysrev" />
+					<h1 class="page-header text-center">About</h1>
+
+		<div class="container text-center">
+
+			<p class="lead" id="about_text">
+                A systematic review is a type of literature review that collects and critically analyzes
+                multiple research studies or papers. A review of existing studies is often quicker and
+                cheaper than embarking on a new study. Researchers use methods that are selected before
+                one or more research questions are formulated, and then they aim to find and analyze
+                studies that relate to and answer those questions.Systematic reviews of randomized
+                controlled trials are key in the practice of evidence-based medicine.
+            </p>
 		</div>
 
 	{% endblock %}
