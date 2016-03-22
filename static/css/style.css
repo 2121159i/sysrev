@@ -74,3 +74,13 @@ li {
     height: 222px;
 }
 
+#modify_discard_changes {
+    text-align: center;
+}
+#warning_text {
+    text-align: center;
+}
+#stylish_blockquote {
+    color: crimson;
+}
+

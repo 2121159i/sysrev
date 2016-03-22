@@ -29,11 +29,16 @@
         {% endif %}
 
         <br/>
-        <span class="justify" >Editing the query may result in the deletion of some documents that have not been checked.<br />
-              Editing the query may result in the addition to new documents to be checked</span>
-        <button type="submit" data-toggle="modal" data-target=".bs-example-modal-sm" class="btn btn-lg btn-success">Modify</button>
+        <blockquote id="stylish_blockquote">
+        <p class="text-lead" id="warning_text" >WARNING!</p>    
+            <p>Editing the query may result in the deletion of some documents that have not been checked.</p>
+        </blockquote>
+        <br />
 
-        <a href="/sysrev/review/{{ review.id }}" class="btn btn-lg btn-danger">Discard</a>
+        <div id="modify_discard_changes">
+        <button type="submit" data-toggle="modal" data-target=".bs-example-modal-sm" class="btn btn-lg btn-success">Modify</button>
+        <a href="/sysrev/review/{{ review.id }}" class="btn btn-lg btn-danger">Discard Changes</a>
+            </div>
 
     </form>
 
