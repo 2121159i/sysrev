@@ -77,10 +77,25 @@ li {
 #modify_discard_changes {
     text-align: center;
 }
+
 #warning_text {
     text-align: center;
 }
+
 #stylish_blockquote {
     color: crimson;
 }
+
+#advanced_query_string_show {
+    font-size: 22px;
+    text-align: center;
+}
+
+#previous_queries{
+    text-align: center;
+}
+#bla {
+    text-align: center;
+}
+
 

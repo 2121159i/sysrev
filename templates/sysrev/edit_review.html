@@ -18,7 +18,7 @@
         <span id="document-count"></span>
 
         <br/>
-
+        <div  id = "previous_queries">
         {% if queries %}
             <h5>List of previous queries:</h5>
             <ul>
@@ -27,10 +27,11 @@
                 {% endfor %}
             </ul>
         {% endif %}
+        </div>
 
         <br/>
         <blockquote id="stylish_blockquote">
-        <p class="text-lead" id="warning_text" >WARNING!</p>    
+        <p class="text-lead" id="warning_text" >WARNING!</p>
             <p>Editing the query may result in the deletion of some documents that have not been checked.</p>
         </blockquote>
         <br />
