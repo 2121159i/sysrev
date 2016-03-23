@@ -7,8 +7,10 @@
 
      <h1 class="panel-heading text-center">Systematic Review </h1>
 	{% if registered %}
-				Rango says: <strong>thank you for registering!</strong>
+                <div  class="text-center text-lead" id="thank_you_text">
+				<h1>Thank you for registering!</h1> <br/>
 				<a href="/sysrev/">Return to the homepage.</a><br />
+                </div>
 			{% else %}
 
 				<form id="user_form" class="form-signin" method="post" action="/sysrev/register/" enctype="multipart/form-data">

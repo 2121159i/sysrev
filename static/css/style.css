@@ -94,8 +94,14 @@ li {
 #previous_queries{
     text-align: center;
 }
-#bla {
-    text-align: center;
+
+#thank_you_text{
+    margin-top: 200px;
+    height: 250px;
+}
+
+#login_form{
+    height: 450px;
 }
 
 
