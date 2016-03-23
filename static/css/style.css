@@ -80,10 +80,7 @@ li {
 
 #warning_text {
     text-align: center;
-}
-
-#stylish_blockquote {
-    color: crimson;
+    font-family: "Raleway","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 #advanced_query_string_show {
