@@ -10,7 +10,8 @@
         <h5>{{ stage }} stage</h5>
         <a href="/sysrev/review/edit/{{ review_id }}/" class="btn btn-success">Edit review settings</a>
         {% if stage != "done" %}
-            <a href="/sysrev/review/done/{{ review_id }}/{{ stage }}/" class="btn btn-danger">End {{ stage }} stage</a>
+{#            <a href="/sysrev/review/done/{{ review_id }}/{{ stage }}/" class="btn btn-danger">End {{ stage }} stage</a>#}
+            <button type="button" id="advanced" class="btn btn-danger" data-toggle="modal" data-target=".bs-example-modal-sm">End {{ stage }} stage</button>
         {% endif %}
     </div>
 
@@ -84,5 +85,20 @@
     {% else %}
         <strong>No papers in review.</strong>
     {% endif %}
+
+    <!-- Small modal for confimation of deleting a review -->
+        <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" >
+          <div class="modal-dialog modal-sm">
+            <div class="modal-content" >
+                <h2 class="lead-text text-center" id="dashboard_warning_text">Are you sure you want to end this stage?</h2>
+                <div class="modal-footer">
+                <a href="/sysrev/review/done/{{ review_id }}/{{ stage }}/" class="btn btn-danger">End {{ stage }} stage</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+            </div>
+          </div>
+        </div>
+
+
 
 {% endblock %}

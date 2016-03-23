@@ -31,9 +31,11 @@
 
         <br/>
         <blockquote id="stylish_blockquote">
-        <p class="text-lead" id="warning_text" >WARNING!</p>
-            <p>Editing the query may result in the deletion of some documents that have not been checked.</p>
+            <div class="container">
+            <p id="warning_text">Editing the query may result in the deletion of some documents that have not been checked.</p>
+            </div>
         </blockquote>
+
         <br />
 
         <div id="modify_discard_changes">
@@ -50,7 +52,7 @@
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
         <h3 id="please_wait_text">Please wait, your query is being processed.</h3> <br/>
-        <img src="../../static/images/please_wait_loading.gif" id="please_wait_img" alt="Please Wait, Loading...">
+        <img src="{% static 'images/please_wait_loading.gif' %}" id="please_wait_img" alt="Please Wait, Loading...">
     </div>
   </div>
 </div>

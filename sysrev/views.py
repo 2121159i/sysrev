@@ -193,7 +193,11 @@ def user_logout(request):
 def dashboard(request):
     context_dict = {}
 
-    user = Researcher.objects.get(user__username=request.user.username)
+    try:
+        user = Researcher.objects.get(user__username=request.user.username)
+    except:
+        user = None;
+
 
     reviews = Review.objects.filter(user=user)
 
