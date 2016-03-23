@@ -6,15 +6,15 @@
 {% block body_block %}
     <h1 class="page-header text-center">Edit Review</h1>
 
-    <form class="form-signin" role="form" method="post" action="/sysrev/review/edit/{{ review.id }}/">
+    <form class="form-signin" method="post" action="/sysrev/review/edit/{{ review.id }}/">
         {% csrf_token %}
 
         <input class="form-control" id="id_title" name="title" type="text" placeholder="Enter review title" required value="{{ review.title }}"/><br/>
         <input class="form-control" id="id_query" name="query_string" type="text" placeholder="Enter query" required value="{{ review.query_string }}"/><br/>
-        <textarea class="form-control" rows="6" id="review_info" name="description" type="text" placeholder="Enter description of the review here" required >{{ review.description }}</textarea><br/>
+        <textarea class="form-control" rows="6" id="review_info" name="description" placeholder="Enter description of the review here" required >{{ review.description }}</textarea><br/>
 
 
-        <img id="loading-icon" src="{% static 'images/loading.gif' %}">
+        <img id="loading-icon" src="{% static 'images/loading.gif' %}" alt="Getting Document Count...">
         <span id="document-count"></span>
 
         <br/>
@@ -46,11 +46,11 @@
 
 <!-- Small modal -->
 
-<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" >
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
         <h3 id="please_wait_text">Please wait, your query is being processed.</h3> <br/>
-        <img src="../../static/images/please_wait_loading.gif" id="please_wait_img">
+        <img src="../../static/images/please_wait_loading.gif" id="please_wait_img" alt="Please Wait, Loading...">
     </div>
   </div>
 </div>

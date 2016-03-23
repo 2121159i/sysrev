@@ -29,7 +29,7 @@
             {% if reviews %}
                 <ul class="list-group">
                     {% for review in reviews %}
-                        <li class="list-group-item">
+                        <li class="list-group-item review_row">
                             <div class="row">
                                 <div class="col-xs-2"><br/>{{ review.title }}</div>
                                 <div class="col-xs-3">Abstracts
@@ -49,7 +49,7 @@
                                 <div class="col-xs-2"><a href="/sysrev/review/{{ review.id }}" class="btn btn-primary">Continue/View</a></div>
                                 <div class="col-xs-2"><a href="/sysrev/delete/{{ review.id }}" class="btn btn-danger">Delete</a></div>
                             </div>
-                        </li><br/>
+                        </li>
                     {% endfor %}
                 </ul>
             {% else %}

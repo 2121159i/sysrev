@@ -6,7 +6,7 @@
 {% block body_block %}
     <h1 class="page-header text-center">New Review</h1>
 
-    <form class="form-signin" role="form" method="post" action="{% url 'add_review' %}">
+    <form class="form-signin"  method="post" action="{% url 'add_review' %}">
         {% csrf_token %}
 
         <input class="form-control" id="id_title" name="title" type="text" placeholder="Enter review title" required/><br/>
@@ -18,10 +18,10 @@
         <button type="button" id="advanced" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Advanced</button><br/>
         </div><br/>
         
-        <textarea class="form-control" rows="6" id="review_info" name="description" type="text" placeholder="Enter description of the review here" required></textarea><br/>
+        <textarea class="form-control" rows="6" id="review_info" name="description" placeholder="Enter description of the review here" required></textarea><br/>
 
 
-        <img id="loading-icon" src="{% static 'images/loading.gif' %}">
+        <img id="loading-icon" src="{% static 'images/loading.gif' %}" alt="Loading...">
         <span id="document-count"></span>
 
         <br/><br/>
@@ -35,7 +35,7 @@
 
 <!-- Large modal for advanced query interface -->
 
-<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" >
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
         <h3 id="advanced_query_title">Advanced Query Builder</h3> <br/>
@@ -44,35 +44,37 @@
             <!--<div class="col-sm-6">Readability</div>-->
             <div class="input-group input-group-sm mtb10">
 
-              <span class="input-group-addon" id="sizing-addon2">
+              <span class="input-group-addon" >
                           <div class="sb_line">
                                 <select id="not_selector">
-                                    <option value="1"></option>
+                                    <option value="1" label=" "></option>
                                     <option value="2">NOT</option>
                                 </select>
+
                           </div>
 
               </span>
-              <p><input class="form-control" id="id_query_modal" aria-describedby="sizing-addon2" name="query_string_advanced" type="text" placeholder="Enter advanced query" required /></p><br/>
-              <span class="input-group-addon " id="sizing-addon2">
-                  <div class="sb_line">
+              <p><input class="form-control" id="id_query_modal" name="query_string_advanced" type="text" placeholder="Enter advanced query" required /></p><br/>
+              <span class="input-group-addon ">
+                  <!--<div class="sb_line">-->
                         <select id="and_or_selector">
-                            <option value="AND">AND</option>
-                            <option value="OR">OR</option></select>
-                        <!--<label > Select Field</label><br/>-->
-                  </div>
+                            <option value="AND" label=" ">AND</option>
+                            <option value="OR">OR</option>
+                        </select>
+
+                  <!--</div>-->
 
               </span>
               <span class="input-group-addon">
-                  <div id="plus_button">
+
                         <button id="button_add_new_row"><i class="glyphicon glyphicon-plus"></i></button>
-                    </div><br/>
+
 
               </span>
             </div>
           </div>
 
-        <div class="list" id="advanced_query_string_show"></div></br>
+        <div class="list" id="advanced_query_string_show"></div>
 
         <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -86,11 +88,11 @@
 
 <!-- Small modal for creating a new review -->
 
-<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" >
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
         <h3 id="please_wait_text">Please wait, your query is being processed.</h3> <br/>
-        <img src="../../static/images/please_wait_loading.gif" id="please_wait_img">
+        <img src="../../static/images/please_wait_loading.gif" id="please_wait_img" alt="Please wait, your query is being processed...">
     </div>
   </div>
 </div>

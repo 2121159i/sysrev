@@ -104,4 +104,8 @@ li {
     height: 450px;
 }
 
+.list-group-item.review_row{
+    margin-bottom: 10px;
+}
+
 
