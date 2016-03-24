@@ -284,7 +284,7 @@ def review(request, id):
     # If there are unevaluated abstracts
     if len(papers) != 0:
         # print "Unevaluated abstracts found"
-
+        counter = 0;
         return_dict['stage'] = "abstract"
         paper_array = []
         for paper in papers:
@@ -319,7 +319,11 @@ def review(request, id):
                 paper_data.paper_url = paper_url
                 paper_data.save()
                 # print "Fetched data for paper", paper.id
-
+                counter += 1;
+                if counter > 5:
+                    break;
+                else:
+                    if counter > 5000;
             paper_array.append(paper_data)
 
 
