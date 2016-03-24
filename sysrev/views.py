@@ -321,9 +321,10 @@ def review(request, id):
                 # print "Fetched data for paper", paper.id
                 counter += 1;
                 if counter > 5:
-                    break;
+                    break
                 else:
-                    if counter > 5000;
+                    if counter > 100:
+                        break
             paper_array.append(paper_data)
 
 
